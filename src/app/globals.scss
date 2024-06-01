@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@200..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box !important;
+}
+// Work Robin Button styles
+.WR-btn {
+}
+
+// Tables
+table th:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+table th:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+// auth Form
+.WR-form-sub-headers {
+  @apply text-neutral-150 text-sm font-semibold leading-[17.5px];
+}
+.WR-form-headers {
+  @apply text-black text-[2rem] font-semibold leading-10;
+}
+
+// profiling form inputs
+.Profiling-form input {
+  @apply rounded-none;
+}
+
+// profiling form
+.Profiling-form-title {
+  @apply text-secondary-150 text-[2rem] font-medium leading-10 tracking-[0.0125rem];
+}
+.Profiling-form-subtitle {
+  @apply text-secondary-100 text-[1.125rem] font-normal leading-[27px];
+}
