@@ -35,7 +35,7 @@ const LoginForm = () => {
         >
           <div className="mb-6">
             <p className="WR-form-sub-headers">LOGIN</p>
-            <h5 className="WR-form-headers">Welcome Admin</h5>
+            <h5 className="WR-form-headers">Welcome back, Tobilola</h5>
           </div>
           <FormField
             control={control}
@@ -63,12 +63,26 @@ const LoginForm = () => {
                   containerClass=""
                   {...field}
                 />
+                <div className="flex justify-end mb-4">
+                  <Link
+                    className="text-tertiary-100 text-sm font-medium leading-[1.4rem]"
+                    href={"/login"}
+                  >
+                    Forgot Password
+                  </Link>
+                </div>
               </>
             )}
           />
 
-          <Button label="Login" className="w-full mt-[40px]" />
+          <Button label="Login" className="w-full" />
         </form>
+        <p className="text-center text-neutral-250 text-sm font-medium leading-[1.4rem]">
+          Don't have an account?{" "}
+          <Link className="text-primary-50" href={"/signup"}>
+            Sign Up
+          </Link>{" "}
+        </p>
       </Form>
     </div>
   );

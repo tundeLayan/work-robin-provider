@@ -38,6 +38,7 @@ const config = {
           50: "#25324B",
           100: "#111827",
           150: "#0F172A",
+          200: "#E3EFFC", // NOTE: this was secondary-50 on the figma
         },
         neutral: {
           50: "#F0E6E6",
@@ -54,6 +55,8 @@ const config = {
           600: "#344054",
           650: "#F4F4F4",
           700: "#A29999",
+          750: "#F9FAFB",
+          800: "#F2F4F7",
         },
         tertiary: {
           50: "#3E3838",

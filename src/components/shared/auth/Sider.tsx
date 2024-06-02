@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 import logo from "@/lib/assets/logos";
+import authAssets from "@/lib/assets/Auth";
 
 const Sider = () => {
   return (
@@ -28,7 +29,11 @@ const Sider = () => {
               projects without compromising on quality.
             </p>
             <div className="flex items-center gap-3 mt-4">
-              <div className="h-16 w-16 rounded-full bg-black border border-white"></div>
+              <Image
+                alt=""
+                src={authAssets.avi}
+                className="h-16 w-16 rounded-full border border-white"
+              />
               <div className="flex flex-col gap-[5px]">
                 <p className="text-white text-sm font-semibold leading-[15.4px]">
                   Ariana Grande
