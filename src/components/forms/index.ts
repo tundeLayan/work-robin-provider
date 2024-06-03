@@ -4,3 +4,6 @@ export { default as OTPForm } from "./auth/OTP";
 export { default as ResetPasswordForm } from "./auth/ResetPassword";
 export { default as ResetOTPForm } from "./auth/ResetOTP";
 export { default as CreateNewPasswordForm } from "./auth/CreateNewPassword";
+export { default as ConfirmIdentityForm } from "./auth/ConfirmIdentity/ConfirmIdentity";
+export { default as ConfirmIdentityOTPForm } from "./auth/ConfirmIdentity/OTP";
+export { default as ConfirmIdentityThirdPartyForm } from "./auth/ConfirmIdentity/ThirdParty";

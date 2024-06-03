@@ -13,3 +13,9 @@ export const loginSchema = z.object({
     required_error: ErrorMessages.required("Password"),
   }),
 });
+
+export const ConfirmIdentityOTPSchema = z.object({
+  identity: z.enum(["otp", "third-party"], {
+    required_error: ErrorMessages.required("Identity"),
+  }),
+});

@@ -23,6 +23,7 @@ const Checkbox = (props: IProps) => {
         disabled={!!disabled}
         className={cx("w-[20px] h-[20px] border-neutral-400")}
         onCheckedChange={onChange}
+        checked={isChecked}
       />
       {children && children}
     </div>

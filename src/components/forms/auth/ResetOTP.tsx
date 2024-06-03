@@ -38,7 +38,7 @@ const ResetOTPForm = () => {
   const onSubmit = (values: Totp) => {
     console.log("values", values);
     setTimeout(() => {
-      navigate.push("/reset/confirmation-mail");
+      navigate.push("/reset-password/confirmation-mail");
     }, 1000);
   };
   return (

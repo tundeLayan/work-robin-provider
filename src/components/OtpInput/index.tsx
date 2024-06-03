@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ControllerRenderProps } from "react-hook-form";
+import { ControllerRenderProps, FieldError } from "react-hook-form";
 import cx from "classnames";
 
 import {
@@ -13,22 +13,45 @@ interface IProps {
   length: number;
   className: string;
   field?: ControllerRenderProps<Record<string, any>, any>;
+  label?: string;
+  containerClass?: string;
+  error?: FieldError;
 }
 
 const OtpInput = (props: IProps) => {
-  const { length, className, ...rest } = props;
+  const { length, className, label, containerClass, error, ...rest } = props;
   return (
-    <InputOTP
-      maxLength={length}
-      containerClassName={cx("gap-[32px]", { [`${className}`]: className })}
-      {...rest}
+    <div
+      className={cx(
+        "space-y-0",
+        { "flex flex-col gap-[10px]": !!label },
+        { [`${containerClass}`]: !!containerClass },
+      )}
     >
-      {Array.from({ length }).map((_, index) => (
-        <InputOTPGroup key={index}>
-          <InputOTPSlot index={index} className={cx("w-[54px] h-[54px]")} />
-        </InputOTPGroup>
-      ))}
-    </InputOTP>
+      {label ? (
+        <label
+          className={cx(
+            "text-sm font-medium leading-[1.4rem] text-secondary-100",
+            {
+              "text-danger-100": !!error,
+            },
+          )}
+        >
+          {label}
+        </label>
+      ) : null}
+      <InputOTP
+        maxLength={length}
+        containerClassName={cx("gap-[32px]", { [`${className}`]: className })}
+        {...rest}
+      >
+        {Array.from({ length }).map((_, index) => (
+          <InputOTPGroup key={index}>
+            <InputOTPSlot index={index} className={cx("w-[54px] h-[54px]")} />
+          </InputOTPGroup>
+        ))}
+      </InputOTP>
+    </div>
   );
 };
 

@@ -2,18 +2,21 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
-import { Form, FormField } from "@/components/ui/form";
-import Link from "next/link";
 
+import { Form, FormField } from "@/components/ui/form";
 import { loginSchema } from "@/schema/auth/Login";
 import { Button, FormInput } from "@/components";
+import routes from "@/lib/routes";
 
 type TLogin = z.infer<typeof loginSchema>;
 const LoginForm = () => {
+  const navigate = useRouter();
   const form = useForm<TLogin>({
     resolver: zodResolver(loginSchema),
   });
@@ -23,7 +26,9 @@ const LoginForm = () => {
     formState: { errors },
   } = form;
 
-  const onSubmit = (values: TLogin) => {};
+  const onSubmit = (values: TLogin) => {
+    navigate.push(routes.auth.login.confirmIdentity.path);
+  };
   return (
     <div className="md:pt-[200px] ">
       <Form {...form}>

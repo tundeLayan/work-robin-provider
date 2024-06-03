@@ -24,11 +24,14 @@ const FormRadioGroup = (props: IProps) => {
           className={className}
         >
           {options.map(({ value, label, id }) => (
-            <FormItem className="" key={id}>
+            <FormItem
+              className="flex items-center gap-2 space-y-0 py-6 border-t border-neutral-350"
+              key={id}
+            >
               <FormControl>
                 <RadioGroupItem value={value} />
               </FormControl>
-              <FormLabel className="text-neutral-600 text-xs font-normal leading-[19.2px]">
+              <FormLabel className="text-neutral-600 text-base font-medium leading-[19.2px]">
                 {label}
               </FormLabel>
             </FormItem>

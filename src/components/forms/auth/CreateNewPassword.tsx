@@ -101,7 +101,7 @@ const CreateNewPassword = () => {
   }, [watch("password")]);
 
   const onSubmit = (values: TCreatePassword) => {
-    navigate.push("/reset/password-success");
+    navigate.push("/reset-password/password-success");
   };
 
   const renderIcon = (isValid: boolean) => {
