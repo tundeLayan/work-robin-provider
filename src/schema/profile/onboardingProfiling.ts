@@ -47,15 +47,14 @@ export const formSchema = z.object({
     .min(1, { message: ErrorMessages.length(11, "phone") }),
 
   // form 2 - location
-  picture: z
-    .instanceof(File)
+  picture: (typeof window === "undefined" ? z.any() : z.instanceof(File))
     .optional()
     .refine((file) => {
       return !file || file.size <= MAX_UPLOAD_SIZE;
     }, "File size must be less than 3MB")
     .refine((file) => {
       if (!file) return;
-      return ACCEPTED_FILE_TYPES.includes(file?.type);
+      return ACCEPTED_FILE_TYPES.includes(file?.type as string);
     }, "File must be a PNG"),
   street: z
     .string({
@@ -88,8 +87,7 @@ export const formSchema = z.object({
 
   // form 3 - Resume
   // TODO: change this to accept pdf, docx or doc
-  resume: z
-    .instanceof(File)
+  resume: (typeof window === "undefined" ? z.any() : z.instanceof(File))
     .optional()
     .refine((file) => {
       if (!file) return;
@@ -103,7 +101,7 @@ export const formSchema = z.object({
         "application/pdf",
         "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ].includes(file?.type);
+      ].includes(file?.type as string);
     }, "File must be a PDF")
     .nullable(),
 
