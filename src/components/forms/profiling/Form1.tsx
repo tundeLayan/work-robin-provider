@@ -6,6 +6,7 @@ import { z } from "zod";
 import { Button, FormInput, FormSelect } from "@/components";
 import { FormField } from "@/components/ui/form";
 import { formSchema } from "@/schema/profile/onboardingProfiling";
+import { Tax, TaxTypes } from "@/constants";
 
 type TForm1 = z.infer<typeof formSchema>;
 
@@ -26,11 +27,13 @@ const Form1 = (props: IProps) => {
 
   const onNextClick = async () => {
     const isValid = await trigger([
-      "address",
-      "industry",
-      "numberOfEmployees",
+      "tax",
+      "taxType",
+      "title",
+      "firstName",
+      "lastName",
+      "middleName",
       "phone",
-      "website",
     ]);
     if (!isValid) {
       return;
@@ -43,40 +46,39 @@ const Form1 = (props: IProps) => {
     <>
       <div className="mb-6">
         <div className="text-center">
-          <p className="Profiling-form-title">
-            Welcome <span className="font-semibold">Adeleke!</span>{" "}
-          </p>
+          <p className="Profiling-form-title">Tax Information</p>
           <h5 className="Profiling-form-subtitle">
-            We'd love to know a bit more about you...
+            Getting your account more personalized
           </h5>
         </div>
       </div>
       <div className="grid">
         <FormField
           control={control}
-          name="address"
+          name="tax"
           render={({ field }) => (
-            <FormInput
-              label="Address"
-              error={errors.address}
-              placeholder="Enter your address"
+            <FormSelect
+              label="Select Tax"
+              error={errors.tax}
+              placeholder="Select One"
               containerClass="mb-4"
-              required
+              className=""
+              selectData={Tax}
               {...field}
             />
           )}
         />
         <FormField
           control={control}
-          name="industry"
+          name="taxType"
           render={({ field }) => (
             <FormSelect
-              label="Industry"
-              error={errors.industry}
-              placeholder="Select Industry"
+              label="Select Tax Type"
+              error={errors.taxType}
+              placeholder="Select one"
               containerClass="mb-4"
-              className="rounded-none"
-              selectData={["one", "two", "three"]}
+              className=""
+              selectData={TaxTypes}
               {...field}
             />
           )}
@@ -84,12 +86,55 @@ const Form1 = (props: IProps) => {
       </div>
       <FormField
         control={control}
-        name="website"
+        name="title"
+        render={({ field }) => (
+          <FormSelect
+            label="Title"
+            error={errors.taxType}
+            placeholder="Select one"
+            containerClass="mb-4"
+            className=""
+            selectData={TaxTypes}
+            {...field}
+          />
+        )}
+      />
+      <FormField
+        control={control}
+        name="firstName"
         render={({ field }) => (
           <FormInput
-            label="Website"
-            error={errors.website}
-            placeholder="https://www.janedoe.com"
+            label="First name"
+            error={errors.firstName}
+            placeholder="First Name"
+            containerClass="mb-4"
+            required
+            {...field}
+          />
+        )}
+      />
+      <FormField
+        control={control}
+        name="middleName"
+        render={({ field }) => (
+          <FormInput
+            label="Middle Name"
+            error={errors.middleName}
+            placeholder="Middle Name"
+            containerClass="mb-4"
+            required
+            {...field}
+          />
+        )}
+      />
+      <FormField
+        control={control}
+        name="lastName"
+        render={({ field }) => (
+          <FormInput
+            label="Last Name"
+            error={errors.lastName}
+            placeholder="Last Name"
             containerClass="mb-4"
             required
             {...field}
@@ -103,23 +148,8 @@ const Form1 = (props: IProps) => {
           <FormInput
             label="Phone Number"
             error={errors.phone}
-            placeholder="01-22222333"
+            placeholder="01-1199929292"
             containerClass="mb-4"
-            required
-            {...field}
-          />
-        )}
-      />
-      <FormField
-        control={control}
-        name="numberOfEmployees"
-        render={({ field }) => (
-          <FormInput
-            label="Number of Employees"
-            error={errors.numberOfEmployees}
-            placeholder="Select Number of employees"
-            containerClass="mb-4"
-            type="number"
             required
             {...field}
           />

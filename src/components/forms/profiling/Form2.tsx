@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -7,7 +6,7 @@ import { z } from "zod";
 import { Button, FormInput, FormSelect } from "@/components";
 import { FormField } from "@/components/ui/form";
 import { formSchema } from "@/schema/profile/onboardingProfiling";
-import authAssets from "@/lib/assets/Auth";
+import { ImgUpload } from "@/components/shared/profile";
 
 type TForm2 = z.infer<typeof formSchema>;
 
@@ -30,15 +29,12 @@ const Form2 = (props: IProps) => {
 
   const onNextClick = async () => {
     const isValid = await trigger([
-      "tax",
-      "ein",
-      "taxType",
-      "taxAddress",
-      "taxSuite",
-      "taxCity",
-      "taxState",
-      "taxZipcode",
-      "taxCountry",
+      "picture",
+      "street",
+      "city",
+      "zipCode",
+      "state",
+      "country",
     ]);
     if (!isValid) {
       return;
@@ -51,151 +47,101 @@ const Form2 = (props: IProps) => {
     <>
       <div className="mb-6">
         <div className="text-center">
-          <p className="Profiling-form-title">Tax Information</p>
+          <p className="Profiling-form-title">Your photo and location</p>
           <h5 className="Profiling-form-subtitle">
-            Just a few info about you...
+            Getting your account more personalized
           </h5>
         </div>
       </div>
-      <div className="grid">
-        <FormField
-          control={control}
-          name="tax"
-          render={({ field }) => (
-            <FormSelect
-              label="Tax"
-              error={errors.address}
-              placeholder="Select one"
-              containerClass="mb-4"
-              className="rounded-none"
-              selectData={["one", "two", "three"]}
-              {...field}
-            />
-          )}
-        />
-        <div className="relative">
-          <FormField
-            control={control}
-            name="ein"
-            render={({ field }) => (
-              <FormInput
-                label="Employer Identification Number (EIN)"
-                error={errors.ein}
-                placeholder="EIN"
-                containerClass="mb-4"
-                required
-                {...field}
-              />
-            )}
-          />
-          {true && (
-            <Image
-              alt="icon"
-              src={authAssets.SmallCheckMark}
-              className="w-[19.5px] h-[19.5px] right-[-26px] top-[50%] translate-y-[-50%] absolute"
-            />
-          )}
-        </div>
-      </div>
+
       <FormField
         control={control}
-        name="taxType"
+        name="picture"
         render={({ field }) => (
-          <FormSelect
-            label="Tax Type"
-            error={errors.taxType}
-            placeholder="Select one"
+          <ImgUpload
+            setFile={(e) => {
+              field.onChange(e);
+            }}
+            alignment="vertical"
+            buttonText="Upload new picture"
+            error={errors?.picture}
+          />
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="street"
+        render={({ field }) => (
+          <FormInput
+            label="Street"
+            error={errors.street}
+            placeholder="Your Street"
             containerClass="mb-4"
-            className="rounded-none"
-            selectData={["one", "two", "three"]}
+            required
             {...field}
           />
         )}
       />
-      <div className="">
-        <p className="">Address</p>
-        <div className="grid grid-cols-2 gap-x-5 gap-y-4">
-          <FormField
-            control={control}
-            name="taxAddress"
-            render={({ field }) => (
-              <FormInput
-                error={errors.taxAddress}
-                placeholder="Address"
-                containerClass="mb-4 col-span-2"
-                required
-                {...field}
-              />
-            )}
+
+      <FormField
+        control={control}
+        name="city"
+        render={({ field }) => (
+          <FormInput
+            label="City"
+            error={errors.city}
+            placeholder="Your city"
+            containerClass="mb-4"
+            required
+            {...field}
           />
-          <FormField
-            control={control}
-            name="taxSuite"
-            render={({ field }) => (
-              <FormInput
-                error={errors.taxSuite}
-                placeholder="Suite/Floor"
-                containerClass="mb-4"
-                required
-                {...field}
-              />
-            )}
+        )}
+      />
+      <FormField
+        control={control}
+        name="zipCode"
+        render={({ field }) => (
+          <FormInput
+            label="Zip Code"
+            error={errors.zipCode}
+            placeholder="Enter your zip Code"
+            containerClass="mb-4"
+            required
+            {...field}
           />
-          <FormField
-            control={control}
-            name="taxCity"
-            render={({ field }) => (
-              <FormInput
-                error={errors.taxCity}
-                placeholder="City"
-                containerClass="mb-4"
-                required
-                {...field}
-              />
-            )}
+        )}
+      />
+      <FormField
+        control={control}
+        name="state"
+        render={({ field }) => (
+          <FormSelect
+            error={errors.state}
+            label="State"
+            placeholder="Select State"
+            containerClass="mb-4 col-span-2"
+            className=""
+            selectData={[]}
+            {...field}
           />
-          <FormField
-            control={control}
-            name="taxState"
-            render={({ field }) => (
-              <FormInput
-                error={errors.taxState}
-                placeholder="State"
-                containerClass="mb-4"
-                required
-                {...field}
-              />
-            )}
+        )}
+      />
+      <FormField
+        control={control}
+        name="country"
+        render={({ field }) => (
+          <FormSelect
+            error={errors.country}
+            label="Country"
+            placeholder="Select Country"
+            containerClass="mb-4 col-span-2"
+            className=""
+            selectData={[]}
+            {...field}
           />
-          <FormField
-            control={control}
-            name="taxZipcode"
-            render={({ field }) => (
-              <FormInput
-                error={errors.taxZipcode}
-                placeholder="Zip code"
-                containerClass="mb-4"
-                required
-                {...field}
-              />
-            )}
-          />
-          <FormField
-            control={control}
-            name="taxCountry"
-            render={({ field }) => (
-              <FormSelect
-                error={errors.taxCountry}
-                placeholder="Country"
-                containerClass="mb-4 col-span-2"
-                className="rounded-none"
-                selectData={["one", "two", "three"]}
-                {...field}
-              />
-            )}
-          />
-        </div>
-      </div>
+        )}
+      />
 
       <div className="flex gap-10">
         <Button

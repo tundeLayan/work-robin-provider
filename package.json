@@ -28,6 +28,7 @@
     "next-intl": "^3.14.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.51.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
@@ -59,5 +60,8 @@
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
+  },
+  "engines": {
+    "node": ">=18.18.0"
   }
 }

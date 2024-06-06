@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 interface IProps extends SelectHTMLAttributes<HTMLSelectElement> {
   placeholder: string;
   label?: string;
-  selectData: string[];
+  selectData: { value: string; label: string }[];
   disabled?: boolean;
   error?: FieldError;
   containerClass?: string;
@@ -74,15 +74,15 @@ const FormSelect = (props: IProps) => {
       >
         <FormControl>
           <SelectTrigger
-            className={cn("!w-full h-[54px] rounded-none", className)}
+            className={cn("!w-full h-[54px] rounded-[10px]", className)}
           >
             <SelectValue {...rest} />
           </SelectTrigger>
         </FormControl>
         <SelectContent>
-          {selectData.map((sel, index) => (
-            <SelectItem key={index} value={sel}>
-              {sel}
+          {selectData.map(({ value, label }, index) => (
+            <SelectItem key={index} value={value}>
+              {label}
             </SelectItem>
           ))}
         </SelectContent>
