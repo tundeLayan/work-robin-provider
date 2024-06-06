@@ -9,5 +9,8 @@ export { default as Table } from "./Table";
 export { default as Radio } from "./RadioGroup";
 export { default as FormRadioGroup } from "./RadioGroup/FormRadioGroup";
 export { default as FormSelect } from "./FormSelect";
+export { default as FileUploadV1 } from "./FileUpload/FileUploadV1";
+
+export * from "./shared";
 
 // SHADCN COMPONENTS

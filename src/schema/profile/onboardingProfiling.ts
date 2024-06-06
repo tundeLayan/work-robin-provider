@@ -2,176 +2,122 @@ import { z } from "zod";
 
 import { ErrorMessages } from "@/constants/errors";
 
-export const form1Schema = z.object({
-  address: z
-    .string({
-      required_error: ErrorMessages.required("Address"),
-    })
-    .min(8, { message: ErrorMessages.length(8, "Address") }),
-  industry: z
-    .string({
-      required_error: ErrorMessages.required("Number of Employees"),
-    })
-    .min(8, { message: ErrorMessages.length(8, "Industry") }),
-  website: z
-    .string({
-      required_error: ErrorMessages.required("Number of Employees"),
-    })
-    .url({ message: ErrorMessages.invalidURL })
-    .min(8, { message: ErrorMessages.length(8, "Website") }),
-  phone: z
-    .string({
-      required_error: ErrorMessages.required("Number of Employees"),
-    })
-    .min(8, { message: ErrorMessages.length(11, "phone") }),
-  numberOfEmployees: z
-    .string({
-      required_error: ErrorMessages.required("Number of Employees"),
-    })
-    .min(1),
-});
+// TODO: Move to a constant file
+const MAX_UPLOAD_SIZE = 1024 * 1024 * 3; // 3MB
+const ACCEPTED_FILE_TYPES = ["image/png"];
 
 export const formSchema = z.object({
-  address: z
+  // form 1 - tax
+  tax: z
     .string({
-      required_error: ErrorMessages.required("Address"),
+      required_error: ErrorMessages.required("Tax"),
     })
-    .min(8, { message: ErrorMessages.length(8, "Address") }),
-  industry: z
+    .min(1, { message: ErrorMessages.length(1, "Tax") }),
+  taxType: z
     .string({
-      required_error: ErrorMessages.required("Industry"),
+      required_error: ErrorMessages.required("Tax type"),
     })
-    .min(1, { message: ErrorMessages.length(8, "Industry") }),
-  website: z
+    .min(1, { message: ErrorMessages.length(1, "Tax type") }),
+  title: z
     .string({
-      required_error: ErrorMessages.required("Website"),
+      required_error: ErrorMessages.required("Tax Title"),
     })
-    .url({ message: ErrorMessages.invalidURL })
-    .min(1, { message: ErrorMessages.length(8, "Website") }),
+    .min(1, { message: ErrorMessages.length(1, "Tax Title") }),
+  firstName: z
+    .string({
+      required_error: ErrorMessages.required("First Name"),
+    })
+    .min(1, { message: ErrorMessages.length(1, "First Name") }),
+  middleName: z
+    .string({
+      required_error: ErrorMessages.required("Middle Name"),
+    })
+    .min(1, { message: ErrorMessages.length(1, "Middle Name") })
+    .optional()
+    .or(z.literal("")),
+  lastName: z
+    .string({
+      required_error: ErrorMessages.required("Last Name"),
+    })
+    .min(1, { message: ErrorMessages.length(1, "Last Name") }),
   phone: z
     .string({
       required_error: ErrorMessages.required("Phone Number"),
     })
     .min(1, { message: ErrorMessages.length(11, "phone") }),
-  numberOfEmployees: z
-    .string({
-      required_error: ErrorMessages.required("Number of Employees"),
-    })
-    .min(1),
 
-  // form 2 - TAX
-  tax: z
+  // form 2 - location
+  picture: z
+    .instanceof(File)
+    .optional()
+    .refine((file) => {
+      return !file || file.size <= MAX_UPLOAD_SIZE;
+    }, "File size must be less than 3MB")
+    .refine((file) => {
+      if (!file) return;
+      return ACCEPTED_FILE_TYPES.includes(file?.type);
+    }, "File must be a PNG"),
+  street: z
     .string({
-      required_error: ErrorMessages.required("Tax"),
-    })
-    .min(1, { message: ErrorMessages.length(8, "Tax") }),
-  ein: z
-    .string({
-      required_error: ErrorMessages.required(
-        "Employer Identification Number (EIN)",
-      ),
+      required_error: ErrorMessages.required("street"),
     })
     .min(1, {
-      message: ErrorMessages.length(8, "Employer Identification Number (EIN)"),
+      message: ErrorMessages.length(1, "Street"),
     }),
-  taxType: z
-    .string({
-      required_error: ErrorMessages.required("Tax type"),
-    })
-    .min(1, { message: ErrorMessages.length(8, "Tax type") }),
-  taxAddress: z
-    .string({
-      required_error: ErrorMessages.required("Tax Address"),
-    })
-    .min(1, { message: ErrorMessages.length(8, "Tax Address") }),
-  taxSuite: z
-    .string({
-      required_error: ErrorMessages.required("Tax Suite"),
-    })
-    .min(1, { message: ErrorMessages.length(8, "Tax Suite") }),
-  taxCity: z
-    .string({
-      required_error: ErrorMessages.required("Tax City"),
-    })
-    .min(1, { message: ErrorMessages.length(8, "Tax City") }),
-  taxState: z
-    .string({
-      required_error: ErrorMessages.required("Tax State"),
-    })
-    .min(1, { message: ErrorMessages.length(8, "Tax State") }),
-  taxZipcode: z
-    .string({
-      required_error: ErrorMessages.required("Tax Zip Code"),
-    })
-    .min(1, { message: ErrorMessages.length(8, "Tax Zip Code") }),
-  taxCountry: z
-    .string({
-      required_error: ErrorMessages.required("Tax Country"),
-    })
-    .min(1, { message: ErrorMessages.length(8, "Tax Country") }),
 
-  // form 3 - Card
-  cardType: z
+  city: z
     .string({
-      required_error: ErrorMessages.required("Card Type"),
+      required_error: ErrorMessages.required("City"),
     })
-    .min(1, { message: ErrorMessages.length(1, "Card Type") }),
-  cardName: z
+    .min(1, { message: ErrorMessages.length(1, "City") }),
+  zipCode: z
     .string({
-      required_error: ErrorMessages.required("Card Name"),
+      required_error: ErrorMessages.required("Zip Code"),
     })
-    .min(8, { message: ErrorMessages.length(1, "Card Name") }),
-  cardNumber: z
+    .min(1, { message: ErrorMessages.length(1, "Zip Code") }),
+  state: z
     .string({
-      required_error: ErrorMessages.required("Card Number"),
+      required_error: ErrorMessages.required("State"),
     })
-    .min(8, { message: ErrorMessages.length(8, "Card Number") }),
-  expirationMonth: z
+    .min(1, { message: ErrorMessages.length(1, "State") }),
+  country: z
     .string({
-      required_error: ErrorMessages.required("Expiration Month"),
+      required_error: ErrorMessages.required("Country"),
     })
-    .min(1, { message: ErrorMessages.length(1, "Expiration Month") }),
-  expirationYear: z
-    .string({
-      required_error: ErrorMessages.required("Expiration Year"),
-    })
-    .min(1, { message: ErrorMessages.length(1, "Expiration Year") }),
-  cvv: z
-    .string({
-      required_error: ErrorMessages.required("cvv"),
-    })
-    .min(3, { message: ErrorMessages.length(3, "cvv") }),
-  saveCardDetails: z.boolean(),
+    .min(1, { message: ErrorMessages.length(1, "Country") }),
 
-  // form 4 - Invite
-  teamMembersEmails: z.array(
-    z.object({
-      teamMembersEmail: z
-        .string()
-        .email({ message: ErrorMessages.invalidEmail }),
-    }),
-  ),
+  // form 3 - Resume
+  // TODO: change this to accept pdf, docx or doc
+  resume: z
+    .instanceof(File)
+    .optional()
+    .refine((file) => {
+      if (!file) return;
+      // console.log("file", file);
+      return !file || file?.size <= MAX_UPLOAD_SIZE;
+    }, "File size must be less than 3MB")
+    .refine((file) => {
+      if (!file) return;
+      // console.log("file", file);
+      return [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ].includes(file?.type);
+    }, "File must be a PDF")
+    .nullable(),
 
-  // form 5 - person of contact
-  personOfContactFirstName: z
+  // form 4 - your skills
+  yourSkills: z
+    .array(
+      z.string().min(1, { message: ErrorMessages.required("Your skills") }),
+    )
+    .min(1, { message: ErrorMessages.required("Your skills") }),
+
+  // form 5 - Bio
+  yourBio: z
     .string({
-      required_error: ErrorMessages.required("First Name"),
+      required_error: ErrorMessages.required("Your Bio"),
     })
-    .min(8, { message: ErrorMessages.required("First Name") }),
-  personOfContactLastName: z
-    .string({
-      required_error: ErrorMessages.required("Last Name"),
-    })
-    .min(8, { message: ErrorMessages.required("Last Name") }),
-  personOfContactEmail: z
-    .string({
-      required_error: ErrorMessages.required("First Name"),
-    })
-    .email({ message: ErrorMessages.invalidEmail })
-    .min(8, { message: ErrorMessages.required("First Name") }),
-  personOfContactPhone: z
-    .string({
-      required_error: ErrorMessages.required("Phone"),
-    })
-    .min(8, { message: ErrorMessages.required("Phone") }),
+    .min(8, { message: ErrorMessages.length(8, "Bio") }),
 });

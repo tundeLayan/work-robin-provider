@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { notFound, useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -12,7 +11,7 @@ import cx from "classnames";
 
 import { Form, FormField } from "@/components/ui/form";
 import { signupSchema, signupSchema2 } from "@/schema/auth/Signup";
-import { Button, Checkbox, FormInput } from "@/components";
+import { Button, Checkbox, EmailWithIcon, FormInput } from "@/components";
 import authAssets from "@/lib/assets/Auth";
 import { COMPANY_DATA } from "@/constants/companyData";
 
@@ -37,13 +36,14 @@ const SignUpForm = () => {
   const form = useForm<TSignup & TSignup2>({
     resolver: zodResolver(schemaMapping[pageShowing] ?? null),
   });
-  console.log("agreeToTermsAndCondition", agreeToTermsAndCondition);
+
   const {
     handleSubmit,
     control,
     formState: { errors, isValid },
   } = form;
 
+  // Set view to active form
   useEffect(() => {
     if (searchParams.get("active")) {
       if (["signup", "signup2"].includes(searchParams.get("active") as IPage)) {
@@ -143,14 +143,7 @@ const SignUpForm = () => {
               <h5 className="WR-form-headers">
                 Complete your free account setup
               </h5>
-              <span className="bg-neutral-800 rounded-2xl px-[10px] py-1 flex items-center gap-1 text-neutral-600 w-fit mx-auto text-sm font-medium leading-5 mt-[28px] mb-5">
-                {userEmail}
-                <Image
-                  className="w-2 h-[10.5px]"
-                  alt="icon"
-                  src={authAssets.UserIcon}
-                />
-              </span>
+              {userEmail ? <EmailWithIcon userEmail={userEmail} /> : null}
             </div>
             <FormField
               control={control}

@@ -10,6 +10,9 @@ import avi from "../../../public/media/images/avi.png";
 import GoogleIcon from "../../../public/media/images/googleIcon.svg";
 import AppleIcon from "../../../public/media/images/appleIcon.svg";
 import UserIcon from "../../../public/media/images/userIcon.svg";
+import PdfIcon from "../../../public/media/images/pdfIcon.svg";
+import CloseIcon from "../../../public/media/images/closeIcon.svg";
+import UploadIcon from "../../../public/media/images/uploadIcon.svg";
 
 const authAssets = {
   authBG,
@@ -24,6 +27,9 @@ const authAssets = {
   GoogleIcon,
   AppleIcon,
   UserIcon,
+  PdfIcon,
+  CloseIcon,
+  UploadIcon,
 };
 
 export default authAssets;

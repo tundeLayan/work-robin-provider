@@ -21,6 +21,7 @@ const config = {
       fontFamily: {
         inter: ["Inter"],
         manrope: ["Manrope"],
+        epilogue: ["Epilogue"],
       },
       colors: {
         primary: {
@@ -57,10 +58,14 @@ const config = {
           700: "#A29999",
           750: "#F9FAFB",
           800: "#F2F4F7",
+          850: "#B5B6B7",
+          900: "#F1F5F9",
+          950: "#E6E8EC",
         },
         tertiary: {
           50: "#3E3838",
           100: "#2F3EFF",
+          150: "#150A33",
         },
         pending: {
           50: "#FFB836",
@@ -76,6 +81,10 @@ const config = {
         },
         green: {
           2: "#27AE60",
+        },
+        grey: {
+          100: "#F0F2F5",
+          500: "#667185",
         },
       },
       keyframes: {

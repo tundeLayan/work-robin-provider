@@ -2,11 +2,11 @@ import React from "react";
 
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import cx from "classnames";
 
-import { Button, FormInput, FormSelect, Checkbox } from "@/components";
-import { FormField } from "@/components/ui/form";
+import { Button, FileUploadV1, UploadedFile } from "@/components";
 import { formSchema } from "@/schema/profile/onboardingProfiling";
+import authAssets from "@/lib/assets/Auth";
+import { FormField } from "@/components/ui/form";
 
 type TForm = z.infer<typeof formSchema>;
 
@@ -14,10 +14,8 @@ interface IProps {
   form: UseFormReturn<TForm>;
   nextPage: () => void;
   prevPage: () => void;
-  skipPages: () => void;
 }
 
-// TODO: Ask, do we have license to store people's card details
 const Form3 = (props: IProps) => {
   const {
     form: {
@@ -25,21 +23,18 @@ const Form3 = (props: IProps) => {
       formState: { errors },
       trigger,
       setValue,
+      watch,
     },
     nextPage,
     prevPage,
-    skipPages,
   } = props;
 
+  console.log("errors", errors);
+
+  const isResumeUploaded = watch("resume")!;
+
   const onNextClick = async () => {
-    const isValid = await trigger([
-      "cardType",
-      "cardName",
-      "cardNumber",
-      "expirationMonth",
-      "expirationYear",
-      "cvv",
-    ]);
+    const isValid = await trigger(["resume"]);
     if (!isValid) {
       return;
     }
@@ -51,129 +46,54 @@ const Form3 = (props: IProps) => {
     <>
       <div className="mb-6">
         <div className="text-center">
-          <p className="Profiling-form-title">Add Funds</p>
-          <h5 className="Profiling-form-subtitle">Add funds to your wallet</h5>
-        </div>
-      </div>
-      <div className="grid">
-        <FormField
-          control={control}
-          name="cardType"
-          render={({ field }) => (
-            <FormSelect
-              label="Card Type"
-              error={errors.cardType}
-              placeholder="Select one"
-              containerClass="mb-4"
-              className="rounded-none"
-              selectData={["one", "two", "three"]}
-              {...field}
-            />
-          )}
-        />
-        <FormField
-          control={control}
-          name="cardName"
-          render={({ field }) => (
-            <FormInput
-              label="Card Name"
-              error={errors.cardName}
-              placeholder="Enter name on the card"
-              containerClass="mb-4"
-              required
-              {...field}
-            />
-          )}
-        />
-      </div>
-      <FormField
-        control={control}
-        name="cardNumber"
-        render={({ field }) => (
-          <FormInput
-            label="Card Number"
-            error={errors.cardNumber}
-            placeholder="**** **** **** 3527"
-            type="password"
-            containerClass="mb-4"
-            required
-            {...field}
-          />
-        )}
-      />
-      <div className="flex gap-10">
-        <div className="flex flex-col flex-[3] gap-1">
-          <p
-            className={cx(
-              "text-sm font-medium leading-[1.4rem] text-secondary-100",
-              {
-                "!text-danger-100":
-                  !!errors.expirationMonth || !!errors.expirationYear,
-              },
-            )}
-          >
-            Expiration Date <span className="text-danger-50">*</span>
+          <p className="Profiling-form-title">
+            How would you like tell us about yourself
           </p>
-          <div className="flex gap-2">
+          <h5 className="Profiling-form-subtitle">
+            To show you where your skills are most in demand, we need to get a
+            sense of your experience, skills and desired tools
+          </h5>
+        </div>
+      </div>
+      {/* NOTE: only pdf is allowed */}
+      <div className="my-[40px]">
+        {/* if file has been uploaded */}
+
+        {isResumeUploaded ? (
+          <>
+            <UploadedFile
+              {...{ isResumeUploaded }}
+              onDeleteFile={() => {
+                setValue("resume", null);
+              }}
+            />
+          </>
+        ) : (
+          <>
             <FormField
               control={control}
-              name="expirationMonth"
+              name="resume"
               render={({ field }) => (
-                <FormSelect
-                  error={errors.expirationMonth}
-                  placeholder="Month"
-                  containerClass="mb-4 flex-1"
-                  className="rounded-none"
-                  selectData={["one", "two", "three"]}
-                  {...field}
+                <FileUploadV1
+                  containerClass="mb-3"
+                  uploadIcon={authAssets.UploadIcon}
+                  setFile={(e) => {
+                    field.onChange(e);
+                  }}
+                  accept={{
+                    "application/pdf": [".pdf"],
+                    "application/msword": [".doc"],
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                      [".docx"],
+                  }}
+                  // error={errors.resume}
                 />
               )}
             />
-            <FormField
-              control={control}
-              name="expirationYear"
-              render={({ field }) => (
-                <FormSelect
-                  error={errors.expirationYear}
-                  placeholder="Year"
-                  containerClass="mb-4 flex-1"
-                  className="rounded-none"
-                  selectData={["one", "two", "three"]}
-                  {...field}
-                />
-              )}
-            />
-          </div>
-        </div>
-
-        <div className="flex-[2]">
-          <FormField
-            control={control}
-            name="cvv"
-            render={({ field }) => (
-              <FormInput
-                label="CVV"
-                error={errors.cvv}
-                placeholder="Month"
-                containerClass="mb-4"
-                required
-                {...field}
-              />
-            )}
-          />
-        </div>
+          </>
+        )}
       </div>
 
-      <div className="mt-8 mb-6">
-        <Checkbox
-          id="card-details"
-          onChange={(e) => {
-            setValue("saveCardDetails", e as boolean);
-          }}
-        >
-          <p className="">Save card details</p>
-        </Checkbox>
-      </div>
       <div className="flex gap-10">
         <Button
           disabled={false}
@@ -187,21 +107,9 @@ const Form3 = (props: IProps) => {
           disabled={false}
           type="button"
           onClick={onNextClick}
-          label="Continue"
+          label="Upload your Resume"
           className="w-full"
         />
-      </div>
-
-      <div className="flex justify-center mt-8">
-        <p
-          role="button"
-          className="text-secondary-100 text-base font-bold leading-6"
-          onClick={() => {
-            skipPages();
-          }}
-        >
-          Skip for now
-        </p>
       </div>
     </>
   );
