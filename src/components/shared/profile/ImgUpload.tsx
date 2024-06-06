@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 
-import { FieldError } from "react-hook-form";
+import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 
 import cx from "classnames";
 
@@ -10,7 +10,7 @@ interface IProps {
   setFile: Dispatch<SetStateAction<File | null>>;
   alignment?: "horizontal" | "vertical";
   buttonText?: string;
-  error?: FieldError;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
 }
 
 const ImgUpload = ({
@@ -48,7 +48,9 @@ const ImgUpload = ({
         />
       </div>
       {!!error && (
-        <span className="text-sm text-danger-100">{error.message}</span>
+        <span className="text-sm text-danger-100">
+          {error?.message as string}
+        </span>
       )}
       <div className="flex items-center">
         <label

@@ -64,7 +64,7 @@ const Form2 = (props: IProps) => {
             }}
             alignment="vertical"
             buttonText="Upload new picture"
-            error={errors.picture}
+            error={errors?.picture}
           />
         )}
       />
