@@ -8,8 +8,8 @@ const Sider = () => {
   return (
     <aside className="hidden xl:block md:flex-1 pt-[22px] pl-[27px] pb-[19px] min-h-screen">
       <div className="bg-cover bg-center bg-[url('/media/images/authBackground.png')] rounded-3xl h-full w-full px-[60px] pt-[52px] pb-[65px]">
-        <Image alt="" src={logo.logo} className="w-[154px] h-[37px] mb-16" />
-        <div className="flex flex-col h-[670px] justify-between">
+        <Image alt="" src={logo.logo} className="w-[154px] h-[37px] mb-12" />
+        <div className="flex flex-col min-h-[90%] justify-between">
           <div className="mb-">
             <h3 className="text-white text-6xl font-semibold leading-[66px] tracking-[0.02em] mb-8">
               Elevate your processes with WorkRobin
