@@ -14,6 +14,7 @@ import { signupSchema, signupSchema2 } from "@/schema/auth/Signup";
 import { Button, Checkbox, EmailWithIcon, FormInput } from "@/components";
 import authAssets from "@/lib/assets/Auth";
 import { COMPANY_DATA } from "@/constants/companyData";
+import routes from "@/lib/routes";
 
 type TSignup = z.infer<typeof signupSchema>;
 type TSignup2 = z.infer<typeof signupSchema2>;
@@ -52,19 +53,29 @@ const SignUpForm = () => {
         return notFound();
       }
     } else {
-      navigate.push("/signup?active=signup");
+      navigate.push(`${routes.auth.signup.path}?active=signup`);
     }
   }, [searchParams.get("active")]);
 
   useEffect(() => {
-    if (!userEmail && pageShowing === "signup2") return notFound();
+    if (!userEmail && pageShowing === "signup2") {
+      // console.log("here", { pageShowing }, { userEmail });
+      // return notFound();
+    }
   }, [pageShowing, userEmail]);
 
   const onSubmit = (values: TSignup) => {
     console.log("values", values);
     setTimeout(() => {
-      navigate.push(`/signup?active=signup2&email=${values.email}`);
+      navigate.push(
+        `${routes.auth.signup.path}?active=signup2&email=${values.email}`,
+      );
     }, 1000);
+  };
+  const onSubmit2 = (values: TSignup) => {
+    console.log("values", values);
+
+    navigate.push(routes.auth.profiling.path);
   };
 
   return (
@@ -124,7 +135,7 @@ const SignUpForm = () => {
           </form>
           <p className="text-center text-neutral-250 text-sm font-medium leading-[1.4rem]">
             Already have an account?{" "}
-            <Link className="text-primary-50" href={"/login"}>
+            <Link className="text-primary-50" href={routes.auth.login.path}>
               Login Here
             </Link>{" "}
           </p>
@@ -134,7 +145,7 @@ const SignUpForm = () => {
         <Form {...form}>
           <form
             className=" w-[70%] mx-auto py-5 mt-14 md:mt-5"
-            onSubmit={handleSubmit(onSubmit, (err) => {
+            onSubmit={handleSubmit(onSubmit2, (err) => {
               console.log("error is", err);
             })}
           >
@@ -218,7 +229,7 @@ const SignUpForm = () => {
           </form>
           <p className="text-center text-neutral-250 text-sm font-medium leading-[1.4rem]">
             Already have an account?{" "}
-            <Link className="text-primary-50" href={"/login"}>
+            <Link className="text-primary-50" href={routes.auth.login.path}>
               Login Here
             </Link>{" "}
           </p>

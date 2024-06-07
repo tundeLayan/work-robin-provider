@@ -79,6 +79,14 @@ const Form6 = (props: IProps) => {
 
         <div className="skills">
           <SectionTitle actionText="Edit" title="Your Skills" />
+          <div className="flex flex-wrap">
+            <p className="bg-primary-600 px-3 py-1 text-primary-50 text-sm font-normal leading-[22.4px] gap-[8px]">
+              Plumbing
+            </p>
+            <p className="bg-primary-600 px-3 py-1 text-primary-50 text-sm font-normal leading-[22.4px] gap-[8px]">
+              Plumber
+            </p>
+          </div>
         </div>
 
         <div className="resume">
@@ -110,6 +118,7 @@ const Form6 = (props: IProps) => {
 
 export default Form6;
 
+// TODO: Move to it's own file
 interface ISectionTitleProps {
   title: string;
   actionText: string;

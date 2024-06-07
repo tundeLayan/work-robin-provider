@@ -4,7 +4,7 @@ import { ErrorMessages } from "@/constants/errors";
 
 // TODO: Move to a constant file
 const MAX_UPLOAD_SIZE = 1024 * 1024 * 3; // 3MB
-const ACCEPTED_FILE_TYPES = ["image/png"];
+// const ACCEPTED_FILE_TYPES = ["image/"];
 
 export const formSchema = z.object({
   // form 1 - tax
@@ -53,9 +53,10 @@ export const formSchema = z.object({
       return !file || file.size <= MAX_UPLOAD_SIZE;
     }, "File size must be less than 3MB")
     .refine((file) => {
+      const ACCEPTED_FILE_TYPE_REGEX = /^image\//;
       if (!file) return;
-      return ACCEPTED_FILE_TYPES.includes(file?.type as string);
-    }, "File must be a PNG"),
+      return ACCEPTED_FILE_TYPE_REGEX.test(file?.type as string);
+    }, "File must be an Image"),
   street: z
     .string({
       required_error: ErrorMessages.required("street"),

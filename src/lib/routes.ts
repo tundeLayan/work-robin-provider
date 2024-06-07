@@ -4,7 +4,7 @@ const routes = {
   },
 
   auth: {
-    path: "/auth",
+    path: "/",
 
     login: {
       path: "/login",
@@ -27,6 +27,9 @@ const routes = {
       forgotPassword: { path: "/reset-password/forgot-password" },
       otp: { path: "/reset-password/otp" },
       passwordSuccess: { path: "/reset-password/password-success" },
+    },
+    profiling: {
+      path: "/profiling",
     },
   },
 };
