@@ -23,7 +23,7 @@ type TForm = z.infer<typeof formSchema>;
 
 const steps = 5;
 const StepsContainer = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(4);
 
   const form = useForm<TForm>({
     resolver: zodResolver(formSchema),

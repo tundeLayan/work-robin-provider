@@ -7,6 +7,7 @@ import { Button, FormInput, FormSelect } from "@/components";
 import { FormField } from "@/components/ui/form";
 import { formSchema } from "@/schema/profile/onboardingProfiling";
 import { ImgUpload } from "@/components/shared/profile";
+import { Tax } from "@/constants";
 
 type TForm2 = z.infer<typeof formSchema>;
 
@@ -122,7 +123,7 @@ const Form2 = (props: IProps) => {
             placeholder="Select State"
             containerClass="mb-4 col-span-2"
             className=""
-            selectData={[]}
+            selectData={Tax}
             {...field}
           />
         )}
@@ -137,7 +138,7 @@ const Form2 = (props: IProps) => {
             placeholder="Select Country"
             containerClass="mb-4 col-span-2"
             className=""
-            selectData={[]}
+            selectData={Tax}
             {...field}
           />
         )}

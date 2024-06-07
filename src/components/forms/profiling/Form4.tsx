@@ -22,7 +22,7 @@ const Form4 = (props: IProps) => {
     form: {
       control,
       formState: { errors },
-      trigger,
+      // trigger,
       // getValues,
     },
     nextPage,
@@ -34,14 +34,14 @@ const Form4 = (props: IProps) => {
 
   const onNextClick = async () => {
     // check for errors
-    const isValid = await trigger(["yourSkills"]);
-    if (!isValid) {
-      return;
-    }
+    // const isValid = await trigger(["yourSkills"]);
+    // if (!isValid) {
+    //   return;
+    // }
     // TODO: Make API call here
     nextPage();
   };
-
+  // console.log("errors", errors);
   return (
     <>
       <div className="mb-6">
@@ -55,12 +55,12 @@ const Form4 = (props: IProps) => {
       <div className="">
         <FormField
           control={control}
-          name="street"
+          name="yourSkills"
           render={({ field }) => (
             <FormInput
-              label="Street"
-              error={errors.street}
-              placeholder="Your Street"
+              label="Your skills"
+              error={errors.yourSkills?.[0]}
+              placeholder="Your Skills"
               containerClass="mb-4"
               required
               {...field}
