@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,11 +19,13 @@ import {
   Form6,
 } from "@/components/forms/profiling";
 import { EmailWithIcon, RenderIf } from "@/components/shared";
+import routes from "@/lib/routes";
 
 type TForm = z.infer<typeof formSchema>;
 
 const steps = 5;
 const StepsContainer = () => {
+  const navigate = useRouter();
   const [currentStep, setCurrentStep] = useState(4);
 
   const form = useForm<TForm>({
@@ -36,7 +39,9 @@ const StepsContainer = () => {
   const { handleSubmit, getValues } = form;
 
   const onSubmit = (values: TForm) => {
+    // TODO: make api call here
     console.log("values", values);
+    navigate.push(routes.auth.login.path);
   };
 
   const nextPage = () => {

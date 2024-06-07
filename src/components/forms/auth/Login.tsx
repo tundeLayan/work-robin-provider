@@ -71,7 +71,7 @@ const LoginForm = () => {
                 <div className="flex justify-end mb-4">
                   <Link
                     className="text-tertiary-100 text-sm font-medium leading-[1.4rem]"
-                    href={"/login"}
+                    href={routes.auth.resetPassword.forgotPassword.path}
                   >
                     Forgot Password
                   </Link>
@@ -84,7 +84,7 @@ const LoginForm = () => {
         </form>
         <p className="text-center text-neutral-250 text-sm font-medium leading-[1.4rem]">
           Don't have an account?{" "}
-          <Link className="text-primary-50" href={"/signup"}>
+          <Link className="text-primary-50" href={routes.auth.signup.path}>
             Sign Up
           </Link>{" "}
         </p>
