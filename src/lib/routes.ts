@@ -32,6 +32,44 @@ const routes = {
       path: "/profiling",
     },
   },
+  dashboard: {
+    entry: {
+      path: "/dashboard",
+    },
+    profile: {
+      path: "/dashboard/profile",
+      companyProfile: {
+        path: "/dashboard/profile/company-profile",
+      },
+      taxInformation: {
+        path: "/dashboard/profile/tax-information",
+      },
+      taxDocumentation: {
+        path: "/dashboard/profile/tax-documentation",
+      },
+      paymentMethod: {
+        path: "/dashboard/profile/payment-method",
+      },
+      spendingLimit: {
+        path: "/dashboard/profile/spending-limit",
+      },
+    },
+
+    settings: {
+      path: "/dashboard/settings",
+      notifications: {
+        path: "/dashboard/settings/notifications",
+      },
+
+      password: {
+        path: "/dashboard/settings/password",
+      },
+
+      security: {
+        path: "/dashboard/settings/security",
+      },
+    },
+  },
 };
 
 export default routes;
