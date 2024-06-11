@@ -1,0 +1,37 @@
+@import "settings";
+
+.app_dashboard_layout {
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+
+  &__sidebar {
+    max-width: 247px;
+    width: 100%;
+    padding: 20px 32px;
+    border-right: 0.7px solid var(--grey-200);
+    overflow-y: auto;
+    padding-bottom: 4rem;
+
+    @include screen("lg") {
+      display: none;
+    }
+  }
+
+  &__ctt {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    &__children {
+      height: 100%;
+      .layout__child {
+        padding: 24px 32px;
+
+        @include screen("sm") {
+          padding: 16px;
+        }
+      }
+    }
+  }
+}

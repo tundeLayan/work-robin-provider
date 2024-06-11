@@ -1,0 +1,35 @@
+.app_security {
+  &__enable {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 160%;
+    color: var(--primary);
+  }
+
+  &__info {
+    max-width: 600px;
+    width: 100%;
+
+    &__text {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 160%;
+      color: #000;
+    }
+  }
+
+  &__list {
+    list-style: disc;
+    list-style-position: inside;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    li {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 160%;
+      color: #000;
+    }
+  }
+}

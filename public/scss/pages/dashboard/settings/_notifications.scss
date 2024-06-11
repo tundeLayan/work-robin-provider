@@ -1,0 +1,48 @@
+.app_notifications {
+  &__mx {
+    max-width: 661px;
+    width: 100%;
+  }
+
+  &__title {
+    &__text {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 160%;
+      color: #000;
+    }
+
+    &__text.small {
+      font-size: 14px;
+      line-height: 143%;
+      color: #84818a;
+    }
+  }
+
+  &__ctt {
+    &__title {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 160%;
+      color: var(--grey-700);
+    }
+
+    &__item {
+      &__text {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 160%;
+        color: var(--grey-600);
+      }
+
+      &__box {
+        &__cell {
+          width: 100px;
+          display: flex;
+          justify-content: center;
+          // width: 100%;
+        }
+      }
+    }
+  }
+}
