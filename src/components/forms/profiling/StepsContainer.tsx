@@ -26,7 +26,7 @@ type TForm = z.infer<typeof formSchema>;
 const steps = 5;
 const StepsContainer = () => {
   const navigate = useRouter();
-  const [currentStep, setCurrentStep] = useState(4);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const form = useForm<TForm>({
     resolver: zodResolver(formSchema),
@@ -65,12 +65,10 @@ const StepsContainer = () => {
     setCurrentStep((prev) => prev + 1);
   };
 
-  console.log("currentStep", currentStep);
-
   return (
     <>
       <div className={`grid grid-cols-5 gap-1 w-4/12 mx-auto`}>
-        {new Array(steps).fill(0).map((step, idx) => (
+        {new Array(steps).fill(0).map((_, idx) => (
           <div
             key={idx}
             className={cx(`border-neutral-350 border-[4px]`, {
