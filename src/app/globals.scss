@@ -40,3 +40,17 @@ table th:last-child {
 .Profiling-form-subtitle {
   @apply text-secondary-100 text-[1.125rem] font-normal leading-[27px];
 }
+
+// react multiselect
+.multiselect-container.multiSelectContainer {
+  .icon_cancel {
+  }
+  .optionListContainer {
+    li {
+      &:hover {
+        @apply bg-primary-600 text-primary-50;
+      }
+    }
+  }
+}
+// react multiselect
