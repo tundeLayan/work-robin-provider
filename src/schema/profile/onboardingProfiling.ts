@@ -108,9 +108,7 @@ export const formSchema = z.object({
 
   // form 4 - your skills
   yourSkills: z
-    .array(
-      z.string().min(1, { message: ErrorMessages.required("Your skills") }),
-    )
+    .array(z.object({ name: z.string(), id: z.number() }))
     .min(1, { message: ErrorMessages.required("Your skills") }),
 
   // form 5 - Bio

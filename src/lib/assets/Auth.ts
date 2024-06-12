@@ -13,6 +13,7 @@ import UserIcon from "../../../public/media/images/userIcon.svg";
 import PdfIcon from "../../../public/media/images/pdfIcon.svg";
 import CloseIcon from "../../../public/media/images/closeIcon.svg";
 import UploadIcon from "../../../public/media/images/uploadIcon.svg";
+import multiselectcloseIcon from "../../../public/media/images/multiselectcloseIcon.svg";
 
 const authAssets = {
   authBG,
@@ -30,6 +31,7 @@ const authAssets = {
   PdfIcon,
   CloseIcon,
   UploadIcon,
+  multiselectcloseIcon,
 };
 
 export default authAssets;
