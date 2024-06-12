@@ -7,7 +7,7 @@ import { Checkbox as ShadcnCheckbox } from "@/components/ui/checkbox";
 
 interface IProps {
   disabled?: boolean;
-  id: string;
+  id?: string;
   onChange?: (val: CheckedState) => void;
   children?: ReactNode;
   isChecked?: boolean;
