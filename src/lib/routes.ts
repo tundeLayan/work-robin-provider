@@ -38,11 +38,20 @@ const routes = {
     },
     profile: {
       path: "/dashboard/profile",
+      contactInformation: {
+        path: "/dashboard/profile/contact-information",
+      },
       companyProfile: {
         path: "/dashboard/profile/company-profile",
       },
       taxInformation: {
         path: "/dashboard/profile/tax-information",
+        verify: {
+          path: "/dashboard/profile/tax-information/verify",
+        },
+        otp: {
+          path: "/dashboard/profile/tax-information/otp",
+        },
       },
       taxDocumentation: {
         path: "/dashboard/profile/tax-documentation",
