@@ -12,8 +12,19 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
   font-size: 0.9rem; // 14px
+}
+
+//? FIXES OVERFLOW ON BODY
+//? DON'T REMOVE
+html,
+body {
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+body {
+  overflow-y: auto !important;
 }
 
 #__next {
