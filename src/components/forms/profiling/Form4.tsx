@@ -4,7 +4,7 @@ import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
-import { Button, FormInput } from "@/components";
+import { Button, Multiselect } from "@/components";
 import { FormField } from "@/components/ui/form";
 import { formSchema } from "@/schema/profile/onboardingProfiling";
 
@@ -22,8 +22,9 @@ const Form4 = (props: IProps) => {
     form: {
       control,
       formState: { errors },
-      // trigger,
+      trigger,
       // getValues,
+      watch,
     },
     nextPage,
     prevPage,
@@ -34,14 +35,14 @@ const Form4 = (props: IProps) => {
 
   const onNextClick = async () => {
     // check for errors
-    // const isValid = await trigger(["yourSkills"]);
-    // if (!isValid) {
-    //   return;
-    // }
+    const isValid = await trigger(["yourSkills"]);
+    if (!isValid) {
+      return;
+    }
     // TODO: Make API call here
     nextPage();
   };
-  // console.log("errors", errors);
+
   return (
     <>
       <div className="mb-6">
@@ -57,13 +58,19 @@ const Form4 = (props: IProps) => {
           control={control}
           name="yourSkills"
           render={({ field }) => (
-            <FormInput
-              label="Your skills"
-              error={errors.yourSkills?.[0]}
-              placeholder="Your Skills"
+            <Multiselect
+              label="Your Skills"
               containerClass="mb-4"
+              placeholder="Start typing to search for skills"
               required
-              {...field}
+              onSelect={(selectedItem: any) => {
+                console.log({ selectedItem });
+                // const
+                // TODO: change to id
+                field.onChange(selectedItem);
+              }}
+              selected={watch("yourSkills")}
+              error={errors?.yourSkills}
             />
           )}
         />

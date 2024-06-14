@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -19,7 +19,7 @@ import { Button, OtpInput, Checkbox } from "@/components";
 
 type Totp = z.infer<typeof otpSchema>;
 const OTPForm = () => {
-  const navigate = useRouter();
+  // const navigate = useRouter();
   const [alwaysRememberDevice, setAlwaysRememberDevice] = useState(false);
   const form = useForm<Totp>({
     resolver: zodResolver(otpSchema),
@@ -33,9 +33,6 @@ const OTPForm = () => {
 
   const onSubmit = (values: Totp) => {
     console.log("values", values);
-    setTimeout(() => {
-      navigate.push("/signup?active=signup2");
-    }, 1000);
   };
   return (
     <div className="md:pt-[200px] ">
@@ -69,7 +66,7 @@ const OTPForm = () => {
               </FormItem>
             )}
           />
-          <Button label="Create Account" className="w-full mt-6" />
+          <Button label="Verify" className="w-full mt-6" />
           <div className="mt-8 mb-6">
             <Checkbox
               id="remember-device"

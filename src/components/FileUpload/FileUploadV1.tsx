@@ -107,7 +107,7 @@ const FileUpload = ({
         <input {...getInputProps()} />
         <>
           {uploadIcon && (
-            <Image alt="upload icon" src={uploadIcon} className="w-30 h-30" />
+            <Image alt="upload icon" src={uploadIcon} className="w-10 h-10" />
           )}
           <p
             dangerouslySetInnerHTML={{ __html: uploadLabel }}
