@@ -13,23 +13,32 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Button, Checkbox, FormInput } from "@/components";
+import { Button, Checkbox, FormInput, RenderIf } from "@/components";
 import FormSelect from "../../FormSelect";
 import { Tax } from "@/constants";
 import { taxSchema } from "@/schema/profileSettings/TaxInformation";
+import { TaxTypes } from "@/constants/profileSettings";
 
 type TTax = z.infer<typeof taxSchema>;
 
 const TaxInformationForm = () => {
   const form = useForm<TTax>({
     resolver: zodResolver(taxSchema),
+    defaultValues: {
+      electronic: false,
+      taxType: "SSN",
+    },
   });
 
   const {
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = form;
+  console.log(errors);
+
+  const selectedType = watch("taxType");
 
   const onSubmit = () => {};
   return (
@@ -44,32 +53,51 @@ const TaxInformationForm = () => {
           <div className="max-w-[600px]">
             <FormField
               control={control}
-              name="ssn"
+              name="taxType"
               render={({ field }) => (
-                <FormInput
-                  label="Social Security Number"
-                  error={errors.ssn}
-                  placeholder="SSN"
+                <FormSelect
+                  label="Select Tax Type"
+                  error={errors.taxType}
+                  placeholder="Select one"
                   containerClass="mb-4"
-                  className="rounded-none"
+                  className=" rounded-none"
+                  selectData={TaxTypes}
                   {...field}
                 />
               )}
             />
-            <FormField
-              control={control}
-              name="tinName"
-              render={({ field }) => (
-                <FormInput
-                  label="Full Name associated with TIN"
-                  error={errors.tinName}
-                  placeholder="TIN"
-                  containerClass="mb-4"
-                  className="rounded-none"
-                  {...field}
-                />
-              )}
-            />
+            <RenderIf condition={selectedType === "SSN"}>
+              <FormField
+                control={control}
+                name="ssn"
+                render={({ field }) => (
+                  <FormInput
+                    label="Social Security Number"
+                    error={errors.ssn}
+                    placeholder="SSN"
+                    containerClass="mb-4"
+                    className="rounded-none"
+                    {...field}
+                  />
+                )}
+              />
+            </RenderIf>
+            <RenderIf condition={selectedType === "TIN"}>
+              <FormField
+                control={control}
+                name="tin"
+                render={({ field }) => (
+                  <FormInput
+                    label="Full Name associated with TIN"
+                    error={errors.tin}
+                    placeholder="TIN"
+                    containerClass="mb-4"
+                    className="rounded-none"
+                    {...field}
+                  />
+                )}
+              />
+            </RenderIf>
 
             <FormField
               control={control}
@@ -167,7 +195,7 @@ const TaxInformationForm = () => {
               render={({ field }) => (
                 <FormSelect
                   error={errors.country}
-                  placeholder="Select your industry"
+                  placeholder="Country"
                   containerClass="mb-4"
                   className="rounded-none"
                   selectData={Tax}
@@ -246,6 +274,7 @@ const TaxInformationForm = () => {
             />
             <Button
               label="Update Tax Information"
+              // disabled={!!errors.electronic}
               className=" rounded-xl w-[243px] h-14"
               type="submit"
             />

@@ -75,6 +75,11 @@ export const profileDashboardLinks = [
       },
       {
         id: 6,
+        label: "Payment Details",
+        route: routes.dashboard.profile.paymentDetails.path,
+      },
+      {
+        id: 7,
         label: "Become a Service Company",
         route: routes.dashboard.profile.becomeService.path,
       },
@@ -88,7 +93,7 @@ export const profileDashboardLinks = [
       {
         id: 1,
         label: "Bio & Resume",
-        route: "#",
+        route: routes.dashboard.profile.bio.path,
       },
       {
         id: 2,

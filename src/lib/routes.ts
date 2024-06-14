@@ -56,6 +56,9 @@ const routes = {
       taxDocumentation: {
         path: "/dashboard/profile/tax-documentation",
       },
+      paymentDetails: {
+        path: "/dashboard/profile/payment-details",
+      },
       bio: {
         path: "/dashboard/profile/bio",
       },

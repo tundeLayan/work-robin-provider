@@ -39,13 +39,16 @@ const Faq = () => {
         <div className="pt-8 mt-8 border-t border-neutral-350 flex items-center gap-6">
           <Button
             label="Cancel"
+            onClick={() => {
+              router.push(routes.dashboard.profile.becomeService.terms.path);
+            }}
             className=" rounded-xl w-[108px] h-14  border-primary-500"
             variant="neutral"
             type="button"
           />
           <Button
             onClick={() => {
-              router.push(routes.dashboard.profile.becomeService.terms.path);
+              router.push(routes.dashboard.profile.becomeService.info.path);
             }}
             label="Next"
             className=" rounded-xl w-[91px] h-14"
