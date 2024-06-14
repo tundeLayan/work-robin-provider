@@ -82,11 +82,6 @@ export const profileDashboardLinks = [
       },
       {
         id: 6,
-        label: "Payment Details",
-        route: routes.dashboard.profile.paymentDetails.path,
-      },
-      {
-        id: 6,
         label: "Become a Service Company",
         route: routes.dashboard.profile.becomeService.path,
       },
@@ -95,51 +90,17 @@ export const profileDashboardLinks = [
 
   {
     id: 2,
-    title: "Payment Management",
+    title: "Additional Background",
     children: [
       {
         id: 1,
-        label: "Payment Method",
-        route: routes.dashboard.profile.paymentDetails.path,
+        label: "Bio & Resume",
+        route: routes.dashboard.profile.bio.path,
       },
       {
         id: 2,
-        label: "Spending Limit",
-        route: routes.dashboard.profile.paymentDetails.path,
-      },
-    ],
-  },
-
-  {
-    id: 3,
-    title: "User Management",
-    children: [
-      {
-        id: 1,
-        label: "Manage Members",
-        route: "#",
-      },
-    ],
-  },
-
-  {
-    id: 4,
-    title: "Company Settings",
-    children: [
-      {
-        id: 1,
-        label: "Roles and Permissions",
-        route: "#",
-      },
-      {
-        id: 2,
-        label: "Activity Log",
-        route: "#",
-      },
-      {
-        id: 3,
-        label: "Integrations",
-        route: "#",
+        label: "Rates and Location",
+        route: routes.dashboard.profile.rates.path,
       },
     ],
   },

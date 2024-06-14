@@ -7,6 +7,8 @@ import plusCircle from "../../../public/media/images/plus-circle.svg";
 import message from "../../../public/media/images/message.svg";
 import building from "../../../public/media/images/building.svg";
 import paypal from "../../../public/media/images/paypal.svg";
+import deleteIcon from "../../../public/media/images/delete.svg";
+import fileDelete from "../../../public/media/images/file-delete.svg";
 
 const profile = {
   threeDots,
@@ -18,6 +20,8 @@ const profile = {
   message,
   paypal,
   building,
+  deleteIcon,
+  fileDelete,
 };
 
 export default profile;
