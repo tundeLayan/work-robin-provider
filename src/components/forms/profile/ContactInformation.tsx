@@ -51,14 +51,14 @@ const ContactInformationForm = () => {
       });
   };
   return (
-    <div className="">
+    <div className="w-full h-full">
       <div className="pt-6 pb-8 pr-6 ">
         <h3 className="text-sm font-medium pb-6 ">Change Picture</h3>
         <ImgUpload setFile={setFile} buttonText="Change Picture" />
       </div>
       <Form {...form}>
         <form
-          className=""
+          className="overflow-y-hidden"
           onSubmit={handleSubmit(onSubmit, (err) => {
             console.log("error is", err);
           })}
