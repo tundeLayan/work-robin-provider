@@ -80,7 +80,7 @@ const FileUpload = ({
     // isFileDialogActive,
   } = useDropzone({
     onDrop: (acceptedFiles) => {
-      acceptedFiles.map((file) => {
+      acceptedFiles.map((file: File) => {
         setFile(file);
         return Object.assign(file, {
           preview: URL.createObjectURL(file),
