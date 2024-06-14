@@ -40,8 +40,8 @@ export const profilePopoverData = [
   {
     id: 1,
     icon: Home,
-    label: "Company profile",
-    route: routes.dashboard.profile.companyProfile.path,
+    label: "Contact Information",
+    route: routes.dashboard.profile.contactInformation.path,
   },
   {
     id: 2,
@@ -58,12 +58,12 @@ export const profilePopoverData = [
 export const profileDashboardLinks = [
   {
     id: 1,
-    title: "General",
+    title: "Profile Settings",
     children: [
       {
         id: 1,
-        label: "Company Profile",
-        route: routes.dashboard.profile.companyProfile.path,
+        label: "Contact Information",
+        route: routes.dashboard.profile.contactInformation.path,
       },
       {
         id: 2,
@@ -71,9 +71,24 @@ export const profileDashboardLinks = [
         route: routes.dashboard.profile.taxInformation.path,
       },
       {
-        id: 3,
-        label: "Tax Documentation",
+        id: 4,
+        label: "Tax Documents",
         route: routes.dashboard.profile.taxDocumentation.path,
+      },
+      {
+        id: 5,
+        label: "Resources",
+        route: routes.dashboard.profile.resources.path,
+      },
+      {
+        id: 6,
+        label: "Payment Details",
+        route: routes.dashboard.profile.paymentDetails.path,
+      },
+      {
+        id: 6,
+        label: "Become a Service Company",
+        route: routes.dashboard.profile.becomeService.path,
       },
     ],
   },
@@ -85,12 +100,12 @@ export const profileDashboardLinks = [
       {
         id: 1,
         label: "Payment Method",
-        route: routes.dashboard.profile.paymentMethod.path,
+        route: routes.dashboard.profile.paymentDetails.path,
       },
       {
         id: 2,
         label: "Spending Limit",
-        route: routes.dashboard.profile.spendingLimit.path,
+        route: routes.dashboard.profile.paymentDetails.path,
       },
     ],
   },

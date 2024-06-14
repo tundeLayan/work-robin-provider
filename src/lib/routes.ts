@@ -41,8 +41,8 @@ const routes = {
       contactInformation: {
         path: "/dashboard/profile/contact-information",
       },
-      companyProfile: {
-        path: "/dashboard/profile/company-profile",
+      resources: {
+        path: "/dashboard/profile/resources",
       },
       taxInformation: {
         path: "/dashboard/profile/tax-information",
@@ -56,11 +56,20 @@ const routes = {
       taxDocumentation: {
         path: "/dashboard/profile/tax-documentation",
       },
-      paymentMethod: {
-        path: "/dashboard/profile/payment-method",
+      paymentDetails: {
+        path: "/dashboard/profile/payment-details",
       },
-      spendingLimit: {
-        path: "/dashboard/profile/spending-limit",
+      becomeService: {
+        path: "/dashboard/profile/become-service",
+        faq: {
+          path: "/dashboard/profile/become-service/faq",
+        },
+        terms: {
+          path: "/dashboard/profile/become-service/terms",
+        },
+        info: {
+          path: "/dashboard/profile/become-service/info",
+        },
       },
     },
 

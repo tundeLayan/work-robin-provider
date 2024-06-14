@@ -16,7 +16,7 @@ const buttonVariants = cva(
         neutral: "border border-secondary-100 bg-white",
         secondary: "bg-red-500 text-slate-50 ",
         tertiary: "bg-white text-primary-50 border-0",
-        danger: "hover:bg-slate-100 ",
+        danger: "hover:bg-slate-100 border-danger-250 border text-danger-200 ",
         success: "text-slate-900 underline-offset-4 hover:underline ",
         file: "border border-primary-50 bg-white hover:text-primary-900 text-primary-50 ",
       },

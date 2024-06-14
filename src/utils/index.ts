@@ -48,3 +48,21 @@ export function matchRoute(
 
   return dashboardPattern.test(route);
 }
+
+export function maskString(
+  input?: string,
+  start?: number,
+  end?: number,
+): string {
+  // console.log(input);
+  // console.log(start);
+  // console.log(end);
+  if (!input || start === undefined || end === undefined) return "";
+  const length = input.length;
+  if (start < 0 || end >= length || start > end) {
+    console.log();
+    return "";
+  }
+  const maskedPart = "*".repeat(end - start + 1);
+  return input.slice(0, start) + maskedPart + input.slice(end + 1);
+}
