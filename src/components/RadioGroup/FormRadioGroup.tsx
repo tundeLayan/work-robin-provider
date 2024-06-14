@@ -1,4 +1,7 @@
 import React from "react";
+
+import { twMerge } from "tailwind-merge";
+
 import {
   RadioGroup as ShadCnRadioGroup,
   RadioGroupItem,
@@ -11,10 +14,17 @@ interface IProps {
   defaultValue: string;
   onChange: (val: string) => void;
   className?: string;
+  itemClassName?: string;
 }
 
 const FormRadioGroup = (props: IProps) => {
-  const { options, defaultValue, onChange, className = "" } = props;
+  const {
+    options,
+    defaultValue,
+    onChange,
+    className = "",
+    itemClassName = "",
+  } = props;
   return (
     <FormItem>
       <FormControl>
@@ -25,7 +35,10 @@ const FormRadioGroup = (props: IProps) => {
         >
           {options.map(({ value, label, id }) => (
             <FormItem
-              className="flex items-center gap-2 space-y-0 py-6 border-t border-neutral-350"
+              className={twMerge(
+                "flex items-center gap-2 space-y-0 py-6 border-t border-neutral-350",
+                itemClassName,
+              )}
               key={id}
             >
               <FormControl>
