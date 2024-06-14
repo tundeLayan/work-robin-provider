@@ -1,19 +1,15 @@
 import {
   Briefcase,
-  Building,
-  Chart,
   CreditCard,
-  DocumentCheck,
   Elements,
   File,
-  FolderUser,
   HelpCircle,
   Home,
   LogOut,
-  MessageSmileCicrle,
   Pin,
+  QuestionCircle,
   Settings,
-  UserTick,
+  SuitCase,
   Users,
 } from "@/components/shared/svgs";
 import routes from "@/lib/routes";
@@ -25,22 +21,19 @@ export const dashboardLinks = [
     icon: Elements,
     route: routes.dashboard.entry.path,
   },
-  { id: 2, label: "Work Orders", icon: Briefcase, route: "#" },
-  { id: 3, label: "Providers", icon: Users, route: "#" },
-  { id: 4, label: "Clients", icon: Building, route: "#" },
-  { id: 5, label: "Projects", icon: FolderUser, route: "#" },
-  { id: 6, label: "Agreements", icon: DocumentCheck, route: "#" },
-  { id: 7, label: "Payments", icon: CreditCard, route: "#" },
-  { id: 8, label: "Reports", icon: Chart, route: "#" },
-  { id: 9, label: "POC", icon: UserTick, route: "#" },
-  { id: 10, label: "Support", icon: MessageSmileCicrle, route: "#" },
+  { id: 2, label: "Find Work", icon: Users, route: "#" },
+  { id: 3, label: "My Work", icon: Briefcase, route: "#" },
+  { id: 4, label: "Payments", icon: CreditCard, route: "#" },
+  { id: 5, label: "Calendar", icon: Users, route: "#" },
+  { id: 6, label: "My Agreements", icon: SuitCase, route: "#" },
+  { id: 7, label: "Support", icon: QuestionCircle, route: "#" },
 ];
 
 export const profilePopoverData = [
   {
     id: 1,
     icon: Home,
-    label: "Contact Information",
+    label: "My Profile",
     route: routes.dashboard.profile.contactInformation.path,
   },
   {
@@ -95,50 +88,44 @@ export const profileDashboardLinks = [
 
   {
     id: 2,
-    title: "Payment Management",
+    title: "Additional Background",
     children: [
       {
         id: 1,
-        label: "Payment Method",
-        route: routes.dashboard.profile.paymentDetails.path,
-      },
-      {
-        id: 2,
-        label: "Spending Limit",
-        route: routes.dashboard.profile.paymentDetails.path,
-      },
-    ],
-  },
-
-  {
-    id: 3,
-    title: "User Management",
-    children: [
-      {
-        id: 1,
-        label: "Manage Members",
-        route: "#",
-      },
-    ],
-  },
-
-  {
-    id: 4,
-    title: "Company Settings",
-    children: [
-      {
-        id: 1,
-        label: "Roles and Permissions",
+        label: "Bio & Resume",
         route: "#",
       },
       {
         id: 2,
-        label: "Activity Log",
+        label: "Rates & Location",
         route: "#",
       },
+
       {
         id: 3,
-        label: "Integrations",
+        label: "Working hours",
+        route: "#",
+      },
+      {
+        id: 4,
+        label: "Certifications",
+        route: "#",
+      },
+
+      {
+        id: 5,
+        label: "Insurance & Licenses",
+        route: "#",
+      },
+      {
+        id: 6,
+        label: "Languages",
+        route: "#",
+      },
+
+      {
+        id: 7,
+        label: "Screenings",
         route: "#",
       },
     ],
@@ -162,8 +149,14 @@ export const settingsDashboardLinks = [
       },
       {
         id: 3,
-        label: "Security",
-        route: routes.dashboard.settings.security.path,
+        label: "Sync Calendar",
+        route: "#",
+      },
+
+      {
+        id: 4,
+        label: "Two-Factor Authentication",
+        route: "#",
       },
     ],
   },
