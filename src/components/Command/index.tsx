@@ -1,6 +1,5 @@
 import {
   Command as ShadcnCommand,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,

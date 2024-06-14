@@ -22,7 +22,7 @@ const CompanyInformationForm = () => {
     formState: { errors },
   } = form;
 
-  const onSubmit = (values: TContact) => {};
+  const onSubmit = () => {};
   return (
     <div className="">
       <Form {...form}>
