@@ -75,11 +75,6 @@ export const profileDashboardLinks = [
       },
       {
         id: 6,
-        label: "Payment Details",
-        route: routes.dashboard.profile.paymentDetails.path,
-      },
-      {
-        id: 6,
         label: "Become a Service Company",
         route: routes.dashboard.profile.becomeService.path,
       },

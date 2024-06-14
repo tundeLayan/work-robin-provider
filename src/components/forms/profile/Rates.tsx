@@ -1,0 +1,168 @@
+import React from "react";
+
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button, Checkbox, FormInput } from "@/components";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { profileRatesSchema } from "@/schema/profileSettings/profileRates";
+
+type TForm = z.infer<typeof profileRatesSchema>;
+
+const locationCheck = [
+  {
+    id: "Commercial",
+    label: "Commercial",
+  },
+  {
+    id: "Government",
+    label: "Government",
+  },
+  {
+    id: "Residential",
+    label: "Residential",
+  },
+  {
+    id: "Education",
+    label: "Education",
+  },
+];
+
+const ProfileRates = () => {
+  const form = useForm<TForm>({
+    resolver: zodResolver(profileRatesSchema),
+    defaultValues: {
+      location: [],
+    },
+  });
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = form;
+
+  const onSubmit = () => {};
+
+  return (
+    <div className="max-w-[600px]">
+      <Form {...form}>
+        <form
+          className="Profiling-form w-full mx-auto pb-5 mt-0 md:mt-5 "
+          onSubmit={handleSubmit(onSubmit, (err) => {
+            console.log("error is", err);
+          })}
+        >
+          <div className="flex gap-4">
+            <FormField
+              control={control}
+              name="onsite"
+              render={({ field }) => (
+                <FormInput
+                  label="Onsite hourly rate"
+                  error={errors.onsite}
+                  placeholder="$0.00"
+                  containerClass="flex-1"
+                  className=""
+                  {...field}
+                />
+              )}
+            />
+            <FormField
+              control={control}
+              name="virtual"
+              render={({ field }) => (
+                <FormInput
+                  label="Virtual hourly rate"
+                  error={errors.virtual}
+                  placeholder="$0.00"
+                  containerClass="flex-1"
+                  className=""
+                  {...field}
+                />
+              )}
+            />
+          </div>
+          <h3 className="pt-4 pb-1 font-medium text-base">Location</h3>
+          <div className="flex flex-wrap pb-7">
+            {locationCheck.map((item, i) => (
+              <div key={i} className="w-6/12 py-3">
+                <FormField
+                  control={form.control}
+                  name="location"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={item.id}
+                        className="flex justify-start gap-3 items-center"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            isChecked={field.value?.includes(item.id)}
+                            onChange={(checked) => {
+                              checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== item.id,
+                                    ),
+                                  );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="text-sm font-medium text-neutral-600 !mt-0">
+                          {item.label}
+                        </FormLabel>
+                      </FormItem>
+                    );
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center pb-8 gap-4">
+            <FormField
+              control={control}
+              name="travel"
+              render={({ field }) => (
+                <FormInput
+                  label="Maximum travel distance"
+                  error={errors.travel}
+                  placeholder="$0.00"
+                  containerClass="flex-1"
+                  className=""
+                  details="miles from my zip code"
+                  {...field}
+                />
+              )}
+            />
+          </div>
+          <div className="flex gap-10">
+            <Button
+              disabled={false}
+              type="button"
+              variant="neutral"
+              label="Cancel"
+              className="w-[108px] rounded-xl h-[54px] border-primary-500"
+            />
+            <Button
+              disabled={false}
+              type="submit"
+              label="Save Changes"
+              className="w-[165px] rounded-xl h-[54px]"
+            />
+          </div>
+        </form>
+      </Form>
+    </div>
+  );
+};
+
+export default ProfileRates;
