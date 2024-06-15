@@ -145,13 +145,13 @@ export const settingsDashboardLinks = [
       {
         id: 3,
         label: "Sync Calendar",
-        route: "#",
+        route: routes.dashboard.settings.syncCalendar.path,
       },
 
       {
         id: 4,
         label: "Two-Factor Authentication",
-        route: "#",
+        route: routes.dashboard.settings.security.path,
       },
     ],
   },
@@ -159,16 +159,15 @@ export const settingsDashboardLinks = [
 
 const workOrder = {
   id: 1,
-  title: "Work Orders",
+  title: "",
   children: [
     { id: 1, label: "Work order published" },
     { id: 2, label: "No provider assigned to work order" },
     { id: 3, label: "Work order completed" },
     { id: 4, label: "Work order paid" },
-    { id: 5, label: "Counter offers" },
-    { id: 6, label: "Work order rejected" },
-    { id: 7, label: "Approval of Timesheet" },
-    { id: 8, label: "Rating of provider on work done" },
+    { id: 5, label: "Work order rejected" },
+    { id: 6, label: "Approval of Timesheet" },
+    { id: 7, label: "Rating of provider on work done" },
   ],
 };
 
