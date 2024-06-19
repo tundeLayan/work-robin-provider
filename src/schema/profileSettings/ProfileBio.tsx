@@ -7,7 +7,6 @@ const MAX_UPLOAD_SIZE = 1024 * 1024 * 3; // 3MB
 // const ACCEPTED_FILE_TYPES = ["image/"];
 
 export const profileBioSchema = z.object({
-  // form 3 - Resume
   // TODO: change this to accept pdf, docx or doc
   resume: (typeof window === "undefined" ? z.any() : z.instanceof(File))
     .optional()

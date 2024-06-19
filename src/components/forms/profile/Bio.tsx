@@ -30,7 +30,7 @@ const ProfileBio = () => {
 
   console.log("errors", errors);
 
-  const isResumeUploaded = watch("resume")!;
+  const isResumeUploaded = watch("resume");
 
   const onSubmit = () => {};
 

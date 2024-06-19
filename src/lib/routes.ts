@@ -65,6 +65,21 @@ const routes = {
       rates: {
         path: "/dashboard/profile/rates",
       },
+      workingHours: {
+        path: "/dashboard/profile/working-hours",
+      },
+      certifications: {
+        path: "/dashboard/profile/certifications",
+      },
+      language: {
+        path: "/dashboard/profile/language",
+      },
+      insurance: {
+        path: "/dashboard/profile/insurance",
+        licenses: {
+          path: "/dashboard/profile/insurance/licenses",
+        },
+      },
       becomeService: {
         path: "/dashboard/profile/become-service",
         faq: {

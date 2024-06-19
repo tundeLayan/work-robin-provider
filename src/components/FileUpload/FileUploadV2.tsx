@@ -41,7 +41,7 @@ const FileUploadV2 = ({
       <div className="flex items-center">
         <label
           htmlFor="file-upload"
-          className="bg-grey-100  w-[183px] h-14 flex items-center justify-center cursor-pointer bg-transparent rounded-xl "
+          className="bg-grey-100  w-[183px] h-14 flex items-center justify-center cursor-pointer  rounded-xl "
         >
           <p className="text-base font-bold text-neutral-300 ">{buttonText}</p>
         </label>
