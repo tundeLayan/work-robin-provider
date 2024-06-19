@@ -104,23 +104,23 @@ export const profileDashboardLinks = [
       {
         id: 3,
         label: "Working hours",
-        route: "#",
+        route: routes.dashboard.profile.workingHours.path,
       },
       {
         id: 4,
         label: "Certifications",
-        route: "#",
+        route: routes.dashboard.profile.certifications.path,
       },
 
       {
         id: 5,
         label: "Insurance & Licenses",
-        route: "#",
+        route: routes.dashboard.profile.insurance.path,
       },
       {
         id: 6,
         label: "Languages",
-        route: "#",
+        route: routes.dashboard.profile.language.path,
       },
 
       {

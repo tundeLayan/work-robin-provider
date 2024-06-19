@@ -15,6 +15,7 @@ const buttonVariants = cva(
         primary: "bg-primary-50 text-white",
         neutral: "border border-secondary-100 bg-white",
         secondary: "bg-red-500 text-slate-50 ",
+        outline: "bg-transparent border border-neutral-400 text-slate-50 ",
         tertiary: "bg-white text-primary-50 border-0",
         danger: "hover:bg-slate-100 border-danger-250 border text-danger-200 ",
         success: "text-slate-900 underline-offset-4 hover:underline ",

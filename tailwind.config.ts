@@ -41,6 +41,7 @@ const config = {
           150: "#0F172A",
           200: "#E3EFFC", // NOTE: this was secondary-50 on the figma
           250: "#5CB176", // NOTE: this was secondary-50 on the figma
+          300: "#FC8800",
         },
         neutral: {
           50: "#F0E6E6",
@@ -64,6 +65,7 @@ const config = {
           950: "#E6E8EC",
           1000: "#84818A",
           1050: "#B7C0D3",
+          1100: "#EAEBF0",
         },
         tertiary: {
           50: "#3E3838",
@@ -93,6 +95,7 @@ const config = {
           100: "#F0F2F5",
           500: "#667185",
           800: "#1D2739",
+          900: "#101928",
         },
       },
       keyframes: {
