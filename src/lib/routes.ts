@@ -106,6 +106,22 @@ const routes = {
 
       security: {
         path: "/dashboard/settings/security",
+
+        recoveryCodes: {
+          path: "/dashboard/settings/security/recovery-codes",
+        },
+
+        configure: {
+          path: "/dashboard/settings/security/configure",
+        },
+
+        complete: {
+          path: "/dashboard/settings/security/complete",
+        },
+      },
+
+      syncCalendar: {
+        path: "/dashboard/settings/sync-calendar",
       },
     },
   },
