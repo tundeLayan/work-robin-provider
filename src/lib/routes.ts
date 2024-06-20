@@ -74,6 +74,15 @@ const routes = {
       language: {
         path: "/dashboard/profile/language",
       },
+      screenings: {
+        path: "/dashboard/profile/screenings",
+        backgroundCheck: {
+          path: "/dashboard/profile/screenings/background-check",
+        },
+        drugTest: {
+          path: "/dashboard/profile/screenings/drug-test",
+        },
+      },
       insurance: {
         path: "/dashboard/profile/insurance",
         licenses: {

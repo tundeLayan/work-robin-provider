@@ -126,7 +126,7 @@ export const profileDashboardLinks = [
       {
         id: 7,
         label: "Screenings",
-        route: "#",
+        route: routes.dashboard.profile.screenings.path,
       },
     ],
   },

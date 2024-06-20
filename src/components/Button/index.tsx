@@ -16,7 +16,8 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | "danger"
     | "success"
     | "file"
-    | "outline";
+    | "outline"
+    | "ghost";
   icon?: string;
   iconAfter?: string;
   loading?: boolean;

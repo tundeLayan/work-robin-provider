@@ -43,7 +43,7 @@ const FileUploadV2 = ({
           htmlFor="file-upload"
           className="bg-grey-100  w-[183px] h-14 flex items-center justify-center cursor-pointer  rounded-xl "
         >
-          <p className="text-base font-bold text-neutral-300 ">{buttonText}</p>
+          <p className="text-base font-bold text-grey-600 ">{buttonText}</p>
         </label>
 
         <input
