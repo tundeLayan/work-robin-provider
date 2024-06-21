@@ -26,6 +26,7 @@ import {
 } from "@/schema/profileSettings/licenseSchema";
 import FileUploadV2 from "@/components/FileUpload/FileUploadV2";
 import profile from "@/lib/assets/profile";
+import { stateData } from "@/constants/profileSettings";
 
 interface IProps {
   open: boolean;
@@ -50,13 +51,13 @@ export function AddLicense({ open, setOpen }: IProps) {
   const onSubmit = () => {};
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[501px]">
+      <DialogContent className="sm:max-w-[501px] overflow-y-auto min-h-[515px] max-h-[95vh]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold pb-6 ">
             Add License
           </DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 overflow-y-auto min-h-[515px] max-h-[90vh]">
+        <div className="grid gap-4">
           <Form {...form}>
             <form
               className=" "
@@ -74,7 +75,7 @@ export function AddLicense({ open, setOpen }: IProps) {
                     placeholder="Select One"
                     containerClass="mb-6 "
                     className=""
-                    selectData={TaxTypes}
+                    selectData={stateData}
                     {...field}
                   />
                 )}

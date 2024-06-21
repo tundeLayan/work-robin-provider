@@ -6,6 +6,7 @@ import ProfileTitle from "@/components/shared/ProfileTitle";
 import { Button, Checkbox } from "@/components";
 import routes from "@/lib/routes";
 import { useRouter } from "next/navigation";
+import DotProcess from "@/components/shared/profile/dotProcess";
 
 const Terms = () => {
   const router = useRouter();
@@ -13,13 +14,16 @@ const Terms = () => {
     useState(false);
   return (
     <div className="layout__child">
-      <ProfileTitle title="Become a Service Company" />
+      <div className="flex items-center justify-between">
+        <ProfileTitle title="Become a Service Company" />
+        <DotProcess total={3} step={2} />
+      </div>
       <div className="border-t border-neutral-350">
         <div>
           <h1 className="text-base font-medium pt-9 pb-5 ">
             Terms & Conditions
           </h1>
-          <ul className="pt-3 pb-1 text-neutral-300 font-medium text-sm list-disc list-outside">
+          <ul className="pt-3 pb-1 text-grey-600 font-medium text-sm list-disc list-outside">
             <li>
               Follow Instructions: Ensure successful completion of the screening
               process by adhering to emailed instructions.
@@ -69,6 +73,11 @@ const Terms = () => {
             label="Next"
             className=" rounded-xl w-[91px] h-14"
             type="submit"
+            title={
+              !agreeToTermsAndCondition
+                ? "You have to agree to the terms to continue"
+                : ""
+            }
           />
         </div>
       </div>

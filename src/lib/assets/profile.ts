@@ -9,6 +9,9 @@ import building from "../../../public/media/images/building.svg";
 import paypal from "../../../public/media/images/paypal.svg";
 import deleteIcon from "../../../public/media/images/delete.svg";
 import fileDelete from "../../../public/media/images/file-delete.svg";
+import checkr from "../../../public/media/images/checkr.svg";
+import mastercard from "../../../public/media/images/mastercard.svg";
+import editBtn from "../../../public/media/images/editBtn.svg";
 
 const profile = {
   threeDots,
@@ -22,6 +25,9 @@ const profile = {
   building,
   deleteIcon,
   fileDelete,
+  checkr,
+  mastercard,
+  editBtn,
 };
 
 export default profile;

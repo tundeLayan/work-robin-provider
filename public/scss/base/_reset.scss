@@ -126,3 +126,7 @@ select {
   transition-delay: 0.15s;
 }
 // scrollbar reset ends
+
+button[disabled] {
+  pointer-events: auto !important;
+}

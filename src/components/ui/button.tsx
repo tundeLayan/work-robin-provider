@@ -20,6 +20,7 @@ const buttonVariants = cva(
         danger: "hover:bg-slate-100 border-danger-250 border text-danger-200 ",
         success: "text-slate-900 underline-offset-4 hover:underline ",
         file: "border border-primary-50 bg-white hover:text-primary-900 text-primary-50 ",
+        ghost: " bg-transparent  text-grey-500 ",
       },
       size: {
         default: "h-[56px] px-6 py-[1.3125rem]",

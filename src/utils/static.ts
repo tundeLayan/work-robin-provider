@@ -98,7 +98,7 @@ export const profileDashboardLinks = [
       {
         id: 2,
         label: "Rates & Location",
-        route: "#",
+        route: routes.dashboard.profile.rates.path,
       },
 
       {
@@ -126,7 +126,7 @@ export const profileDashboardLinks = [
       {
         id: 7,
         label: "Screenings",
-        route: "#",
+        route: routes.dashboard.profile.screenings.path,
       },
     ],
   },

@@ -14,11 +14,11 @@ import {
 } from "@/components/ui/dialog";
 import { Form, FormField } from "@/components/ui/form";
 import FormSelect from "@/components/FormSelect";
-import { TaxTypes } from "@/constants";
 import {
   TLanguage,
   languageSchema,
 } from "@/schema/profileSettings/LanguageSchema";
+import { languageData, proficiencyData } from "@/constants/profileSettings";
 
 interface IProps {
   open: boolean;
@@ -63,7 +63,7 @@ export function AddLanguage({ open, setOpen }: IProps) {
                     placeholder="Select One"
                     containerClass="mb-6 "
                     className=""
-                    selectData={TaxTypes}
+                    selectData={languageData}
                     {...field}
                   />
                 )}
@@ -78,7 +78,7 @@ export function AddLanguage({ open, setOpen }: IProps) {
                     placeholder="Select One"
                     containerClass="mb-6"
                     className=""
-                    selectData={TaxTypes}
+                    selectData={proficiencyData}
                     {...field}
                   />
                 )}

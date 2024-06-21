@@ -8,10 +8,13 @@ import { useForm } from "react-hook-form";
 import { Form, FormField } from "@/components/ui/form";
 import { Button, FormInput } from "@/components";
 import { companySchema } from "@/schema/profileSettings/CompanySchema";
+import { useRouter } from "next/navigation";
+import routes from "@/lib/routes";
 
 type TContact = z.infer<typeof companySchema>;
 
 const CompanyInformationForm = () => {
+  const router = useRouter();
   const form = useForm<TContact>({
     resolver: zodResolver(companySchema),
   });
@@ -95,7 +98,10 @@ const CompanyInformationForm = () => {
 
           <div className="pt-8 border-t border-neutral-350 flex items-center gap-6">
             <Button
-              label="Cancel"
+              label="Back"
+              onClick={() => {
+                router.push(routes.dashboard.profile.becomeService.faq.path);
+              }}
               className=" rounded-xl w-[108px] h-14 text-primary-50 border-primary-500"
               variant="neutral"
               type="button"
