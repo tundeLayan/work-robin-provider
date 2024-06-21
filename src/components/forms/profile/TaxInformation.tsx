@@ -15,9 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Button, Checkbox, FormInput, RenderIf } from "@/components";
 import FormSelect from "../../FormSelect";
-import { Tax } from "@/constants";
 import { taxSchema } from "@/schema/profileSettings/TaxInformation";
-import { TaxTypes } from "@/constants/profileSettings";
+import { TaxTypes, countryData } from "@/constants/profileSettings";
 
 type TTax = z.infer<typeof taxSchema>;
 
@@ -39,6 +38,7 @@ const TaxInformationForm = () => {
   console.log(errors);
 
   const selectedType = watch("taxType");
+  const watchElectronic = watch("electronic");
 
   const onSubmit = () => {};
   return (
@@ -198,7 +198,7 @@ const TaxInformationForm = () => {
                   placeholder="Country"
                   containerClass="mb-4"
                   className="rounded-none"
-                  selectData={Tax}
+                  selectData={countryData}
                   {...field}
                 />
               )}
@@ -274,9 +274,14 @@ const TaxInformationForm = () => {
             />
             <Button
               label="Update Tax Information"
-              // disabled={!!errors.electronic}
+              disabled={!!errors.electronic}
               className=" rounded-xl w-[243px] h-14"
               type="submit"
+              title={
+                !watchElectronic
+                  ? "You have to agree to the terms to continue"
+                  : ""
+              }
             />
           </div>
         </form>

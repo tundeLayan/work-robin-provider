@@ -26,6 +26,7 @@ import {
 } from "@/schema/profileSettings/licenseSchema";
 import FileUploadV2 from "@/components/FileUpload/FileUploadV2";
 import profile from "@/lib/assets/profile";
+import { stateData } from "@/constants/profileSettings";
 
 interface IProps {
   open: boolean;
@@ -74,7 +75,7 @@ export function AddLicense({ open, setOpen }: IProps) {
                     placeholder="Select One"
                     containerClass="mb-6 "
                     className=""
-                    selectData={TaxTypes}
+                    selectData={stateData}
                     {...field}
                   />
                 )}

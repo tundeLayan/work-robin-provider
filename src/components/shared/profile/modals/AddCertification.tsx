@@ -20,11 +20,11 @@ import {
   TCertificate,
   certificationSchema,
 } from "@/schema/profileSettings/CertificationSchema";
-import { TaxTypes } from "@/constants";
 import { FormDatePicker } from "@/components/FormDate";
 import authAssets from "@/lib/assets/Auth";
 import profile from "@/lib/assets/profile";
 import FileUploadV2 from "@/components/FileUpload/FileUploadV2";
+import { industryData, organizationData } from "@/constants/profileSettings";
 
 interface IProps {
   open: boolean;
@@ -73,7 +73,7 @@ export function AddCertification({ open, setOpen }: IProps) {
                     placeholder="Select your industry"
                     containerClass="mb-6 "
                     className=""
-                    selectData={TaxTypes}
+                    selectData={industryData}
                     {...field}
                   />
                 )}
@@ -88,7 +88,7 @@ export function AddCertification({ open, setOpen }: IProps) {
                     placeholder="Select an organization"
                     containerClass="mb-6"
                     className=""
-                    selectData={TaxTypes}
+                    selectData={organizationData}
                     {...field}
                   />
                 )}

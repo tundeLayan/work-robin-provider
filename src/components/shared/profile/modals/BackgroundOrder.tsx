@@ -24,11 +24,11 @@ import {
 } from "@/components/ui/form";
 import FormSelect from "@/components/FormSelect";
 import { Checkbox, FormInput, RenderIf } from "@/components";
-import { Tax } from "@/constants";
 import { backgroundSchemaSchema } from "@/schema/profileSettings/BackgroundSchema";
 import CardPreview from "../CardPreview";
 import Image from "next/image";
 import profile from "@/lib/assets/profile";
+import { montheData, yearData } from "@/constants/profileSettings";
 
 interface IProps {
   open: boolean;
@@ -233,7 +233,7 @@ export function BackgroundOrder({ open, setOpen }: IProps) {
                           placeholder="Month"
                           containerClass="mb-4 flex-1"
                           className="rounded-none h-11"
-                          selectData={Tax}
+                          selectData={montheData}
                           {...field}
                         />
                       )}
@@ -250,7 +250,7 @@ export function BackgroundOrder({ open, setOpen }: IProps) {
                             placeholder="Year"
                             containerClass="mb-4"
                             className="rounded-none h-11"
-                            selectData={Tax}
+                            selectData={yearData}
                             {...field}
                           />
                         </div>
