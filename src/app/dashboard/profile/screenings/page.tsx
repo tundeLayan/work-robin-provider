@@ -24,7 +24,7 @@ const screeningData = [
   //     name: "Check Check",
   //     price: "$40.00",
   //   },
-];
+] as const;
 
 const Screenings = () => {
   return (
