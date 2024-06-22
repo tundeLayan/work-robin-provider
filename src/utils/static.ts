@@ -79,7 +79,7 @@ export const profileDashboardLinks = [
         route: routes.dashboard.profile.paymentDetails.path,
       },
       {
-        id: 6,
+        id: 7,
         label: "Become a Service Company",
         route: routes.dashboard.profile.becomeService.path,
       },
@@ -93,40 +93,40 @@ export const profileDashboardLinks = [
       {
         id: 1,
         label: "Bio & Resume",
-        route: "#",
+        route: routes.dashboard.profile.bio.path,
       },
       {
         id: 2,
         label: "Rates & Location",
-        route: "#",
+        route: routes.dashboard.profile.rates.path,
       },
 
       {
         id: 3,
         label: "Working hours",
-        route: "#",
+        route: routes.dashboard.profile.workingHours.path,
       },
       {
         id: 4,
         label: "Certifications",
-        route: "#",
+        route: routes.dashboard.profile.certifications.path,
       },
 
       {
         id: 5,
         label: "Insurance & Licenses",
-        route: "#",
+        route: routes.dashboard.profile.insurance.path,
       },
       {
         id: 6,
         label: "Languages",
-        route: "#",
+        route: routes.dashboard.profile.language.path,
       },
 
       {
         id: 7,
         label: "Screenings",
-        route: "#",
+        route: routes.dashboard.profile.screenings.path,
       },
     ],
   },
@@ -150,13 +150,13 @@ export const settingsDashboardLinks = [
       {
         id: 3,
         label: "Sync Calendar",
-        route: "#",
+        route: routes.dashboard.settings.syncCalendar.path,
       },
 
       {
         id: 4,
         label: "Two-Factor Authentication",
-        route: "#",
+        route: routes.dashboard.settings.security.path,
       },
     ],
   },
@@ -164,16 +164,15 @@ export const settingsDashboardLinks = [
 
 const workOrder = {
   id: 1,
-  title: "Work Orders",
+  title: "",
   children: [
     { id: 1, label: "Work order published" },
     { id: 2, label: "No provider assigned to work order" },
     { id: 3, label: "Work order completed" },
     { id: 4, label: "Work order paid" },
-    { id: 5, label: "Counter offers" },
-    { id: 6, label: "Work order rejected" },
-    { id: 7, label: "Approval of Timesheet" },
-    { id: 8, label: "Rating of provider on work done" },
+    { id: 5, label: "Work order rejected" },
+    { id: 6, label: "Approval of Timesheet" },
+    { id: 7, label: "Rating of provider on work done" },
   ],
 };
 

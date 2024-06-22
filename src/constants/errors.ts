@@ -1,5 +1,6 @@
 export const ErrorMessages = {
   required: (value: string) => `${value} is required`,
+  selectOne: (value: string) => `You have to select at least one ${value}`,
   invalidEmail: `Invalid Email Address`,
   invalidURL: `Invalid URL`,
   passwordMismatch: `Passwords do not match`,

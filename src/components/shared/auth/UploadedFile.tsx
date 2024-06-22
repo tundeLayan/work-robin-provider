@@ -6,6 +6,7 @@ import { bytesToKB } from "@/lib/utils";
 interface IUploadedFileProps {
   isResumeUploaded?: File;
   onDeleteFile?: () => void;
+  deleteIcon?: string;
 }
 
 const UploadedFile = (props: IUploadedFileProps) => {
@@ -14,6 +15,7 @@ const UploadedFile = (props: IUploadedFileProps) => {
     onDeleteFile = () => {
       ("");
     },
+    deleteIcon,
   } = props;
   return (
     <div className="border-grey-100 flex justify-between py-6 px-[42px] bg-primary-600">
@@ -33,7 +35,7 @@ const UploadedFile = (props: IUploadedFileProps) => {
         </span>
       </div>
       <Image
-        src={authAssets.CloseIcon}
+        src={deleteIcon || authAssets.CloseIcon}
         alt="icon"
         role="button"
         onClick={onDeleteFile}

@@ -53,7 +53,7 @@ const PaymentDetails = () => {
             <div className="flex items-start gap-3 ">
               <Label htmlFor="enable-sendrobin" className="max-w-[415px]">
                 <h3 className="font-bold text-base">Enable SendRobin</h3>
-                <p className="text-xs pt-3 text-neutral-300 leading-5">
+                <p className="text-xs pt-3 text-grey-600 leading-5">
                   SendRobin is a fast payment platform used by WorkRobin. You
                   will pay a 3% fee to take out money with this service. This
                   fee pays for the transaction and keeps the service running
