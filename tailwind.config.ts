@@ -34,6 +34,8 @@ const config = {
           400: "#F56630",
           500: "#CCCCF5",
           600: "#F8F8FD",
+          650: "#2E2C34",
+          700: "#515B6F",
         },
         secondary: {
           50: "#25324B",
@@ -41,6 +43,11 @@ const config = {
           150: "#0F172A",
           200: "#E3EFFC", // NOTE: this was secondary-50 on the figma
           250: "#5CB176", // NOTE: this was secondary-50 on the figma
+          300: "#FC8800",
+        },
+        warning: {
+          50: "#FEF6E7",
+          500: "#DD900D",
         },
         neutral: {
           50: "#F0E6E6",
@@ -48,7 +55,6 @@ const config = {
           150: "#667185",
           200: "#E5E1E6",
           250: "#94A3B8",
-          300: "#475367",
           350: "#D6DDEB",
           400: "#E2E8F0",
           450: "#FAFAFA",
@@ -64,6 +70,7 @@ const config = {
           950: "#E6E8EC",
           1000: "#84818A",
           1050: "#B7C0D3",
+          1100: "#EAEBF0",
         },
         tertiary: {
           50: "#3E3838",
@@ -92,7 +99,9 @@ const config = {
         grey: {
           100: "#F0F2F5",
           500: "#667185",
+          600: "#475367",
           800: "#1D2739",
+          900: "#101928",
         },
       },
       keyframes: {

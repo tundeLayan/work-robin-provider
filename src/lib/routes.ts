@@ -59,6 +59,36 @@ const routes = {
       paymentDetails: {
         path: "/dashboard/profile/payment-details",
       },
+      bio: {
+        path: "/dashboard/profile/bio",
+      },
+      rates: {
+        path: "/dashboard/profile/rates",
+      },
+      workingHours: {
+        path: "/dashboard/profile/working-hours",
+      },
+      certifications: {
+        path: "/dashboard/profile/certifications",
+      },
+      language: {
+        path: "/dashboard/profile/language",
+      },
+      screenings: {
+        path: "/dashboard/profile/screenings",
+        backgroundCheck: {
+          path: "/dashboard/profile/screenings/background-check",
+        },
+        drugTest: {
+          path: "/dashboard/profile/screenings/drug-test",
+        },
+      },
+      insurance: {
+        path: "/dashboard/profile/insurance",
+        licenses: {
+          path: "/dashboard/profile/insurance/licenses",
+        },
+      },
       becomeService: {
         path: "/dashboard/profile/become-service",
         faq: {
@@ -85,6 +115,22 @@ const routes = {
 
       security: {
         path: "/dashboard/settings/security",
+
+        recoveryCodes: {
+          path: "/dashboard/settings/security/recovery-codes",
+        },
+
+        configure: {
+          path: "/dashboard/settings/security/configure",
+        },
+
+        complete: {
+          path: "/dashboard/settings/security/complete",
+        },
+      },
+
+      syncCalendar: {
+        path: "/dashboard/settings/sync-calendar",
       },
     },
   },

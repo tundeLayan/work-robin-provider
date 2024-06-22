@@ -54,9 +54,6 @@ export function maskString(
   start?: number,
   end?: number,
 ): string {
-  // console.log(input);
-  // console.log(start);
-  // console.log(end);
   if (!input || start === undefined || end === undefined) return "";
   const length = input.length;
   if (start < 0 || end >= length || start > end) {
@@ -66,3 +63,9 @@ export function maskString(
   const maskedPart = "*".repeat(end - start + 1);
   return input.slice(0, start) + maskedPart + input.slice(end + 1);
 }
+
+export const capitalizeFirstLetter = (word: string): string => {
+  if (!word) return "";
+  const wordTrim = word.trim();
+  return wordTrim.charAt(0).toUpperCase() + wordTrim.slice(1);
+};

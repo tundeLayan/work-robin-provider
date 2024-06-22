@@ -15,7 +15,9 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | "tertiary"
     | "danger"
     | "success"
-    | "file";
+    | "file"
+    | "outline"
+    | "ghost";
   icon?: string;
   iconAfter?: string;
   loading?: boolean;
@@ -30,6 +32,7 @@ const Button = (props: IButton) => {
     iconAfter,
     loading,
     className,
+
     disabled,
     type = "submit",
     ...rest

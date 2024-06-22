@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 
 import { X } from "lucide-react";
+import cx from "classnames";
 
 import ProfileTitle from "@/components/shared/ProfileTitle";
 import Command from "@/components/Command";
@@ -95,7 +96,23 @@ const Resources = () => {
         {data.map((group, i) => (
           <div key={i} className="pb-4">
             <h3 className="font-medium text-sm pb-1">{group.name}</h3>
-            <div className="border rounded-lg border-primary-50 px-5 py-4">
+            <div
+              className={cx(
+                "border rounded-lg border-primary-50 px-5",
+                {
+                  "py-4":
+                    resources[
+                      group.name.toLowerCase() as keyof typeof resources
+                    ].length > 0,
+                },
+                {
+                  "py-1":
+                    resources[
+                      group.name.toLowerCase() as keyof typeof resources
+                    ].length === 0,
+                },
+              )}
+            >
               <div className="flex flex-wrap gap-2">
                 {resources[
                   group.name.toLowerCase() as keyof typeof resources

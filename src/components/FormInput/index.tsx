@@ -13,12 +13,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import authAssets from "@/lib/assets/Auth";
+import { RenderIf } from "../shared";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   containerClass?: string;
   error?: FieldError;
   subText?: string;
+  details?: string;
 }
 
 /**
@@ -34,6 +36,7 @@ const Input = ({
   required,
   type = "text",
   subText,
+  details,
   ...rest
 }: InputProps) => {
   const [isPasswordField, setIsPasswordField] = useState(type === "password");
@@ -59,30 +62,39 @@ const Input = ({
         </FormLabel>
       ) : null}
       <FormControl className="">
-        <div className="relative">
-          <ShadInput
-            className="!mt-0 border border-neutral-400 focus:ring-transparent focus-visible:ring-transparent"
-            id={id}
-            // ref={ref}
-            type={
-              isPasswordField ? "password" : type === "password" ? "text" : type
-            }
-            {...rest}
-          />
-
-          {/* TODO: change to eye Icon */}
-          {type === "password" && (
-            <Image
-              className="absolute w-5 h-5 right-2 top-1/2 -translate-y-1/2 transform cursor-pointer"
-              width={10}
-              height={10}
-              src={authAssets.eye}
-              alt=""
-              onClick={() => {
-                setIsPasswordField((prev) => !prev);
-              }}
+        <div className={cx({ "flex items-center gap-4": details })}>
+          <div className={cx("relative", { "w-[60%]": details })}>
+            <ShadInput
+              className="!mt-0 border border-neutral-400 focus:ring-transparent focus-visible:ring-transparent"
+              id={id}
+              // ref={ref}
+              type={
+                isPasswordField
+                  ? "password"
+                  : type === "password"
+                    ? "text"
+                    : type
+              }
+              {...rest}
             />
-          )}
+
+            {/* TODO: change to eye Icon */}
+            {type === "password" && (
+              <Image
+                className="absolute w-5 h-5 right-2 top-1/2 -translate-y-1/2 transform cursor-pointer"
+                width={10}
+                height={10}
+                src={authAssets.eye}
+                alt=""
+                onClick={() => {
+                  setIsPasswordField((prev) => !prev);
+                }}
+              />
+            )}
+          </div>
+          <RenderIf condition={!!details}>
+            <p>{details}</p>
+          </RenderIf>
         </div>
       </FormControl>
       {!!error && <FormMessage className="text-xs" />}

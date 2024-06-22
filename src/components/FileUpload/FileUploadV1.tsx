@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 import Image from "next/image";
 
 import { useDropzone } from "react-dropzone";
@@ -55,6 +55,7 @@ interface FileUploadProps {
   color?: string;
   setFile?: (file: File | null) => void;
   accept?: any; // should be mime types
+  children?: ReactNode; // Incase you want a custom component for the input
 }
 
 const FileUpload = ({
@@ -68,6 +69,7 @@ const FileUpload = ({
   borderWidth = 2,
   setFile = () => {},
   accept = { "image/*": [] },
+  children,
 }: FileUploadProps) => {
   const {
     getRootProps,
@@ -105,18 +107,22 @@ const FileUpload = ({
     <div className={containerClass}>
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        <>
-          {uploadIcon && (
-            <Image alt="upload icon" src={uploadIcon} className="w-10 h-10" />
-          )}
-          <p
-            dangerouslySetInnerHTML={{ __html: uploadLabel }}
-            className="text-base font-medium leading-[25.6px] font-epilogue"
-          />
-          <p className="text-base font-medium leading-[25.6px] font-epilogue">
-            {uploadRestrictionText}
-          </p>
-        </>
+        {children ? (
+          <>{children}</>
+        ) : (
+          <>
+            {uploadIcon && (
+              <Image alt="upload icon" src={uploadIcon} className="w-10 h-10" />
+            )}
+            <p
+              dangerouslySetInnerHTML={{ __html: uploadLabel }}
+              className="text-base font-medium leading-[25.6px] font-epilogue"
+            />
+            <p className="text-base font-medium leading-[25.6px] font-epilogue">
+              {uploadRestrictionText}
+            </p>
+          </>
+        )}
       </div>
     </div>
   );
