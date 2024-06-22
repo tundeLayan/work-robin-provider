@@ -20,7 +20,7 @@ const Form3 = (props: IProps) => {
   const {
     form: {
       control,
-      formState: { errors },
+      // formState: { errors },
       trigger,
       setValue,
       watch,
@@ -29,7 +29,7 @@ const Form3 = (props: IProps) => {
     prevPage,
   } = props;
 
-  console.log("errors", errors);
+  // console.log("errors", errors);
 
   const isResumeUploaded = watch("resume")!;
 

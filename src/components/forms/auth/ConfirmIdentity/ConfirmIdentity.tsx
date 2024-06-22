@@ -41,7 +41,6 @@ const ConfirmIdentityForm = () => {
   } = form;
 
   const onSubmit = (values: TIdentity) => {
-    console.log("here");
     if (getValues("identity") === "otp") {
       navigate.push(routes.auth.login.confirmIdentity.otp);
     } else if (getValues("identity") === "third-party") {
