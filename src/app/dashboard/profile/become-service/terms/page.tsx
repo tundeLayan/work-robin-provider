@@ -46,7 +46,7 @@ const Terms = () => {
               }}
             >
               <p className="text-grey-800 text-sm">
-                I agree to the Porvider’s Terms & Conditions
+                I agree to the Provider’s Terms & Conditions
               </p>
             </Checkbox>
           </div>
@@ -65,6 +65,7 @@ const Terms = () => {
             label="Next"
             className=" rounded-xl w-[91px] h-14"
             type="submit"
+            title="Agree to terms and conditions"
           />
         </div>
       </div>
