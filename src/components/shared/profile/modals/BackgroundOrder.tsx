@@ -8,13 +8,13 @@ import { z } from "zod";
 
 import Button from "@/components/Button";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import {
   Form,
   FormControl,
@@ -54,7 +54,7 @@ export function BackgroundOrder({ open, setOpen }: IProps) {
     setStep(2);
   };
   return (
-    <Dialog
+    <Sheet
       open={open}
       onOpenChange={() => {
         setOpen((prev) => !prev);
@@ -62,18 +62,18 @@ export function BackgroundOrder({ open, setOpen }: IProps) {
       }}
     >
       <RenderIf condition={step === 1}>
-        <DialogContent className="sm:max-w-[501px] overflow-y-auto min-h-[515px] max-h-[95vh]">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold pb-6 ">
+        <SheetContent className="sm:max-w-[501px] overflow-y-auto ">
+          <SheetHeader>
+            <SheetTitle className="text-2xl font-bold pb-6 ">
               Order for Background Check
-            </DialogTitle>
-            <DialogDescription className="text-base font-medium pb-6 ">
+            </SheetTitle>
+            <SheetDescription className="text-base font-medium pb-6 ">
               Please confirm the following details from your profile are
               accurate. If you need to update any of the pre-populated
               information below, please update your{" "}
               <span className="text-primary-50">user profile</span> information.
-            </DialogDescription>
-          </DialogHeader>
+            </SheetDescription>
+          </SheetHeader>
           <div className="grid gap-4">
             <Form {...form}>
               <form
@@ -359,14 +359,14 @@ export function BackgroundOrder({ open, setOpen }: IProps) {
                 </div>
 
                 <div className="mt-6 flex justify-between">
-                  <DialogClose>
+                  <SheetClose>
                     <Button
                       label="Cancel"
                       className="w-[105px] h-[52px] border-primary-500"
                       type="button"
                       variant="neutral"
                     />
-                  </DialogClose>
+                  </SheetClose>
                   <Button
                     label="Confirm and Order Background Check"
                     className="w-[312px] h-[52px]"
@@ -376,15 +376,15 @@ export function BackgroundOrder({ open, setOpen }: IProps) {
               </form>
             </Form>
           </div>
-        </DialogContent>
+        </SheetContent>
       </RenderIf>
       <RenderIf condition={step === 2}>
-        <DialogContent className="sm:max-w-[501px] overflow-y-auto min-h-[515px] max-h-[95vh]">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold pb-6 ">
+        <SheetContent className="sm:max-w-[501px] overflow-y-auto min-h-[515px] max-h-[95vh]">
+          <SheetHeader>
+            <SheetTitle className="text-2xl font-bold pb-6 ">
               Summary
-            </DialogTitle>
-          </DialogHeader>
+            </SheetTitle>
+          </SheetHeader>
           <div>
             <div className="mb-8">
               <h3 className="text-primary-650 font-bold mb-5 text-base">
@@ -439,14 +439,14 @@ export function BackgroundOrder({ open, setOpen }: IProps) {
               </p>
             </div>
             <div className="mt-6 flex justify-between">
-              <DialogClose>
+              <SheetClose>
                 <Button
                   label="Cancel"
                   className="w-[105px] h-[52px] border-primary-500"
                   type="button"
                   variant="neutral"
                 />
-              </DialogClose>
+              </SheetClose>
               <Button
                 onClick={() => {
                   setStep(3);
@@ -457,14 +457,14 @@ export function BackgroundOrder({ open, setOpen }: IProps) {
               />
             </div>
           </div>
-        </DialogContent>
+        </SheetContent>
       </RenderIf>
       <RenderIf condition={step === 3}>
-        <DialogContent className="sm:max-w-[501px] overflow-y-auto min-h-[515px] max-h-[95vh] ">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold pb-6 ">
+        <SheetContent className="sm:max-w-[501px] overflow-y-auto  ">
+          <SheetHeader>
+            <SheetTitle className="text-2xl font-bold pb-6 ">
               Order for Background Check
-            </DialogTitle>
+            </SheetTitle>
             <div className="flex items-center justify-center flex-col h-full">
               <div className="w-[104px] h-[82px]">
                 <Image src={profile.message} alt="message svg" />
@@ -473,17 +473,17 @@ export function BackgroundOrder({ open, setOpen }: IProps) {
               <p className="font-normal text-base text-neutral-600 text-center pb-6 px-3">
                 You have paid successfully for the order of the background check
               </p>
-              <DialogClose>
+              <SheetClose>
                 <Button
                   label="Return"
                   className="w-[85px] h-[52px]"
                   type="button"
                 />
-              </DialogClose>
+              </SheetClose>
             </div>
-          </DialogHeader>
-        </DialogContent>
+          </SheetHeader>
+        </SheetContent>
       </RenderIf>
-    </Dialog>
+    </Sheet>
   );
 }
