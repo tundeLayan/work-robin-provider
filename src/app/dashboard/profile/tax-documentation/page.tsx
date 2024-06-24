@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, Suspense } from "react";
 
 import { Table } from "@/components";
 import { columns } from "@/components/ColumnDefinitions/TaxDocumentation";
@@ -37,7 +37,9 @@ const TaxDocumentation = () => {
         <Table data={columnDef} columns={columns} loading={false} />
       </div>
       <div>
-        <Pagination meta={defaultMeta} isLoading={false} isError={false} />
+        <Suspense>
+          <Pagination meta={defaultMeta} isLoading={false} isError={false} />
+        </Suspense>
       </div>
     </div>
   );
