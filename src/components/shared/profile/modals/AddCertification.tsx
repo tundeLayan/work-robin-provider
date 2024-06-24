@@ -6,13 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import Button from "@/components/Button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+
 import { Form, FormField } from "@/components/ui/form";
 import FormSelect from "@/components/FormSelect";
 import { FileUploadV1, FormInput, UploadedFile } from "@/components";
@@ -25,6 +19,13 @@ import authAssets from "@/lib/assets/Auth";
 import profile from "@/lib/assets/profile";
 import FileUploadV2 from "@/components/FileUpload/FileUploadV2";
 import { industryData, organizationData } from "@/constants/profileSettings";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 interface IProps {
   open: boolean;
@@ -48,13 +49,13 @@ export function AddCertification({ open, setOpen }: IProps) {
 
   const onSubmit = () => {};
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[501px] overflow-y-auto min-h-[515px] max-h-[95vh]">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold pb-6 ">
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetContent className="sm:max-w-[501px] overflow-y-auto ">
+        <SheetHeader>
+          <SheetTitle className="text-2xl font-bold pb-6 ">
             Add Certification
-          </DialogTitle>
-        </DialogHeader>
+          </SheetTitle>
+        </SheetHeader>
         <div className="grid gap-4">
           <Form {...form}>
             <form
@@ -227,14 +228,14 @@ export function AddCertification({ open, setOpen }: IProps) {
               </div>
 
               <div className="mt-6 flex justify-between">
-                <DialogClose>
+                <SheetClose>
                   <Button
                     label="Cancel"
                     className="w-[105px] h-[52px] border-primary-500"
                     type="button"
                     variant="neutral"
                   />
-                </DialogClose>
+                </SheetClose>
                 <Button
                   label="Add Certification"
                   className="w-[160px] h-[52px]"
@@ -244,7 +245,7 @@ export function AddCertification({ open, setOpen }: IProps) {
             </form>
           </Form>
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }
