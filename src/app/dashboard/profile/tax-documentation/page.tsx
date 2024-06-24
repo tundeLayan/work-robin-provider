@@ -1,11 +1,19 @@
-import React, { ReactNode } from "react";
+"use client";
+
+import React, { ReactNode, Suspense } from "react";
 
 import { Table } from "@/components";
 import { columns } from "@/components/ColumnDefinitions/TaxDocumentation";
 import ProfileTitle from "@/components/shared/ProfileTitle";
 import { TaxDocumentationType } from "@/services/queries/taxDocumentation/types";
+import { defaultMeta } from "@/utils/static";
+import { Pagination } from "@/components/shared/dashboard";
+// import useFilters from "@/hooks/useFilter";
 
 const TaxDocumentation = () => {
+  // const { url } = useFilters("/users/buyers");
+  // console.log(url);
+
   const columnDef: Array<TaxDocumentationType & { action: ReactNode }> = [
     {
       documentType: "W9 NEC Report",
@@ -27,6 +35,11 @@ const TaxDocumentation = () => {
       <ProfileTitle title="Tax Documentation" />
       <div className="pt-8 border-t border-neutral-350">
         <Table data={columnDef} columns={columns} loading={false} />
+      </div>
+      <div>
+        <Suspense>
+          <Pagination meta={defaultMeta} isLoading={false} isError={false} />
+        </Suspense>
       </div>
     </div>
   );

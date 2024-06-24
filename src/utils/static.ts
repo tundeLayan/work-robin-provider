@@ -14,6 +14,14 @@ import {
 } from "@/components/shared/svgs";
 import routes from "@/lib/routes";
 
+export const defaultMeta = {
+  currentPage: 1,
+  itemCount: 1,
+  itemsPerPage: 10,
+  totalItems: 10,
+  totalPages: 10,
+};
+
 export const dashboardLinks = [
   {
     id: 1,

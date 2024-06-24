@@ -69,3 +69,20 @@ export const capitalizeFirstLetter = (word: string): string => {
   const wordTrim = word.trim();
   return wordTrim.charAt(0).toUpperCase() + wordTrim.slice(1);
 };
+
+export function getParseFloat(value: string): number {
+  if (Number.isNaN(Number.parseFloat(value))) {
+    return 0;
+  }
+
+  return parseFloat(value);
+}
+
+export function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(value, max));
+}
+
+export function isObjectEmpty(obj: Record<string, any>) {
+  if (typeof obj !== "object") return;
+  return Object.keys(obj).length === 0;
+}
