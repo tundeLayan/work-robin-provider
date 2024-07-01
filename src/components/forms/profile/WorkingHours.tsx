@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,14 +15,19 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { workingHoursSchema } from "@/schema/profileSettings/WorkingHours";
 import { capitalizeFirstLetter } from "@/utils";
+import {
+  useWorkingHoursPost,
+  useWorkingHoursRead,
+} from "@/services/queries/work-hours";
+import { DaysOptions } from "@/services/queries/work-hours/types";
 
 type TForm = z.infer<typeof workingHoursSchema>;
 
 const radioOptions = [
   {
-    value: "always",
+    value: "always available",
     label: "Always available",
-    id: "always",
+    id: "always available",
     description: "Work anytime, with no limits.",
   },
   {
@@ -52,23 +57,65 @@ const daysOptions = [
 ] as const;
 
 const WorkingHours = () => {
+  const { data } = useWorkingHoursRead();
+  const { mutate, isPending } = useWorkingHoursPost(data?.working_hours_id);
   const form = useForm<TForm>({
     resolver: zodResolver(workingHoursSchema),
     defaultValues: {
-      workingHours: "always",
+      status: "away",
     },
   });
 
   const {
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
     watch,
   } = form;
 
-  const selectedOption = watch("workingHours");
+  const selectedOption = watch("status");
 
-  const onSubmit = () => {};
+  const onSubmit = (values: TForm) => {
+    if (values.status === "custom") {
+      const custom_availability: Array<{
+        day: string;
+        from: string;
+        to: string;
+      }> = [];
+      const ent = Object.entries(values);
+      ent.forEach((en) => {
+        if (
+          en[0] !== "status" &&
+          en[0] !== "pause" &&
+          en[1] &&
+          !en[0].includes("from") &&
+          !en[0].includes("to")
+        ) {
+          custom_availability.push({
+            day: capitalizeFirstLetter(en[0]),
+            from: values[`${en[0]}_from` as keyof typeof values] as string,
+            to: values[`${en[0]}_to` as keyof typeof values] as string,
+          });
+        }
+      });
+      mutate({ data: { status: values.status, custom_availability } });
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      setValue("status", data.status);
+      if (data.status === "custom") {
+        data.custom_availability.forEach((cus) => {
+          const lowerDay = cus.day.toLowerCase() as DaysOptions;
+          setValue(lowerDay, true);
+          setValue(`${lowerDay}_from`, cus.from);
+          setValue(`${lowerDay}_to`, cus.to);
+        });
+      }
+    }
+  }, [data]);
 
   return (
     <div className="max-w-[600px]">
@@ -81,11 +128,11 @@ const WorkingHours = () => {
         >
           <FormField
             control={form.control}
-            name="workingHours"
+            name="status"
             render={({ field }) => (
               <FormRadioGroup
                 options={radioOptions}
-                defaultValue={field.value}
+                value={field.value}
                 onChange={field.onChange}
                 className=""
                 itemClassName="border-0 py-0 pb-6"
@@ -98,7 +145,7 @@ const WorkingHours = () => {
                 <div key={i} className="flex items-center gap-4 pb-4">
                   <FormField
                     control={form.control}
-                    name={`${day}_check`}
+                    name={day}
                     render={({ field }) => (
                       <FormItem
                         className={cx(
@@ -195,6 +242,7 @@ const WorkingHours = () => {
             />
             <Button
               disabled={false}
+              loading={isPending}
               type="submit"
               label="Save Changes"
               className="w-[165px] rounded-xl h-[54px]"

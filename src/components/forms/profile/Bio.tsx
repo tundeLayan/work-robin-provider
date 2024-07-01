@@ -1,38 +1,57 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button, FileUploadV1, FormTextarea, UploadedFile } from "@/components";
 import authAssets from "@/lib/assets/Auth";
 import { Form, FormField } from "@/components/ui/form";
-import { profileBioSchema } from "@/schema/profileSettings/ProfileBio";
+import {
+  TProfileBio,
+  profileBioSchema,
+} from "@/schema/profileSettings/ProfileBio";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@/components/ui/label";
 import profile from "@/lib/assets/profile";
 import FileUploadV2 from "@/components/FileUpload/FileUploadV2";
-
-type TForm = z.infer<typeof profileBioSchema>;
+import { useProfileRead } from "@/services/queries/profile";
+import { useBioPost } from "@/services/queries/bio";
 
 const ProfileBio = () => {
-  const form = useForm<TForm>({
+  const { mutate, isPending } = useBioPost();
+  const { data } = useProfileRead();
+  const form = useForm<TProfileBio>({
     resolver: zodResolver(profileBioSchema),
+    defaultValues: {},
   });
 
   const {
     handleSubmit,
     control,
     watch,
-
     setValue,
     formState: { errors },
   } = form;
 
   console.log("errors", errors);
 
-  const isResumeUploaded = watch("resume");
+  const isResumeUploaded = watch("resume_url");
 
-  const onSubmit = () => {};
+  const onSubmit = (values: TProfileBio) => {
+    mutate({
+      data: {
+        profile: {
+          bio: values.bio,
+          resume_url: "",
+        },
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (data) {
+      setValue("bio", data.bio);
+    }
+  }, [data]);
 
   return (
     <div className="max-w-[560px]">
@@ -66,13 +85,13 @@ const ProfileBio = () => {
                     deleteIcon={profile.fileDelete}
                     {...{ isResumeUploaded }}
                     onDeleteFile={() => {
-                      setValue("resume", null);
+                      setValue("resume_url", null);
                     }}
                   />
                   <div className="mt-4">
                     <FormField
                       control={control}
-                      name="resume"
+                      name="resume_url"
                       render={({ field }) => (
                         <FileUploadV2
                           setFile={(e) => {
@@ -80,7 +99,7 @@ const ProfileBio = () => {
                             field.onChange(e);
                           }}
                           buttonText="Upload your resume"
-                          error={errors?.resume}
+                          error={errors?.resume_url}
                           accept={[
                             "application/pdf",
                             "application/msword",
@@ -95,7 +114,7 @@ const ProfileBio = () => {
                 <>
                   <FormField
                     control={control}
-                    name="resume"
+                    name="resume_url"
                     render={({ field }) => (
                       <FileUploadV1
                         containerClass="mb-3"
@@ -126,6 +145,7 @@ const ProfileBio = () => {
               className="w-[108px] rounded-xl h-[54px]"
             />
             <Button
+              loading={isPending}
               disabled={false}
               type="submit"
               label="Save Changes"

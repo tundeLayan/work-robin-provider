@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button, Checkbox, FormInput } from "@/components";
 import {
@@ -12,44 +11,84 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { profileRatesSchema } from "@/schema/profileSettings/profileRates";
-
-type TForm = z.infer<typeof profileRatesSchema>;
+import {
+  TProfileRatesSchema,
+  profileRatesSchema,
+} from "@/schema/profileSettings/profileRates";
+import { useRatesPost, useRatesRead } from "@/services/queries/rates";
 
 const locationCheck = [
   {
-    id: "Commercial",
+    id: "commercial",
     label: "Commercial",
   },
   {
-    id: "Government",
+    id: "government",
     label: "Government",
   },
   {
-    id: "Residential",
+    id: "residential",
     label: "Residential",
   },
   {
-    id: "Education",
+    id: "education",
     label: "Education",
   },
 ];
 
 const ProfileRates = () => {
-  const form = useForm<TForm>({
+  const { data } = useRatesRead();
+  const { mutate, isPending } = useRatesPost(data?.rates_and_location_id);
+  const form = useForm<TProfileRatesSchema>({
     resolver: zodResolver(profileRatesSchema),
     defaultValues: {
       location: [],
+      max_travel_distance: 0,
+      onsite_hourly_rate: 0,
+      virtual_hourly_rate: 0,
     },
   });
 
   const {
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = form;
 
-  const onSubmit = () => {};
+  const onSubmit = (values: TProfileRatesSchema) => {
+    console.log(values);
+    const sendValues = {
+      max_travel_distance: values.max_travel_distance,
+      onsite_hourly_rate: values.onsite_hourly_rate,
+      virtual_hourly_rate: values.virtual_hourly_rate,
+      location: {
+        commercial: true,
+        residential: false,
+        government: true,
+        education: false,
+      },
+    };
+    values.location.forEach((val) => {
+      sendValues.location[val as keyof typeof sendValues.location] = true;
+    });
+    mutate({ data: sendValues });
+  };
+
+  useEffect(() => {
+    if (data) {
+      setValue("onsite_hourly_rate", data.onsite_hourly_rate);
+      setValue("virtual_hourly_rate", data.virtual_hourly_rate);
+      setValue("max_travel_distance", data.max_travel_distance);
+      const entries = Object.entries(data.location);
+      const final: string[] = [];
+
+      entries.forEach((val) => {
+        if (val[1]) final.push(val[0]);
+      });
+      setValue("location", final);
+    }
+  }, [data]);
 
   return (
     <div className="max-w-[600px]">
@@ -63,25 +102,27 @@ const ProfileRates = () => {
           <div className="flex gap-4">
             <FormField
               control={control}
-              name="onsite"
-              render={({ field }) => (
-                <FormInput
-                  label="Onsite hourly rate"
-                  error={errors.onsite}
-                  placeholder="$0.00"
-                  containerClass="flex-1"
-                  className=""
-                  {...field}
-                />
-              )}
+              name="onsite_hourly_rate"
+              render={({ field }) => {
+                return (
+                  <FormInput
+                    label="Onsite hourly rate"
+                    error={errors.onsite_hourly_rate}
+                    placeholder="$0.00"
+                    containerClass="flex-1"
+                    className=""
+                    {...field}
+                  />
+                );
+              }}
             />
             <FormField
               control={control}
-              name="virtual"
+              name="virtual_hourly_rate"
               render={({ field }) => (
                 <FormInput
                   label="Virtual hourly rate"
-                  error={errors.virtual}
+                  error={errors.virtual_hourly_rate}
                   placeholder="$0.00"
                   containerClass="flex-1"
                   className=""
@@ -130,11 +171,11 @@ const ProfileRates = () => {
           <div className="flex items-center pb-8 gap-4">
             <FormField
               control={control}
-              name="travel"
+              name="max_travel_distance"
               render={({ field }) => (
                 <FormInput
                   label="Maximum travel distance"
-                  error={errors.travel}
+                  error={errors.max_travel_distance}
                   placeholder="$0.00"
                   containerClass="flex-1"
                   className=""
@@ -154,6 +195,7 @@ const ProfileRates = () => {
             />
             <Button
               disabled={false}
+              loading={isPending}
               type="submit"
               label="Save Changes"
               className="w-[165px] rounded-xl h-[54px]"

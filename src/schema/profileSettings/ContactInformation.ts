@@ -3,10 +3,10 @@ import { z } from "zod";
 import { ErrorMessages } from "@/constants/errors";
 
 export const contactSchema = z.object({
-  firstName: z.string({
+  first_name: z.string({
     required_error: ErrorMessages.required("First Name"),
   }),
-  lastName: z.string({
+  last_name: z.string({
     required_error: ErrorMessages.required("Last Name"),
   }),
   ssn: z.string({
