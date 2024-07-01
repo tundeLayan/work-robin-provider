@@ -20,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import TableLoader from "../loaders/table-loader";
 
 interface DataTableProps<TData extends object> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -53,12 +54,12 @@ const DataTable = <T extends object>({
   });
 
   // TODO: Add loader
-  // if (loading)
-  //   return (
-  //     <>
-  //       <TableSkeleton />
-  //     </>
-  //   );
+  if (loading)
+    return (
+      <>
+        <TableLoader />
+      </>
+    );
 
   // TODO: Border for the table
   return (

@@ -54,3 +54,20 @@ table th:last-child {
   }
 }
 // react multiselect
+
+.custom-time-input {
+  border: 2px solid #4caf50; /* Green border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px; /* Padding */
+  font-size: 16px; /* Font size */
+  color: #333; /* Text color */
+  background-color: #f9f9f9; /* Background color */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+.custom-time-input:focus {
+  border-color: #66bb6a; /* Darker green border on focus */
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 10px rgba(102, 187, 106, 0.5); /* Shadow effect on focus */
+}

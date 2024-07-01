@@ -22,7 +22,7 @@ export const stateData = [
 
 export const languageData = [
   { value: "english", label: "English" },
-  { value: "yoruba", label: "Yoruba" },
+  { value: "spanish", label: "Spanish" },
   { value: "french", label: "French" },
 ];
 

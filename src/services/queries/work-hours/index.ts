@@ -1,7 +1,10 @@
-import api from "../../api";
 import { useMutation, useQuery } from "@tanstack/react-query";
+
+import api from "../../api";
 import { WorkingHoursRequest, WorkingHoursResponse } from "./types";
 import keys from "./keys";
+import { errorToast, handleErrors, successToast } from "@/services/helper";
+import { GenericResponse } from "@/services/generalTypes";
 
 const BASE_URL = "/users/providers/working-hours";
 
@@ -22,8 +25,12 @@ export const useWorkingHoursPost = (workId: string = "") => {
     mutationFn: async (body: WorkingHoursRequest): Promise<any> => {
       return await api.patch({ url: `${BASE_URL}/${workId}`, body });
     },
-    onSuccess: () => {},
-    onError: () => {},
+    onSuccess: (data: GenericResponse) => {
+      successToast(data.message);
+    },
+    onError: (data: GenericResponse) => {
+      errorToast(handleErrors(data));
+    },
   });
   return {
     mutate,

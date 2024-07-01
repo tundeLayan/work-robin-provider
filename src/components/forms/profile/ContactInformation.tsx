@@ -20,9 +20,9 @@ import {
 import { Button, FormInput } from "@/components";
 import FormSelect from "../../FormSelect";
 import { contactSchema } from "@/schema/profileSettings/ContactInformation";
-import { Tax } from "@/constants";
 import { Switch } from "@/components/ui/switch";
 import { useProfilePost, useProfileRead } from "@/services/queries/profile";
+import { industryData } from "@/constants/profileSettings";
 
 type TContact = z.infer<typeof contactSchema>;
 
@@ -30,7 +30,6 @@ const ContactInformationForm = () => {
   const { data } = useProfileRead();
   const { mutate, isPending } = useProfilePost();
   const countryOptions = useMemo(() => countryList().getData(), []);
-  console.log(countryOptions);
 
   const [_, setFile] = useState<File | null>(null);
 
@@ -195,7 +194,7 @@ const ContactInformationForm = () => {
                   placeholder="Select your industry"
                   containerClass="mb-4"
                   className="rounded-none"
-                  selectData={Tax}
+                  selectData={industryData}
                   {...field}
                 />
               )}
@@ -208,10 +207,10 @@ const ContactInformationForm = () => {
                 <FormSelect
                   label="Country"
                   error={errors.country}
-                  placeholder="Select your industry"
+                  placeholder="Select country"
                   containerClass="mb-4"
                   className="rounded-none"
-                  selectData={Tax}
+                  selectData={countryOptions}
                   {...field}
                 />
               )}

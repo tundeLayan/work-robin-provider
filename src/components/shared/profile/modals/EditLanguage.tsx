@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,24 +19,24 @@ import {
   languageSchema,
 } from "@/schema/profileSettings/LanguageSchema";
 import { languageData, proficiencyData } from "@/constants/profileSettings";
-import { useLanguagePatch, useLanguagePost } from "@/services/queries/language";
-import { LanguageType } from "@/services/queries/language/types";
+import {
+  useLanguagePost,
+  useLanguageReadOne,
+} from "@/services/queries/language";
 
 interface IProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  oldData?: LanguageType;
+  id: string;
 }
 
-export function AddLanguage({ open, setOpen, oldData }: IProps) {
+export function EditLanguage({ open, setOpen, id }: IProps) {
+  const { data } = useLanguageReadOne(id);
+  console.log(data);
   const close = () => {
     setOpen(false);
   };
   const { mutate, isPending } = useLanguagePost(close);
-  const { updateIsPending, updateMutate } = useLanguagePatch(
-    close,
-    oldData?.language_id,
-  );
   const form = useForm<TLanguage>({
     resolver: zodResolver(languageSchema),
   });
@@ -44,23 +44,12 @@ export function AddLanguage({ open, setOpen, oldData }: IProps) {
   const {
     handleSubmit,
     control,
-    setValue,
     formState: { errors },
   } = form;
 
   const onSubmit = (values: TLanguage) => {
-    if (oldData) {
-      updateMutate({ data: values });
-    } else {
-      mutate({ data: values });
-    }
+    mutate({ data: values });
   };
-  useEffect(() => {
-    if (oldData) {
-      setValue("language", oldData.language);
-      setValue("proficiency", oldData.proficiency);
-    }
-  }, [oldData]);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[501px] h-[360px]">
@@ -118,8 +107,8 @@ export function AddLanguage({ open, setOpen, oldData }: IProps) {
                   />
                 </DialogClose>
                 <Button
-                  loading={isPending || updateIsPending}
-                  label={oldData ? "Edit Language" : "Add Language"}
+                  loading={isPending}
+                  label="Add Language"
                   className="w-[160px] h-[52px]"
                   type="submit"
                 />

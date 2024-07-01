@@ -6,6 +6,7 @@ import NextTopLoader from "nextjs-toploader";
 import "./globals.scss";
 import "../../public/scss/main.scss";
 import ReactQueryProvider from "@/provider/react-query-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
       <ReactQueryProvider>
         <body className={inter.className}>
           <NextTopLoader color="#920AF2" />
+          <Toaster />
           {children}
         </body>
       </ReactQueryProvider>
