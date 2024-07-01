@@ -17,7 +17,7 @@ import { RenderIf } from "../shared";
 // NOTE: Must be used within a form i.e. React hook form and shadcn form
 interface IProps {
   options: { value: string; label: string; id: string; description?: string }[];
-  defaultValue: string;
+  value: string;
   onChange: (val: string) => void;
   className?: string;
   itemClassName?: string;
@@ -26,7 +26,7 @@ interface IProps {
 const FormRadioGroup = (props: IProps) => {
   const {
     options,
-    defaultValue,
+    value,
     onChange,
     className = "",
     itemClassName = "",
@@ -36,7 +36,7 @@ const FormRadioGroup = (props: IProps) => {
       <FormControl>
         <ShadCnRadioGroup
           onValueChange={onChange}
-          defaultValue={defaultValue}
+          value={value}
           className={className}
         >
           {options.map(({ value, label, id, description }) => (

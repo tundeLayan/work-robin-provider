@@ -89,7 +89,7 @@ export function AddPayment({ children, set }: IProps) {
                       render={({ field }) => (
                         <FormRadioGroup
                           options={radioOptions}
-                          defaultValue={field.value}
+                          value={field.value}
                           onChange={field.onChange}
                           className="flex gap-4"
                           itemClassName="border-0 py-0 pb-6"
