@@ -1,6 +1,6 @@
 import { getQueryKeys } from "../../helper";
 
-const namespace = "bio";
+const namespace = "resources";
 
 export default {
   ...getQueryKeys(namespace),

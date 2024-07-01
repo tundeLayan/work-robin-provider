@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type z } from "zod";
 import { useForm } from "react-hook-form";
-import { CountryCode, isPossiblePhoneNumber } from "libphonenumber-js";
+import { CountryCode, isValidNumber } from "libphonenumber-js";
 import countryList from "react-select-country-list";
 
 import { ImgUpload } from "@/components/shared/profile";
@@ -22,11 +22,15 @@ import FormSelect from "../../FormSelect";
 import { contactSchema } from "@/schema/profileSettings/ContactInformation";
 import { Tax } from "@/constants";
 import { Switch } from "@/components/ui/switch";
+import { useProfilePost, useProfileRead } from "@/services/queries/profile";
 
 type TContact = z.infer<typeof contactSchema>;
 
 const ContactInformationForm = () => {
+  const { data } = useProfileRead();
+  const { mutate, isPending } = useProfilePost();
   const countryOptions = useMemo(() => countryList().getData(), []);
+  console.log(countryOptions);
 
   const [_, setFile] = useState<File | null>(null);
 
@@ -37,19 +41,44 @@ const ContactInformationForm = () => {
   const {
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
     setError,
   } = form;
 
   const onSubmit = (values: TContact) => {
     const code = values.countryCode as CountryCode;
-    const isValidNumber = isPossiblePhoneNumber(values.workNumber, code);
-    if (!isValidNumber)
+
+    const valid = isValidNumber(values.workNumber, code);
+    if (!valid) {
       setError("workNumber", {
         type: "validate",
         message: "Please input a valid phone number",
       });
+      return;
+    }
+    const sendValues = {
+      profile_photo_url: "",
+      first_name: values.first_name,
+      last_name: values.last_name,
+      country_code: values.countryCode,
+      phone_number: values.workNumber,
+      timezone: values.timezone,
+      country: values.country,
+      contact_visibility: values.privacy,
+    };
+    mutate({ data: { profile: sendValues } });
   };
+
+  useEffect(() => {
+    if (data) {
+      setValue("first_name", data.first_name);
+      setValue("last_name", data.last_name);
+      setValue("email", data.email);
+      setValue("privacy", data.contact_visibility);
+    }
+  }, [data]);
+
   return (
     <div className="w-full h-full">
       <div className="pt-6 pb-8 pr-6 ">
@@ -66,11 +95,11 @@ const ContactInformationForm = () => {
           <div className="max-w-[600px]">
             <FormField
               control={control}
-              name="firstName"
+              name="first_name"
               render={({ field }) => (
                 <FormInput
                   label="First Name"
-                  error={errors.firstName}
+                  error={errors.first_name}
                   placeholder="First Name"
                   containerClass="mb-4 flex-1"
                   className="rounded-none"
@@ -80,11 +109,11 @@ const ContactInformationForm = () => {
             />
             <FormField
               control={control}
-              name="lastName"
+              name="last_name"
               render={({ field }) => (
                 <FormInput
                   label="Last Name"
-                  error={errors.lastName}
+                  error={errors.last_name}
                   placeholder="Last Name"
                   containerClass="mb-4 flex-1"
                   className="rounded-none"
@@ -113,6 +142,7 @@ const ContactInformationForm = () => {
               name="email"
               render={({ field }) => (
                 <FormInput
+                  disabled
                   label="Email Address"
                   error={errors.email}
                   placeholder="john.doe@gmail.com"
@@ -147,7 +177,7 @@ const ContactInformationForm = () => {
                   <FormInput
                     label="Work Number"
                     error={errors.workNumber}
-                    placeholder="22222333"
+                    placeholder="903338484"
                     containerClass="mb-4 w-[65%]"
                     className="rounded-none"
                     {...field}
@@ -278,6 +308,7 @@ const ContactInformationForm = () => {
               type="button"
             />
             <Button
+              loading={isPending}
               label="Update Contact Information"
               className=" rounded-xl w-[243px] h-14"
               type="submit"

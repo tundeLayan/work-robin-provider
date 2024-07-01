@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 
@@ -13,22 +13,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@/components/ui/label";
 import profile from "@/lib/assets/profile";
 import FileUploadV2 from "@/components/FileUpload/FileUploadV2";
-import { usePost } from "@/services/queries/bio";
+import { useProfileRead } from "@/services/queries/profile";
+import { useBioPost } from "@/services/queries/bio";
 
 const ProfileBio = () => {
-  const { mutate, isPending } = usePost();
+  const { mutate, isPending } = useBioPost();
+  const { data } = useProfileRead();
   const form = useForm<TProfileBio>({
     resolver: zodResolver(profileBioSchema),
-    defaultValues: {
-      // resume_url: "",
-    },
+    defaultValues: {},
   });
 
   const {
     handleSubmit,
     control,
     watch,
-
     setValue,
     formState: { errors },
   } = form;
@@ -38,8 +37,21 @@ const ProfileBio = () => {
   const isResumeUploaded = watch("resume_url");
 
   const onSubmit = (values: TProfileBio) => {
-    mutate(values);
+    mutate({
+      data: {
+        profile: {
+          bio: values.bio,
+          resume_url: "",
+        },
+      },
+    });
   };
+
+  useEffect(() => {
+    if (data) {
+      setValue("bio", data.bio);
+    }
+  }, [data]);
 
   return (
     <div className="max-w-[560px]">

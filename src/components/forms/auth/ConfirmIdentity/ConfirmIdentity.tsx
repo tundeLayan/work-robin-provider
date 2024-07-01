@@ -69,7 +69,7 @@ const ConfirmIdentityForm = () => {
               render={({ field }) => (
                 <FormRadioGroup
                   options={radioOptions}
-                  defaultValue={field.value}
+                  value={field.value}
                   onChange={field.onChange}
                   className=""
                 />

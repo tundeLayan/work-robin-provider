@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { X } from "lucide-react";
 import cx from "classnames";
@@ -8,10 +8,13 @@ import cx from "classnames";
 import ProfileTitle from "@/components/shared/ProfileTitle";
 import Command from "@/components/Command";
 import { Button } from "@/components";
+import { useProfileRead } from "@/services/queries/profile";
+import { useResourcePost } from "@/services/queries/resources";
 
 const data = [
   {
     name: "Skills",
+    id: "skillset",
     options: [
       {
         value: "plumbing",
@@ -29,6 +32,7 @@ const data = [
   },
   {
     name: "Equipments",
+    id: "equipment",
     options: [
       {
         value: "plumbing",
@@ -46,6 +50,7 @@ const data = [
   },
   {
     name: "Tools",
+    id: "tools",
     options: [
       {
         value: "plumbing",
@@ -64,15 +69,17 @@ const data = [
 ];
 
 interface ResourceState {
-  skills: string[];
-  equipments: string[];
+  skillset: string[];
+  equipment: string[];
   tools: string[];
 }
 
 const Resources = () => {
+  const { data: resData } = useProfileRead();
+  const { mutate, isPending } = useResourcePost();
   const [resources, setResources] = useState<ResourceState>({
-    skills: [],
-    equipments: [],
+    skillset: [],
+    equipment: [],
     tools: [],
   });
   const removeResource = (name: string, resource: string) => {
@@ -89,6 +96,26 @@ const Resources = () => {
       }));
     }
   };
+
+  useEffect(() => {
+    if (resData) {
+      setResources({
+        skillset: resData?.skillset || [],
+        equipment: resData?.equipment || [],
+        tools: resData?.tools || [],
+      });
+    }
+  }, [resData]);
+
+  const handleSUbmit = () => {
+    const sendValue = {
+      skillset: resources.skillset,
+      equipment: resources.equipment,
+      tools: resources.tools,
+    };
+    mutate({ data: { profile: sendValue } });
+  };
+
   return (
     <div className="layout__child">
       <ProfileTitle title="Resources" />
@@ -101,42 +128,38 @@ const Resources = () => {
                 "border rounded-lg border-primary-50 px-5",
                 {
                   "py-4":
-                    resources[
-                      group.name.toLowerCase() as keyof typeof resources
-                    ].length > 0,
+                    resources[group.id as keyof typeof resources].length > 0,
                 },
                 {
                   "py-1":
-                    resources[
-                      group.name.toLowerCase() as keyof typeof resources
-                    ].length === 0,
+                    resources[group.id as keyof typeof resources].length === 0,
                 },
               )}
             >
               <div className="flex flex-wrap gap-2">
-                {resources[
-                  group.name.toLowerCase() as keyof typeof resources
-                ].map((resource, i) => (
-                  <div
-                    key={i}
-                    className="bg-primary-600 px-3 py-1 flex items-center gap-2"
-                  >
-                    <p className="text-sm text-primary-50">{resource}</p>
-                    <button
-                      onClick={() => {
-                        removeResource(group.name.toLowerCase(), resource);
-                      }}
+                {resources[group.id as keyof typeof resources].map(
+                  (resource, i) => (
+                    <div
+                      key={i}
+                      className="bg-primary-600 px-3 py-1 flex items-center gap-2"
                     >
-                      <X className="h-4 w-4 text-primary-50 font-medium" />
-                    </button>
-                  </div>
-                ))}
+                      <p className="text-sm text-primary-50">{resource}</p>
+                      <button
+                        onClick={() => {
+                          removeResource(group.id, resource);
+                        }}
+                      >
+                        <X className="h-4 w-4 text-primary-50 font-medium" />
+                      </button>
+                    </div>
+                  ),
+                )}
               </div>
               <Command
                 placeholder="Start typing to search for skills"
                 commandData={group.options}
                 onSelect={(value: string) => {
-                  addResource(group.name.toLowerCase(), value);
+                  addResource(group.id, value);
                 }}
               />
             </div>
@@ -151,6 +174,8 @@ const Resources = () => {
           type="button"
         />
         <Button
+          onClick={handleSUbmit}
+          loading={isPending}
           label="Save Changes"
           className=" rounded-xl w-[165px] h-14"
           type="submit"

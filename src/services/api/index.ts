@@ -20,7 +20,8 @@ const del = async ({ url, body: data }: Request) =>
   ).data;
 
 const get = async ({ url, auth = true }: Request) => {
-  return await (auth ? axiosInstance.get(url) : axios.get(baseUrl + url));
+  return (await (auth ? axiosInstance.get(url) : axios.get(baseUrl + url)))
+    .data;
 };
 
 const post = async ({ url, body, auth = true, options = {} }: Request) => {
