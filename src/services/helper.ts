@@ -1,5 +1,6 @@
 import { toast } from "@/components/ui/use-toast";
 import axiosInstance from "./axiosConfig";
+import { GenericResponse } from "./generalTypes";
 
 export const errorToast = (message = "Something went wrong") => {
   toast({
@@ -10,7 +11,7 @@ export const errorToast = (message = "Something went wrong") => {
 
 export const successToast = (message = "Successful") => {
   toast({
-    variant: "default",
+    variant: "success",
     description: message,
   });
 };
@@ -55,7 +56,7 @@ export const getQueryKeys = (namespace: string) => ({
   delete: `${namespace}/delete`,
 });
 
-export function handleErrors(err: any) {
+export function handleErrors(err: GenericResponse) {
   const { response, message } = err;
   // if (!response?.message) return message;
   const { data } = response;

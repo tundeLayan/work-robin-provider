@@ -139,6 +139,12 @@ const WorkingHours = () => {
               />
             )}
           />
+          {/* <input
+            aria-label="Time"
+            type="time"
+            id="time"
+            className="border border-neutral-350 w-full h-[54px] px-3"
+          /> */}
           {selectedOption === "custom" && (
             <div>
               {daysOptions.map((day, i) => (
@@ -177,6 +183,7 @@ const WorkingHours = () => {
                         placeholder="9:00AM"
                         containerClass="flex-1"
                         className="rounded-none"
+                        type="time"
                         {...field}
                       />
                     )}
@@ -191,6 +198,7 @@ const WorkingHours = () => {
                         placeholder="9:00AM"
                         containerClass="flex-1"
                         className="rounded-none"
+                        type="time"
                         {...field}
                       />
                     )}

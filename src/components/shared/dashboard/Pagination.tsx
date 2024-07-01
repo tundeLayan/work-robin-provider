@@ -11,18 +11,13 @@ import { getParseFloat } from "@/utils";
 import dashboard from "@/lib/assets/dashboard";
 import Select from "@/components/Select";
 import usePagination from "@/hooks/usePagination";
+import { PaginationType } from "@/services/generalTypes";
 
 interface IProps {
   isLoading?: boolean;
   isError?: boolean;
 
-  meta: {
-    currentPage: number;
-    itemCount: number;
-    itemsPerPage: number;
-    totalItems: number;
-    totalPages: number;
-  };
+  meta: PaginationType;
 }
 
 const Pagination = (props: IProps) => {
@@ -33,9 +28,9 @@ const Pagination = (props: IProps) => {
   });
 
   const searchParams = useSearchParams();
-  const page = searchParams.get("pageNumber");
+  const page = searchParams.get("skip");
 
-  const currentPageNumber = page ? getParseFloat(page) : 1;
+  const currentPageNumber = page ? getParseFloat(page) + 1 : 1;
 
   const pageSelectOptions = new Array(meta.totalPages).fill(0).map((_, i) => {
     const ide = i + 1;
@@ -77,7 +72,9 @@ const Pagination = (props: IProps) => {
                       "w-8 h-8 rounded-lg flex items-center justify-center text-xs font-semibold text-secondary-100",
                       { "bg-neutral-200": currentPageNumber === i + 1 },
                     )}
-                    onClick={handleNext}
+                    onClick={() => {
+                      changePerPage(ide.toString());
+                    }}
                   >
                     {i + 1}
                   </button>
@@ -107,18 +104,16 @@ const Pagination = (props: IProps) => {
               <p className="text-neutral-500 font-medium text-xs">
                 Showing{" "}
                 <span>
-                  {(Number(meta?.currentPage) - 1) *
-                    Number(meta?.itemsPerPage) +
-                    1}{" "}
+                  {(Number(meta?.currentPage) - 1) * Number(meta?.limit) + 1}{" "}
                 </span>
                 to{" "}
                 <span>
                   {Math.min(
-                    Number(meta?.currentPage) * Number(meta?.itemsPerPage),
-                    meta?.totalItems,
+                    Number(meta?.currentPage) * Number(meta?.limit),
+                    meta?.totalPages,
                   )}{" "}
                 </span>
-                of <span>{meta?.totalItems}</span> entries
+                of <span>{meta?.totalRecords}</span> entries
               </p>
               <div>
                 <Select

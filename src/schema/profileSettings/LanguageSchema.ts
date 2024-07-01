@@ -6,7 +6,7 @@ export const languageSchema = z.object({
   language: z.string({
     required_error: ErrorMessages.required("Language"),
   }),
-  level: z.string({
+  proficiency: z.string({
     required_error: ErrorMessages.required("Level"),
   }),
 });

@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { baseUrl } from "../constants";
-import { isObjectEmpty } from "../utils";
+import { getParseFloat, isObjectEmpty } from "../utils";
 import { useSearchParams } from "next/navigation";
 
 export interface Params {
-  pageNumber: string;
-  pageSize: number;
+  skip: string;
+  limit: number;
   startDate: string;
   endDate: string;
   [x: string]: string | boolean | number;
@@ -43,14 +43,18 @@ const useFilters = (
 ): UseFiltersResult => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
-
+  const skipPage = getParseFloat(params.get("skip") || "0");
   const [filters, setFilters] = useState<Params>({
-    pageNumber: params.get("pageNumber") || "1",
-    pageSize: 10,
+    skip: skipPage.toString(),
+    limit: 6,
     startDate: "",
     endDate: "",
     ...extraParameters,
   });
+
+  useEffect(() => {
+    setFilters((prev) => ({ ...prev, skip: skipPage.toString() }));
+  }, [skipPage]);
 
   const url = buildApiUrl(path, filters, extraParameters);
 
