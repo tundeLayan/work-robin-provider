@@ -30,11 +30,13 @@ const post = async ({ url, body, auth = true, options = {} }: Request) => {
     : axios.post(baseUrl + url, body));
 };
 
-const patch = async ({ url, body }: Request) =>
-  (await axiosInstance.patch(url, body)).data;
+const patch = async ({ url, body }: Request) => {
+  return await axiosInstance.patch(url, body);
+};
 
-const put = async ({ url, body }: Request) =>
-  (await axiosInstance.put(url, body)).data;
+const put = async ({ url, body }: Request) => {
+  return (await axiosInstance.put(url, body)).data;
+};
 
 const api = {
   delete: del,

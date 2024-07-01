@@ -1,5 +1,5 @@
 import { Header, Sidebar } from "@/components/shared/dashboard";
-import React from "react";
+import React, { Suspense } from "react";
 
 interface IProps {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ export default function Layout(props: IProps) {
       <div className="app_dashboard_layout__ctt">
         <Header />
         <div className="app_dashboard_layout__ctt__children overflow-y-auto">
-          {children}
+          <Suspense>{children}</Suspense>
         </div>
       </div>
     </main>

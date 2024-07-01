@@ -1,10 +1,31 @@
 import { ReactNode } from "react";
 
-export interface LanguagenType {
+export interface LanguageType {
+  _id: string;
+  language_id: string;
   language: string;
-  level: string;
+  proficiency: string;
 }
 
-export interface LanguagenPlusActionType extends LanguagenType {
+export interface LanguagePlusActionType extends LanguageType {
   action: ReactNode;
+}
+
+export interface LanguageResponse {
+  languages: Array<any>;
+  pagination: {
+    totalRecords: number;
+    totalPages: number;
+    currentPage: number;
+    nextPage: any;
+    previousPage: any;
+    limit: number;
+  };
+}
+
+export interface LanguageRequest {
+  data: {
+    language: string;
+    proficiency: string;
+  };
 }

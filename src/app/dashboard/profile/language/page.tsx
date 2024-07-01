@@ -8,29 +8,23 @@ import cx from "classnames";
 import { Button, RenderIf, Table } from "@/components";
 import profile from "@/lib/assets/profile";
 import ProfileTitle from "@/components/shared/ProfileTitle";
-import CertificatePopover from "@/components/shared/profile/popovers/CertificatePopover";
-import { LanguagenPlusActionType } from "@/services/queries/language/types";
 import { columns } from "@/components/ColumnDefinitions/Language";
 import { AddLanguage } from "@/components/shared/profile/modals/AddLanguage";
-
-type TableType = Array<LanguagenPlusActionType>;
+import { useLanguageRead } from "@/services/queries/language";
+import { Pagination } from "@/components/shared/dashboard";
+import { defaultMeta } from "@/utils/static";
+import useFilters from "@/hooks/useFilter";
 
 const Language = () => {
+  const { url } = useFilters("/languages", {});
+  const { data, meta, isPending } = useLanguageRead(url.href);
   const [isOpen, setIsOpen] = useState(false);
-  const [columnDef, _] = useState<TableType>([
-    {
-      language: "English",
-      level: "Expert",
-      action: <CertificatePopover />,
-    },
-  ]);
-
   return (
     <div className={cx("layout__child  h-full")}>
       <AddLanguage open={isOpen} setOpen={setIsOpen} />
       <div className="flex items-center justify-between">
-        <ProfileTitle title="Certifications" />
-        <RenderIf condition={columnDef.length > 0}>
+        <ProfileTitle title="Language" />
+        <RenderIf condition={(data || []).length > 0}>
           <Button
             label="Add Language"
             onClick={() => {
@@ -39,11 +33,17 @@ const Language = () => {
           />
         </RenderIf>
       </div>
-      {columnDef.length > 0 ? (
-        <div className="pt-8 border-t border-neutral-350">
-          <Table data={columnDef} columns={columns} loading={false} />
+      {isPending || (data && data?.length > 0) ? (
+        <div>
+          <div className="pt-8 border-t border-neutral-350">
+            <Table data={data || []} columns={columns} loading={isPending} />
+          </div>
+          <div>
+            <Pagination meta={meta || defaultMeta} />
+          </div>
         </div>
-      ) : (
+      ) : null}
+      {!isPending && data && data?.length === 0 ? (
         <div className=" flex items-center justify-center mt-20 ">
           <div className="w-[398px] h-[336px]  bg-white rounded-md pt-6 border border-neutral-1100 px-6 ">
             <div className="flex justify-center">
@@ -70,7 +70,7 @@ const Language = () => {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

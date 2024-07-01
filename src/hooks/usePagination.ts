@@ -16,12 +16,12 @@ const usePagination = (
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const page = searchParams.get("pageNumber");
+  const page = getParseFloat(searchParams.get("skip") || "0");
 
   const handleNextPage = () => {
-    const nextPage = page ? getParseFloat(page) + 1 : 2;
+    const nextPage = page === 0 ? 1 : page ? page + 1 : 2;
     const params = new URLSearchParams(searchParams);
-    params.set("pageNumber", clamp(nextPage, 1, totalPages).toString());
+    params.set("skip", clamp(nextPage, 0, totalPages).toString());
 
     router.replace(`${pathname}?${params.toString()}`);
   };
@@ -29,17 +29,17 @@ const usePagination = (
   const handlePrevPage = () => {
     if (!page) return;
 
-    const prevPage = getParseFloat(page) - 1;
+    const prevPage = page - 1;
 
     const params = new URLSearchParams(searchParams);
-    params.set("pageNumber", clamp(prevPage, 1, totalPages).toString());
+    params.set("skip", clamp(prevPage, 0, totalPages).toString());
 
     router.replace(`${pathname}?${params.toString()}`);
   };
 
   const changePerPage = (per: string) => {
     const params = new URLSearchParams(searchParams);
-    params.set("pageNumber", per);
+    params.set("skip", (getParseFloat(per) - 1).toString());
 
     router.replace(`${pathname}?${params.toString()}`);
   };

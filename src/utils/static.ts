@@ -16,10 +16,11 @@ import routes from "@/lib/routes";
 
 export const defaultMeta = {
   currentPage: 1,
-  itemCount: 1,
-  itemsPerPage: 10,
-  totalItems: 10,
+  totalRecords: 10,
   totalPages: 10,
+  nextPage: 2,
+  previousPage: 1,
+  limit: 10,
 };
 
 export const dashboardLinks = [
