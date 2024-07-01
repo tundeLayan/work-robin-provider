@@ -7,7 +7,7 @@ import { Button as ShadCNButton } from "@/components/ui/button";
 import { Loader } from "@/components";
 
 interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
+  label?: string;
   variant?:
     | "primary"
     | "secondary"
