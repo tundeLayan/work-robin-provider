@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import { Button, Table } from "@/components";
 import profile from "@/lib/assets/profile";
 import { AddInsurance } from "@/components/shared/profile/modals/AddInsurance";
-import InsurancePopover from "@/components/shared/profile/popovers/InsurancePopover";
 import { LicensesPlusActionType } from "@/services/queries/licenses/types";
 import { columns } from "@/components/ColumnDefinitions/License";
 
@@ -21,7 +20,7 @@ const Home = () => {
       state: "NIT",
       issueDate: "07/07/2017",
       expiryDate: "07/07/2017",
-      action: <InsurancePopover />,
+      action: <div />,
     },
   ]);
   return (

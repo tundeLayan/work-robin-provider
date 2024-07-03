@@ -17,11 +17,15 @@ interface IProps {
 }
 
 const LanguagePopover = ({ id }: IProps) => {
-  const { mutate } = useLanguageDelete();
+  const [popOpen, setPopOpen] = useState(false);
+  const close = () => {
+    setPopOpen(false);
+  };
+  const { mutate } = useLanguageDelete(close);
   const [isOpen, setIsOpen] = useState(false);
   const { data } = useLanguageReadOne(id);
   return (
-    <Popover>
+    <Popover open={popOpen} onOpenChange={setPopOpen}>
       <PopoverTrigger asChild>
         <button type="button">
           <Image src={profile.threeDots} alt="three dots icon" />

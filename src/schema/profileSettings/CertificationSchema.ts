@@ -14,17 +14,20 @@ export const certificationSchema = z.object({
   title: z.string({
     required_error: ErrorMessages.required("Certification Title"),
   }),
-  link: z.string({
+  verification_link: z.string({
     required_error: ErrorMessages.required("Certification Link"),
   }),
-  issueDate: z.date({
+  issue_date: z.date({
     required_error: ErrorMessages.required("Issue Date"),
   }),
-  expiryDate: z.date({
+  expiry_date: z.date({
     required_error: ErrorMessages.required("Expiry Date"),
   }),
   // TODO: change this to accept pdf, docx or doc
-  certificate: (typeof window === "undefined" ? z.any() : z.instanceof(File))
+  certificate_url: (typeof window === "undefined"
+    ? z.any()
+    : z.instanceof(File)
+  )
     .optional()
     .refine((file) => {
       if (!file) return;
@@ -38,7 +41,8 @@ export const certificationSchema = z.object({
         file?.type as string,
       );
     }, "File must be an Image")
-    .nullable(),
+    .nullable()
+    .optional(),
 });
 
 export type TCertificate = z.infer<typeof certificationSchema>;

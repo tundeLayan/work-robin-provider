@@ -6,6 +6,7 @@
  */
 export function formatDate(
   dateString?: string | Date,
+  dateOnly: boolean = false,
   returnIsToday: boolean = true,
 ) {
   if (!dateString) return "";
@@ -31,8 +32,16 @@ export function formatDate(
       year: "numeric",
     };
     const formattedDate = date.toLocaleDateString("en-US", options);
-    return `${time}, ${formattedDate}`;
+    return dateOnly ? formattedDate : `${time}, ${formattedDate}`;
   }
+}
+
+export function formatDateToDDMMYYYY(date: Date) {
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
 }
 
 export function matchRoute(

@@ -5,34 +5,32 @@ import React, { useState } from "react";
 
 import { Button, Table } from "@/components";
 import profile from "@/lib/assets/profile";
-import { InsurancePlusActionType } from "@/services/queries/insurance/types";
 import { columns } from "@/components/ColumnDefinitions/Insurance";
 import { AddInsurance } from "@/components/shared/profile/modals/AddInsurance";
-import InsurancePopover from "@/components/shared/profile/popovers/InsurancePopover";
-
-type TableType = Array<InsurancePlusActionType>;
+import { useInsuranceRead } from "@/services/queries/insurance";
+import useFilters from "@/hooks/useFilter";
+import { Pagination } from "@/components/shared/dashboard";
+import { defaultMeta } from "@/utils/static";
 
 const Home = () => {
+  const { url } = useFilters("/insurances", {});
+  const { data, meta, isPending } = useInsuranceRead(url.href);
   const [isOpen, setIsOpen] = useState(false);
-  const [columnDef, _] = useState<TableType>([
-    {
-      type: "Security Foundation",
-      policyNumber: "Information and Communication",
-      provider: "NIT",
-      amount: "$100",
-      issueDate: "07/07/2017",
-      expiryDate: "07/07/2017",
-      action: <InsurancePopover />,
-    },
-  ]);
+
   return (
     <div>
       <AddInsurance open={isOpen} setOpen={setIsOpen} />
-      {columnDef.length > 0 ? (
-        <div className="pt-8 ">
-          <Table data={columnDef} columns={columns} loading={false} />
+      {isPending || (data && data?.length > 0) ? (
+        <div>
+          <div className="pt-8 border-t border-neutral-350">
+            <Table data={data || []} columns={columns} loading={isPending} />
+          </div>
+          <div>
+            <Pagination meta={meta || defaultMeta} />
+          </div>
         </div>
-      ) : (
+      ) : null}
+      {!isPending && data && data?.length === 0 ? (
         <div className=" flex items-center justify-center mt-20 ">
           <div className="w-[398px] h-[336px]  bg-white rounded-md pt-6 border border-neutral-1100 px-6 ">
             <div className="flex justify-center">
@@ -59,7 +57,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

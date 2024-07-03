@@ -61,7 +61,7 @@ const onRequest = (
   // const token = getLocalStorage(config.tokenKey);
   if (!request.headers) return request as InternalAxiosRequestConfig<any>;
 
-  request.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicHJvdmlkZXJfN1NYTlZZRjJGOEpkUEZXQiIsImlhdCI6MTcxOTgyNDEyOCwiZXhwIjoxNzE5OTEwNTI4fQ.VdZOvNMsQLddujW7VYvvI3TIGP0-QtVlPetPf8rRyCU`;
+  request.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicHJvdmlkZXJfN1NYTlZZRjJGOEpkUEZXQiIsImlhdCI6MTcxOTk2MTA3OSwiZXhwIjoxNzIxMjU3MDc5fQ.SAVK9W1BJ_oq0YSD8UV6FElUH1LkxxB5yKDC9XZ67TA`;
 
   return request as InternalAxiosRequestConfig<any>;
 };
