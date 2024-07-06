@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { useVerifyHash } from "@/services/queries/auth";
@@ -33,4 +33,12 @@ const Verify = () => {
   return <div className=""></div>;
 };
 
-export default Verify;
+const VerifyWrapper = () => {
+  return (
+    <Suspense>
+      <Verify />
+    </Suspense>
+  );
+};
+
+export default VerifyWrapper;

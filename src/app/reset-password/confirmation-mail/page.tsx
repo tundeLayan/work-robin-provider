@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -41,4 +41,12 @@ const ConfirmationMail = () => {
   );
 };
 
-export default ConfirmationMail;
+const ConfirmMailWrapper = () => {
+  return (
+    <Suspense>
+      <ConfirmationMail />
+    </Suspense>
+  );
+};
+
+export default ConfirmMailWrapper;

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 
 import cx from "classnames";
 
@@ -48,4 +48,12 @@ const ProfilingForm = () => {
   );
 };
 
-export default ProfilingForm;
+const ProfilingFormWrapper = () => {
+  return (
+    <Suspense>
+      <ProfilingForm />
+    </Suspense>
+  );
+};
+
+export default ProfilingFormWrapper;
