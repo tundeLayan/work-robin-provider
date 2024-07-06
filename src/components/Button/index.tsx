@@ -54,7 +54,7 @@ const Button = (props: IButton) => {
         {...rest}
       >
         {loading ? <Loader /> : null}
-        {icon ? <Image src={icon} alt="" /> : ""}
+        {icon ? <Image src={icon} className="w-[17px] h-[17px]" alt="" /> : ""}
         {label}
         {iconAfter ? <Image src={iconAfter} alt="" /> : ""}
       </ShadCNButton>

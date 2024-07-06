@@ -7,17 +7,17 @@ export const signupSchema = z.object({
     .string({
       required_error: ErrorMessages.required("Email"),
     })
-    .min(8, {})
+    .min(1, {})
     .email({ message: ErrorMessages.invalidEmail }),
 });
 
 export const signupSchema2 = z.object({
   firstName: z
     .string({ required_error: ErrorMessages.required("First Name") })
-    .min(8, { message: ErrorMessages.length(8, "first name") }),
+    .min(1, { message: ErrorMessages.required("First Name") }),
   lastName: z
     .string({ required_error: ErrorMessages.required("Last Name") })
-    .min(8, { message: ErrorMessages.length(8, "last name") }),
+    .min(1, { message: ErrorMessages.required("Last name") }),
   password: z
     .string({ required_error: ErrorMessages.required("Password") })
     .min(8, { message: "Password must be at least 8 characters long" })
