@@ -12,10 +12,11 @@ import cx from "classnames";
 import { Form, FormField } from "@/components/ui/form";
 import { signupSchema, signupSchema2 } from "@/schema/auth/Signup";
 import { Button, Checkbox, EmailWithIcon, FormInput } from "@/components";
-import authAssets from "@/lib/assets/Auth";
 import { COMPANY_DATA } from "@/constants/companyData";
 import routes from "@/lib/routes";
 import { useInitializeProviderSignup } from "@/services/queries/auth";
+import GoogleLoginComponent from "./GoogleLogin";
+import AppleAuthComponent from "./AppleAuth";
 
 type TSignup = z.infer<typeof signupSchema>;
 type TSignup2 = z.infer<typeof signupSchema2>;
@@ -74,6 +75,7 @@ const SignUpForm = () => {
       );
     }, 1000);
   };
+
   const onSubmit2 = (values: TSignup2) => {
     const { firstName: first_name, lastName: last_name, password } = values;
     // console.log("values", values);
@@ -107,17 +109,8 @@ const SignUpForm = () => {
               <h5 className="WR-form-headers mb-6">
                 Welcome to {COMPANY_DATA.name}
               </h5>
-              <Button
-                className="bg-neutral-750 text-black w-full text-base font-medium border border-secondary-200 mb-4"
-                icon={authAssets.GoogleIcon}
-                label="Sign up with Google"
-              />
-              <Button
-                className="text-black border-black w-full"
-                variant="neutral"
-                icon={authAssets.AppleIcon}
-                label="Sign up with Apple"
-              />
+              <GoogleLoginComponent />
+              <AppleAuthComponent />
             </div>
             <div className="flex gap-4 items-center mb-[18px]">
               <hr className="flex-1" />

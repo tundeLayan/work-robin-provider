@@ -789,6 +789,11 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
+"@react-oauth/google@^0.12.1":
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/@react-oauth/google/-/google-0.12.1.tgz#b76432c3a525e9afe076f787d2ded003fcc1bee9"
+  integrity sha512-qagsy22t+7UdkYAiT5ZhfM4StXi9PPNvw0zuwNmabrWyMKddczMtBIOARflbaIj+wHiQjnMAsZmzsUYuXeyoSg==
+
 "@rushstack/eslint-patch@^1.3.3":
   version "1.10.3"
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.10.3.tgz#391d528054f758f81e53210f1a1eebcf1a8b1d20"
@@ -3340,6 +3345,11 @@ queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
+
+react-apple-login@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/react-apple-login/-/react-apple-login-1.1.6.tgz#bea08cae70efebc966bf867cda50d9a2f8ca1a79"
+  integrity sha512-ySV6ax0aB+ksA7lKzhr4MvsgjwSH068VtdHJXS+7rL380IJnNQNl14SszR31k3UqB8q8C1H1oyjJFGq4MyO6tw==
 
 react-day-picker@^8.10.1:
   version "8.10.1"
