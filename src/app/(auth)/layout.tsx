@@ -1,4 +1,5 @@
 import { Sider } from "@/components/shared/auth";
+import GoogleAuthProvider from "@/provider/GoogleAuthProvider";
 
 export default async function RootLayout({
   children,
@@ -6,9 +7,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-screen max-w-[1300px] mx-auto">
-      <Sider />
-      <div className="flex-1">{children}</div>
-    </div>
+    <GoogleAuthProvider>
+      <div className="flex min-h-screen max-w-[1300px] mx-auto">
+        <Sider />
+        <div className="flex-1">{children}</div>
+      </div>
+    </GoogleAuthProvider>
   );
 }
