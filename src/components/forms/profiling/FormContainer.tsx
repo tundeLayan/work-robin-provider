@@ -7,17 +7,21 @@ import cx from "classnames";
 import { StepsContainer } from "@/components/forms/profiling";
 import { EmailWithIcon, RenderIf } from "@/components/shared";
 import { Button } from "@/components";
+import { useSearchParams } from "next/navigation";
 
+type PageType = "welcomePage" | "formStepsPage";
 const ProfilingForm = () => {
-  const [currentPage, setCurrentPage] = useState<
-    "welcomePage" | "formStepsPage"
-  >("welcomePage");
+  const searchParams = useSearchParams();
+  const [currentPage, setCurrentPage] = useState<PageType>(
+    (searchParams.get("activePage") as PageType) || "welcomePage",
+  );
+  const email = searchParams.get("email");
 
   return (
     <>
       <RenderIf condition={currentPage === "welcomePage"}>
-        <div className={cx(" w-4/12 mx-auto text-center")}>
-          <EmailWithIcon userEmail="emmanuel@heunets.com" />
+        <div className={cx("w-11/12 md:w-4/12 mx-auto text-center")}>
+          <EmailWithIcon userEmail={`${email}`} />
           <div className="text-center">
             <p className="Profiling-form-title mt-6 mb-6">
               Hey Emmanuel, Welcome to WorkRobin

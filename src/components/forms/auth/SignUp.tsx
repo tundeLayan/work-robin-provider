@@ -15,6 +15,7 @@ import { Button, Checkbox, EmailWithIcon, FormInput } from "@/components";
 import authAssets from "@/lib/assets/Auth";
 import { COMPANY_DATA } from "@/constants/companyData";
 import routes from "@/lib/routes";
+import { useInitializeProviderSignup } from "@/services/queries/auth";
 
 type TSignup = z.infer<typeof signupSchema>;
 type TSignup2 = z.infer<typeof signupSchema2>;
@@ -29,6 +30,8 @@ const SignUpForm = () => {
   const navigate = useRouter();
   const searchParams = useSearchParams();
   const userEmail = searchParams.get("email");
+
+  const { mutate, isPending } = useInitializeProviderSignup();
   const [agreeToTermsAndCondition, setAgreeToTermsAndConditions] =
     useState(false);
   const [pageShowing, setPageShowing] = useState<IPage>(
@@ -65,17 +68,24 @@ const SignUpForm = () => {
   }, [pageShowing, userEmail]);
 
   const onSubmit = (values: TSignup) => {
-    console.log("values", values);
     setTimeout(() => {
       navigate.push(
         `${routes.auth.signup.path}?active=signup2&email=${values.email}`,
       );
     }, 1000);
   };
-  const onSubmit2 = (values: TSignup) => {
-    console.log("values", values);
-
-    navigate.push(routes.auth.profiling.path);
+  const onSubmit2 = (values: TSignup2) => {
+    const { firstName: first_name, lastName: last_name, password } = values;
+    // console.log("values", values);
+    mutate({
+      url: `/auth/providers/signup/initialize`,
+      data: {
+        first_name,
+        last_name,
+        email: userEmail,
+        password,
+      },
+    });
   };
 
   return (
@@ -225,6 +235,7 @@ const SignUpForm = () => {
               disabled={!agreeToTermsAndCondition}
               label="Continue"
               className="w-full"
+              loading={isPending}
             />
           </form>
           <p className="text-center text-neutral-250 text-sm font-medium leading-[1.4rem]">

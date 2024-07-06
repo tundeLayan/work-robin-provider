@@ -12,6 +12,7 @@ interface IProps {
   form: UseFormReturn<TForm>;
   prevPage: () => void;
   onSubmit: () => void;
+  isPending?: boolean;
 }
 
 // TODO: Ask, do we have license to store people's card details
@@ -24,6 +25,7 @@ const Form6 = (props: IProps) => {
     },
     // prevPage,
     onSubmit,
+    isPending,
   } = props;
 
   const onNextClick = async () => {
@@ -105,11 +107,12 @@ const Form6 = (props: IProps) => {
           className="w-full"
         /> */}
         <Button
-          disabled={false}
+          disabled={isPending}
           type="button"
           label="Submit Profile"
           className="w-full"
           onClick={onNextClick}
+          loading={isPending}
         />
       </div>
     </>

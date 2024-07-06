@@ -8,6 +8,7 @@ import config from "./config";
 
 import routes from "@/lib/routes";
 import { clearLocalStorage, getLocalStorage, saveLocalStorage } from "./helper";
+import { getSession } from "@/lib/auth";
 
 const baseURL = config.baseUrl;
 
@@ -19,6 +20,7 @@ const axiosInstance = axios.create({
   },
 });
 
+// TODO: handle this with session if there is a refresh token endpoint
 const refreshToken = async (
   originalRequest: InternalAxiosRequestConfig<any>,
 ) => {
@@ -55,13 +57,15 @@ const refreshToken = async (
   }
 };
 
-const onRequest = (
+const onRequest = async (
   request: AxiosRequestConfig,
-): InternalAxiosRequestConfig<any> => {
-  // const token = getLocalStorage(config.tokenKey);
+): Promise<InternalAxiosRequestConfig<any>> => {
   if (!request.headers) return request as InternalAxiosRequestConfig<any>;
+  const session = await getSession();
 
-  request.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicHJvdmlkZXJfN1NYTlZZRjJGOEpkUEZXQiIsImlhdCI6MTcxOTgyNDEyOCwiZXhwIjoxNzE5OTEwNTI4fQ.VdZOvNMsQLddujW7VYvvI3TIGP0-QtVlPetPf8rRyCU`;
+  if (session) {
+    request.headers.Authorization = `Bearer ${session?.user?.token}`;
+  }
 
   return request as InternalAxiosRequestConfig<any>;
 };

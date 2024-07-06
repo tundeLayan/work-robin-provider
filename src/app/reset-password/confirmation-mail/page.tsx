@@ -3,12 +3,15 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 import authAssets from "@/lib/assets/Auth";
 
 const ConfirmationMail = () => {
+  const searchParams = useSearchParams();
+  const userEmail = searchParams.get("email");
   return (
-    <div className="w-[30%] mx-auto">
+    <div className="w-[95%] md:w-[30%] mx-auto">
       <div className="md:pt-[150px] ">
         <div className="mb-5">
           <Image
@@ -22,9 +25,8 @@ const ConfirmationMail = () => {
             Email sent
           </p>
           <h5 className="text-secondary-150 text-lg font-normal leading-[24px]">
-            We've sent a link to create a new password to
-            adeleketobiloba@gmail.com. If it's not in your inbox, check your
-            spam/junk folder.
+            We've sent a link to create a new password to {userEmail}. If it's
+            not in your inbox, check your spam/junk folder.
           </h5>
         </div>
 

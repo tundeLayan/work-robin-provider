@@ -15,10 +15,13 @@ import { Form, FormField } from "@/components/ui/form";
 import { resetSchema } from "@/schema/auth/Reset";
 import { Button, FormInput } from "@/components";
 import authAssets from "@/lib/assets/Auth";
+import { useResendResetEmail, useResetPassword } from "@/services/queries/auth";
 
 type TResetPassword = z.infer<typeof resetSchema>;
 const ResetPasswordForm = () => {
   const navigate = useRouter();
+  const { mutate, isPending } = useResetPassword();
+  const { mutate: resendMutate } = useResendResetEmail();
   const form = useForm<TResetPassword>({
     resolver: zodResolver(resetSchema),
   });
@@ -26,11 +29,22 @@ const ResetPasswordForm = () => {
     handleSubmit,
     control,
     formState: { errors },
+    getValues,
   } = form;
 
   const onSubmit = (values: TResetPassword) => {
-    navigate.push("/reset-password/otp");
+    const { email } = values;
+    mutate({ url: "/auth/reset-password", data: { email } });
   };
+
+  const handleResend = () => {
+    if (!getValues("email")) return;
+    resendMutate({
+      url: "/auth/resend-verification-email",
+      data: { email: getValues("email") },
+    });
+  };
+
   return (
     <div className="md:pt-[90px] ">
       <Form {...form}>
@@ -70,13 +84,17 @@ const ResetPasswordForm = () => {
             )}
           />
 
-          <Button label="Send Email" className="w-full" />
+          <Button label="Send Email" className="w-full" loading={isPending} />
         </form>
         <p className="text-center text-neutral-250 text-sm font-medium leading-[1.4rem] mt-[72px]">
           Didn't receive a code?{" "}
-          <Link className="text-primary-50 underline" href={"/signup"}>
+          <p
+            role="button"
+            onClick={handleResend}
+            className="text-primary-50 underline inline-block"
+          >
             Resend
-          </Link>{" "}
+          </p>{" "}
         </p>
       </Form>
     </div>
