@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -13,10 +13,12 @@ import { Form, FormField } from "@/components/ui/form";
 import { loginSchema } from "@/schema/auth/Login";
 import { Button, FormInput } from "@/components";
 import routes from "@/lib/routes";
+import { login } from "@/lib/auth";
 
 type TLogin = z.infer<typeof loginSchema>;
 const LoginForm = () => {
   const navigate = useRouter();
+  const [loading, setLoading] = useState(false);
   const form = useForm<TLogin>({
     resolver: zodResolver(loginSchema),
   });
@@ -26,8 +28,17 @@ const LoginForm = () => {
     formState: { errors },
   } = form;
 
-  const onSubmit = (values: TLogin) => {
-    navigate.push(routes.auth.login.confirmIdentity.path);
+  const onSubmit = async (values: TLogin) => {
+    setLoading(true);
+    try {
+      await login(values);
+      // navigate.push(routes.auth.login.confirmIdentity.path);
+      navigate.push(routes.dashboard.entry.path);
+    } catch (error) {
+      // TODO: show toast
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="md:pt-[200px] ">
@@ -80,7 +91,7 @@ const LoginForm = () => {
             )}
           />
 
-          <Button label="Login" className="w-full" />
+          <Button label="Login" className="w-full" loading={loading} />
         </form>
         <p className="text-center text-neutral-250 text-sm font-medium leading-[1.4rem]">
           Don't have an account?{" "}

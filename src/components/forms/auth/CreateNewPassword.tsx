@@ -17,11 +17,13 @@ import { createNewPasswordSchema } from "@/schema/auth/CreateNewPassword";
 import { Button, FormInput } from "@/components";
 import authAssets from "@/lib/assets/Auth";
 import { RenderIf } from "@/components/shared";
+import { useCreatePassword } from "@/services/queries/auth";
 
 type TCreatePassword = z.infer<typeof createNewPasswordSchema>;
 
 const CreateNewPassword = () => {
   const navigate = useRouter();
+  const { mutate, isPending } = useCreatePassword();
   const [passwordValidations, setPasswordValidations] = useState({
     hasAtleast8Characters: false,
     hasNumber: false,
@@ -101,7 +103,14 @@ const CreateNewPassword = () => {
   }, [watch("password")]);
 
   const onSubmit = (values: TCreatePassword) => {
-    navigate.push("/reset-password/password-success");
+    const { password } = values;
+    mutate({
+      url: "/auth/change-password",
+      data: {
+        token: "",
+        password,
+      },
+    });
   };
 
   const renderIcon = (isValid: boolean) => {
@@ -137,7 +146,7 @@ const CreateNewPassword = () => {
               className="w-[49.41px] h-[64px] mx-auto"
             />
           </div>
-          <div className="mb-6 text-center w-9/12 mx-auto">
+          <div className="mb-6 text-center w-full md:w-9/12 mx-auto">
             <p className="text-secondary-150 mb-3 font-semibold text-[1.75rem] leading-[35px] tracking-[0.0125rem]">
               Create a new password
             </p>
@@ -226,7 +235,7 @@ const CreateNewPassword = () => {
             )}
           />
 
-          <Button label="Continue" className="w-full" />
+          <Button label="Continue" className="w-full" loading={isPending} />
         </form>
         <p className="text-center text-neutral-250 text-sm font-medium leading-[1.4rem] mt-[72px]">
           Didn't receive the mail?{" "}
