@@ -71,6 +71,7 @@ const ContactInformationForm = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data.email);
       setValue("first_name", data.first_name);
       setValue("last_name", data.last_name);
       setValue("email", data.email);

@@ -12,7 +12,7 @@ const Verify = () => {
   return (
     <div className="layout__child h-full">
       <div className="flex items-center justify-center w-full h-full">
-        <div className="w-[559px] h-[530px] flex items-center justify-center rounded-xl border border-neutral-350 ">
+        <div className="w-[559px] h-[510px] flex items-center justify-center rounded-xl border border-neutral-350 ">
           <div className="w-full px-16">
             <div className="pb-6 flex justify-center">
               <div className="w-12 h-16 ">
