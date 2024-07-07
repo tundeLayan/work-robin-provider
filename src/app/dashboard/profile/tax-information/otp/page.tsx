@@ -61,7 +61,7 @@ const Otp = () => {
                   console.log("error is", err);
                 })}
               >
-                <div className="py-[70px]">
+                <div className="py-[57px]">
                   <div className="pb-6 ">
                     <h1 className="text-[28px] font-semibold pb-3 text-center">
                       Information Protected

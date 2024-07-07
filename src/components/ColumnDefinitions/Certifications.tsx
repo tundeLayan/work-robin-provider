@@ -9,7 +9,7 @@ import { formatDate } from "@/utils";
 const columnHelper = createColumnHelper<CertificationType>();
 
 export const columns = [
-  columnHelper.accessor("certificate_id", {
+  columnHelper.accessor("title", {
     cell: (info) => {
       return (
         <div className="font-regular text-[12px]">{info.getValue() || "-"}</div>
@@ -65,7 +65,6 @@ export const columns = [
     id: "action",
     header: "Action",
     cell: (info) => {
-      console.log(info.row.original);
       return (
         <div>
           <CertificatePopover id={info.row.original.certificate_id} />

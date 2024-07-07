@@ -63,7 +63,7 @@ export function AddLanguage({ open, setOpen, oldData }: IProps) {
   }, [oldData]);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[501px] h-[360px]">
+      <DialogContent className="sm:max-w-[501px] h-[380px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold pb-6 ">
             Add Language

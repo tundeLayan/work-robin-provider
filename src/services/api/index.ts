@@ -12,12 +12,11 @@ interface Request {
   [x: string]: any;
 }
 
-const del = async ({ url, body: data }: Request) =>
-  (
-    await axiosInstance.delete(url, {
-      data,
-    })
-  ).data;
+const del = async ({ url, body: data }: Request) => {
+  return await axiosInstance.delete(url, {
+    data,
+  });
+};
 
 const get = async ({ url, auth = true }: Request) => {
   return (await (auth ? axiosInstance.get(url) : axios.get(baseUrl + url)))

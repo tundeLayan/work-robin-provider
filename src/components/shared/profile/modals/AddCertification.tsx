@@ -212,7 +212,6 @@ export function AddCertification({ open, setOpen, oldData }: IProps) {
                           render={({ field }) => (
                             <FileUploadV2
                               setFile={(e) => {
-                                console.log("set file");
                                 field.onChange(e);
                               }}
                               buttonText="Upload your certificate"
