@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import Image from "next/image";
 
 import { useForm } from "react-hook-form";
@@ -26,15 +26,31 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  useCertificationPatch,
+  useCertificationPost,
+} from "@/services/queries/certifications";
+import { formatDateToDDMMYYYY } from "@/utils";
+import { CertificationType } from "@/services/queries/certifications/types";
 
 interface IProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  oldData?: CertificationType;
 }
 
-export function AddCertification({ open, setOpen }: IProps) {
+export function AddCertification({ open, setOpen, oldData }: IProps) {
+  const close = () => {
+    setOpen(false);
+  };
+  const { mutate, isPending } = useCertificationPost(close);
+  const { updateIsPending, updateMutate } = useCertificationPatch(
+    close,
+    oldData?.certificate_id,
+  );
   const form = useForm<TCertificate>({
     resolver: zodResolver(certificationSchema),
+    defaultValues: {},
   });
 
   const {
@@ -45,15 +61,45 @@ export function AddCertification({ open, setOpen }: IProps) {
     formState: { errors },
   } = form;
 
-  const isFileUploaded = watch("certificate");
+  const isFileUploaded = watch("certificate_url");
 
-  const onSubmit = () => {};
+  const onSubmit = (values: TCertificate) => {
+    if (oldData) {
+      updateMutate({
+        data: {
+          ...values,
+          issue_date: formatDateToDDMMYYYY(values.issue_date),
+          expiry_date: formatDateToDDMMYYYY(values.expiry_date),
+          certificate_url: "",
+        },
+      });
+    } else {
+      mutate({
+        data: {
+          ...values,
+          issue_date: formatDateToDDMMYYYY(values.issue_date),
+          expiry_date: formatDateToDDMMYYYY(values.expiry_date),
+          certificate_url: "",
+        },
+      });
+    }
+  };
+  useEffect(() => {
+    if (oldData) {
+      setValue("title", oldData.title);
+      setValue("industry", oldData.industry);
+      setValue("organization", oldData.organization);
+      setValue("verification_link", oldData.verification_link);
+      setValue("issue_date", new Date(oldData.issue_date));
+      setValue("expiry_date", new Date(oldData.expiry_date));
+    }
+  }, [oldData]);
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent className="sm:max-w-[501px] overflow-y-auto ">
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold pb-6 ">
-            Add Certification
+            {oldData ? "Edit" : "Add"} Certification
           </SheetTitle>
         </SheetHeader>
         <div className="grid gap-4">
@@ -109,11 +155,11 @@ export function AddCertification({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="link"
+                name="verification_link"
                 render={({ field }) => (
                   <FormInput
                     label="Certification Verification Link"
-                    error={errors.link}
+                    error={errors.verification_link}
                     placeholder="Paste here"
                     containerClass="mb-6"
                     {...field}
@@ -123,11 +169,11 @@ export function AddCertification({ open, setOpen }: IProps) {
 
               <FormField
                 control={control}
-                name="issueDate"
+                name="issue_date"
                 render={({ field }) => (
                   <FormDatePicker
                     label="Issue Date"
-                    error={errors.issueDate}
+                    error={errors.issue_date}
                     placeholder="Select One"
                     containerClass="mb-6"
                     {...field}
@@ -136,11 +182,11 @@ export function AddCertification({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="expiryDate"
+                name="expiry_date"
                 render={({ field }) => (
                   <FormDatePicker
                     label="Expiry Date"
-                    error={errors.expiryDate}
+                    error={errors.expiry_date}
                     placeholder="Select One"
                     containerClass="mb-6"
                     {...field}
@@ -156,21 +202,20 @@ export function AddCertification({ open, setOpen }: IProps) {
                         deleteIcon={profile.fileDelete}
                         {...{ isResumeUploaded: isFileUploaded }}
                         onDeleteFile={() => {
-                          setValue("certificate", null);
+                          setValue("certificate_url", null);
                         }}
                       />
                       <div className="mt-4">
                         <FormField
                           control={control}
-                          name="certificate"
+                          name="certificate_url"
                           render={({ field }) => (
                             <FileUploadV2
                               setFile={(e) => {
-                                console.log("set file");
                                 field.onChange(e);
                               }}
                               buttonText="Upload your certificate"
-                              error={errors?.certificate}
+                              error={errors?.certificate_url}
                               accept={[
                                 "image/png",
                                 "image/svg+xml",
@@ -185,7 +230,7 @@ export function AddCertification({ open, setOpen }: IProps) {
                   ) : (
                     <FormField
                       control={control}
-                      name="certificate"
+                      name="certificate_url"
                       render={({ field }) => (
                         <FileUploadV1
                           containerClass="mb-3"
@@ -237,7 +282,8 @@ export function AddCertification({ open, setOpen }: IProps) {
                   />
                 </SheetClose>
                 <Button
-                  label="Add Certification"
+                  loading={isPending || updateIsPending}
+                  label={oldData ? "Edit Certification" : "Add Certification"}
                   className="w-[160px] h-[52px]"
                   type="submit"
                 />

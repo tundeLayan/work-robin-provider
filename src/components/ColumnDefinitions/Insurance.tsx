@@ -1,12 +1,14 @@
 "use client";
 
 import { createColumnHelper } from "@tanstack/react-table";
-import { InsurancePlusActionType } from "@/services/queries/insurance/types";
+import { InsuranceType } from "@/services/queries/insurance/types";
+import InsurancePopover from "../shared/profile/popovers/InsurancePopover";
+import { formatDate } from "@/utils";
 
-const columnHelper = createColumnHelper<InsurancePlusActionType>();
+const columnHelper = createColumnHelper<InsuranceType>();
 
 export const columns = [
-  columnHelper.accessor("type", {
+  columnHelper.accessor("insurance_type", {
     cell: (info) => {
       return (
         <div className="font-regular text-[12px]">{info.getValue() || "-"}</div>
@@ -14,7 +16,7 @@ export const columns = [
     },
     header: "Type",
   }),
-  columnHelper.accessor("policyNumber", {
+  columnHelper.accessor("insurance_id", {
     cell: (info) => {
       return (
         <div className="font-regular text-[12px]">{info.getValue() || "-"}</div>
@@ -30,7 +32,7 @@ export const columns = [
     },
     header: "Provider",
   }),
-  columnHelper.accessor("amount", {
+  columnHelper.accessor("coverage_amount", {
     cell: (info) => {
       return (
         <div className="font-regular text-[12px]">{info.getValue() || "-"}</div>
@@ -38,25 +40,34 @@ export const columns = [
     },
     header: "Amount",
   }),
-  columnHelper.accessor("issueDate", {
+  columnHelper.accessor("issue_date", {
     cell: (info) => {
       return (
-        <div className="font-regular text-[12px]">{info.getValue() || "-"}</div>
+        <div className="font-regular text-[12px]">
+          {formatDate(info.getValue(), true) || "-"}
+        </div>
       );
     },
     header: "Issue Date",
   }),
-  columnHelper.accessor("expiryDate", {
+  columnHelper.accessor("expiry_date", {
     cell: (info) => {
       return (
-        <div className="font-regular text-[12px]">{info.getValue() || "-"}</div>
+        <div className="font-regular text-[12px]">
+          {formatDate(info.getValue(), true) || "-"}
+        </div>
       );
     },
     header: "Expiry Date",
   }),
-  columnHelper.accessor("action", {
+  columnHelper.display({
+    id: "action",
     cell: (info) => {
-      return <div>{info.getValue() || "-"}</div>;
+      return (
+        <div>
+          <InsurancePopover id={info.row.original.insurance_id} />
+        </div>
+      );
     },
     header: "Action",
   }),

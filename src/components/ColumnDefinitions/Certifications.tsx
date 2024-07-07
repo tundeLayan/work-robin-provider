@@ -1,16 +1,12 @@
 "use client";
 
-import { ReactNode } from "react";
-
 import { createColumnHelper } from "@tanstack/react-table";
 
 import { CertificationType } from "@/services/queries/certifications/types";
+import CertificatePopover from "../shared/profile/popovers/CertificatePopover";
+import { formatDate } from "@/utils";
 
-type CertificationsColumms = CertificationType & {
-  action: ReactNode;
-};
-
-const columnHelper = createColumnHelper<CertificationsColumms>();
+const columnHelper = createColumnHelper<CertificationType>();
 
 export const columns = [
   columnHelper.accessor("title", {
@@ -29,7 +25,7 @@ export const columns = [
     },
     header: "Industry",
   }),
-  columnHelper.accessor("link", {
+  columnHelper.accessor("verification_link", {
     cell: (info) => {
       return (
         <div className="font-regular text-[12px]">{info.getValue() || "-"}</div>
@@ -37,7 +33,7 @@ export const columns = [
     },
     header: "Certification Link",
   }),
-  columnHelper.accessor("company", {
+  columnHelper.accessor("organization", {
     cell: (info) => {
       return (
         <div className="font-regular text-[12px]">{info.getValue() || "-"}</div>
@@ -45,26 +41,35 @@ export const columns = [
     },
     header: "Company",
   }),
-  columnHelper.accessor("issueDate", {
+  columnHelper.accessor("issue_date", {
     cell: (info) => {
       return (
-        <div className="font-regular text-[12px]">{info.getValue() || "-"}</div>
+        <div className="font-regular text-[12px]">
+          {formatDate(info.getValue(), true) || "-"}
+        </div>
       );
     },
     header: "Issue Date",
   }),
-  columnHelper.accessor("expiryDate", {
+  columnHelper.accessor("expiry_date", {
     cell: (info) => {
       return (
-        <div className="font-regular text-[12px]">{info.getValue() || "-"}</div>
+        <div className="font-regular text-[12px]">
+          {formatDate(info.getValue(), true) || "-"}
+        </div>
       );
     },
     header: "Expiry Date",
   }),
-  columnHelper.accessor("action", {
-    cell: (info) => {
-      return <div>{info.getValue() || "-"}</div>;
-    },
+  columnHelper.display({
+    id: "action",
     header: "Action",
+    cell: (info) => {
+      return (
+        <div>
+          <CertificatePopover id={info.row.original.certificate_id} />
+        </div>
+      );
+    },
   }),
 ];

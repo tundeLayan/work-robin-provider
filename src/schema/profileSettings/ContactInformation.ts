@@ -9,9 +9,11 @@ export const contactSchema = z.object({
   last_name: z.string({
     required_error: ErrorMessages.required("Last Name"),
   }),
-  ssn: z.string({
-    required_error: ErrorMessages.required("SSN/TIN"),
-  }),
+  ssn: z
+    .string({
+      required_error: ErrorMessages.required("SSN/TIN"),
+    })
+    .optional(),
   countryCode: z.string({
     required_error: ErrorMessages.required("Country Code"),
   }),

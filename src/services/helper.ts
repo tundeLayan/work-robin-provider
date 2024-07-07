@@ -58,8 +58,7 @@ export const getQueryKeys = (namespace: string) => ({
 
 export function handleErrors(err: GenericResponse) {
   const { response, message } = err;
-  // if (!response?.message) return message;
-  const { data } = response;
+  const data = response?.data;
 
   if (!data) return message;
 

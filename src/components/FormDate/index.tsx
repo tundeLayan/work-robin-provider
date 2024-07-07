@@ -35,7 +35,7 @@ export function FormDatePicker(props: IProps) {
       })}
     >
       <FormLabel>{label}</FormLabel>
-      <Popover>
+      <Popover modal>
         <PopoverTrigger asChild>
           <FormControl>
             <Button
@@ -49,7 +49,7 @@ export function FormDatePicker(props: IProps) {
             </Button>
           </FormControl>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent className="w-auto p-0 z-[1000]" align="start">
           <Calendar
             mode="single"
             selected={value}

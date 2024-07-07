@@ -70,7 +70,7 @@ export const profileDashboardLinks = [
       {
         id: 2,
         label: "Tax Information",
-        route: routes.dashboard.profile.taxInformation.path,
+        route: routes.dashboard.profile.taxInformation.verify.path,
       },
       {
         id: 4,

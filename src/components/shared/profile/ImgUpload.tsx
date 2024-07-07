@@ -63,6 +63,7 @@ const ImgUpload = ({
           id="file-upload"
           className="hidden"
           type="file"
+          accept="image/*"
           onChange={handleChange}
         />
       </div>

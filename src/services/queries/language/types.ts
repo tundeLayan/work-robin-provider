@@ -12,7 +12,7 @@ export interface LanguagePlusActionType extends LanguageType {
 }
 
 export interface LanguageResponse {
-  languages: Array<any>;
+  languages: Array<LanguageType>;
   pagination: {
     totalRecords: number;
     totalPages: number;
