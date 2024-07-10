@@ -14,14 +14,10 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Button, Checkbox, FormInput, RenderIf } from "@/components";
+import { Button, Checkbox, FormInput } from "@/components";
 import FormSelect from "../../FormSelect";
 import { taxSchema } from "@/schema/profileSettings/TaxInformation";
-import {
-  countryData,
-  industryData,
-  TaxTypes,
-} from "@/constants/profileSettings";
+import { TaxTypes } from "@/constants/profileSettings";
 import {
   useTaxInformationPost,
   useTaxInformationRead,

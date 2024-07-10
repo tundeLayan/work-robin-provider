@@ -1,3 +1,4 @@
+import { PaginationType } from "@/services/generalTypes";
 import { ReactNode } from "react";
 
 export interface CertificationType {
@@ -16,14 +17,7 @@ export interface CertificationPlusActionType extends CertificationType {
 
 export interface CertificationResponse {
   certifications: Array<CertificationType>;
-  pagination: {
-    totalRecords: number;
-    totalPages: number;
-    currentPage: number;
-    nextPage: any;
-    previousPage: any;
-    limit: number;
-  };
+  pagination: PaginationType;
 }
 
 export interface CertificationRequest {

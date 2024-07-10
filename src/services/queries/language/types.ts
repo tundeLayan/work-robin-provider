@@ -1,3 +1,4 @@
+import { PaginationType } from "@/services/generalTypes";
 import { ReactNode } from "react";
 
 export interface LanguageType {
@@ -13,14 +14,7 @@ export interface LanguagePlusActionType extends LanguageType {
 
 export interface LanguageResponse {
   languages: Array<LanguageType>;
-  pagination: {
-    totalRecords: number;
-    totalPages: number;
-    currentPage: number;
-    nextPage: any;
-    previousPage: any;
-    limit: number;
-  };
+  pagination: PaginationType;
 }
 
 export interface LanguageRequest {
