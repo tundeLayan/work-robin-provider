@@ -30,7 +30,6 @@ const ContactInformationForm = () => {
   const { data } = useProfileRead();
   const { mutate, isPending } = useProfilePost();
   const countryOptions = useMemo(() => countryList().getData(), []);
-  console.log(countryOptions);
 
   const [_, setFile] = useState<File | null>(null);
 

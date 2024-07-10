@@ -4,23 +4,37 @@ import { ErrorMessages } from "@/constants/errors";
 
 export const taxSchema = z
   .object({
-    taxType: z.enum(["SSN", "TIN"]),
-    ssn: z
-      .string({
-        required_error: ErrorMessages.required("SSN"),
-      })
-      .optional(),
-    tin: z
-      .string({
-        required_error: ErrorMessages.required("TIN"),
-      })
-      .optional(),
-    as: z.string(),
-
-    address: z.string({
-      required_error: ErrorMessages.required("Address"),
+    // tax_type: z.string({
+    //   required_error: ErrorMessages.required("Tax Type"),
+    // }),
+    tax_id_type: z.enum(["SSN", "TIN"]),
+    // ssn: z
+    //   .string({
+    //     required_error: ErrorMessages.required("SSN"),
+    //   })
+    //   .optional(),
+    // tin: z
+    //   .string({
+    //     required_error: ErrorMessages.required("TIN"),
+    //   })
+    //   .optional(),
+    full_name: z.string({
+      required_error: ErrorMessages.required("Full Name"),
     }),
-    suite: z.string({
+    business_tax_id_number: z
+      .string({
+        required_error: ErrorMessages.required("Business Tax Id"),
+      })
+      .optional(),
+    tax_id_number: z
+      .string({
+        required_error: ErrorMessages.required("Business Tax Id"),
+      })
+      .optional(),
+    street_address: z.string({
+      required_error: ErrorMessages.required("Street Address"),
+    }),
+    house_number: z.string({
       required_error: ErrorMessages.required("Suite/Floor"),
     }),
     city: z.string({
@@ -29,30 +43,38 @@ export const taxSchema = z
     state: z.string({
       required_error: ErrorMessages.required("State"),
     }),
-    zipcode: z.string({
+    zip_code: z.string({
       required_error: ErrorMessages.required("ZipCode"),
     }),
     country: z.string({
       required_error: ErrorMessages.required("Country"),
     }),
-    electronic: z.boolean().refine((val) => val, {
-      message: "You must agree to receive 1099 electronically",
-    }),
+    receive_1099_electronically: z.boolean(),
+    // receive_1099_electronically: z.boolean().refine((val) => val, {
+    //   message: "You must agree to receive 1099 electronically",
+    // }),
   })
   .superRefine((data, ctx) => {
-    if (data.taxType === "SSN") {
-      if (data.ssn === undefined) {
+    if (data.tax_id_type === "SSN") {
+      if (data.tax_id_number === undefined) {
         ctx.addIssue({
-          path: ["ssn"],
+          path: ["tax_id_number"],
           code: z.ZodIssueCode.custom,
           message: ErrorMessages.required("SSN"),
         });
       }
-    }
-    if (data.taxType === "TIN") {
-      if (data.tin === undefined) {
+      if (data.business_tax_id_number?.length !== 9) {
         ctx.addIssue({
-          path: ["tin"],
+          path: ["tax_id_number"],
+          code: z.ZodIssueCode.custom,
+          message: "SSN must be 9 digits",
+        });
+      }
+    }
+    if (data.tax_id_type === "TIN") {
+      if (data.full_name === undefined) {
+        ctx.addIssue({
+          path: ["full_name"],
           code: z.ZodIssueCode.custom,
           message: ErrorMessages.required("TIN"),
         });

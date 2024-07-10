@@ -9,9 +9,9 @@ export const AccountType = [
 ];
 
 export const countryData = [
-  { value: "nigeria", label: "Nigeria" },
-  { value: "ghana", label: "Ghana" },
-  { value: "zambia", label: "Zambia" },
+  { value: "Nigeria", label: "Nigeria" },
+  { value: "Ghana", label: "Ghana" },
+  { value: "Zambia", label: "Zambia" },
 ];
 
 export const stateData = [

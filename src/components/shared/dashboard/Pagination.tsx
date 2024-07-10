@@ -103,14 +103,12 @@ const Pagination = (props: IProps) => {
             <div className="flex items-center gap-4">
               <p className="text-neutral-500 font-medium text-xs">
                 Showing{" "}
-                <span>
-                  {(Number(meta?.currentPage) - 1) * Number(meta?.limit) + 1}{" "}
-                </span>
+                <span>{Number(meta?.skip) * Number(meta?.limit) + 1} </span>
                 to{" "}
                 <span>
                   {Math.min(
-                    Number(meta?.currentPage) * Number(meta?.limit),
-                    meta?.totalPages,
+                    (Number(meta?.skip) + 1) * Number(meta?.limit),
+                    meta?.totalRecords,
                   )}{" "}
                 </span>
                 of <span>{meta?.totalRecords}</span> entries
