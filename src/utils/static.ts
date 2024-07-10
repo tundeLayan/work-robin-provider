@@ -21,6 +21,7 @@ export const defaultMeta = {
   nextPage: 2,
   previousPage: 1,
   limit: 10,
+  skip: 0,
 };
 
 export const dashboardLinks = [

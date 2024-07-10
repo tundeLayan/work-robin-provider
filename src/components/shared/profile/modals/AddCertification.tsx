@@ -86,6 +86,7 @@ export function AddCertification({ open, setOpen, oldData }: IProps) {
   };
   useEffect(() => {
     if (oldData) {
+      console.log(oldData.industry);
       setValue("title", oldData.title);
       setValue("industry", oldData.industry);
       setValue("organization", oldData.organization);

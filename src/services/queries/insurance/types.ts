@@ -1,3 +1,4 @@
+import { PaginationType } from "@/services/generalTypes";
 import { ReactNode } from "react";
 
 export interface InsuranceType {
@@ -22,14 +23,7 @@ export interface InsurancePlusActionType extends InsuranceType {
 
 export interface InsuranceResponse {
   insurances: Array<InsuranceType>;
-  pagination: {
-    totalRecords: number;
-    totalPages: number;
-    currentPage: number;
-    nextPage: any;
-    previousPage: any;
-    limit: number;
-  };
+  pagination: PaginationType;
 }
 
 export interface InsuranceRequest {
