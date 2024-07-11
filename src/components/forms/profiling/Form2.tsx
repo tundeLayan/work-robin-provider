@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import countryList from "react-select-country-list";
 
 import { Button, FormInput, FormSelect } from "@/components";
 import { FormField } from "@/components/ui/form";
@@ -18,6 +19,8 @@ interface IProps {
 }
 
 const Form2 = (props: IProps) => {
+  const countryOptions = useMemo(() => countryList().getData(), []);
+
   const {
     form: {
       control,
@@ -115,27 +118,27 @@ const Form2 = (props: IProps) => {
       />
       <FormField
         control={control}
-        name="state"
-        render={({ field }) => (
-          <FormSelect
-            error={errors.state}
-            label="State"
-            placeholder="Select State"
-            containerClass="mb-4 col-span-2"
-            className=""
-            selectData={Tax}
-            {...field}
-          />
-        )}
-      />
-      <FormField
-        control={control}
         name="country"
         render={({ field }) => (
           <FormSelect
             error={errors.country}
             label="Country"
             placeholder="Select Country"
+            containerClass="mb-4 col-span-2"
+            className=""
+            selectData={countryOptions}
+            {...field}
+          />
+        )}
+      />
+      <FormField
+        control={control}
+        name="state"
+        render={({ field }) => (
+          <FormSelect
+            error={errors.state}
+            label="State"
+            placeholder="Select State"
             containerClass="mb-4 col-span-2"
             className=""
             selectData={Tax}

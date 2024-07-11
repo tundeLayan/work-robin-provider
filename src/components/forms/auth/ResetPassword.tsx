@@ -30,6 +30,7 @@ const ResetPasswordForm = () => {
     control,
     formState: { errors },
     getValues,
+    trigger,
   } = form;
 
   const onSubmit = (values: TResetPassword) => {
@@ -37,8 +38,10 @@ const ResetPasswordForm = () => {
     mutate({ url: "/auth/reset-password", data: { email } });
   };
 
-  const handleResend = () => {
-    if (!getValues("email")) return;
+  const handleResend = async () => {
+    // TODO: validate that it is a valid email
+    const isValid = await trigger("email");
+    if (!getValues("email") || !isValid) return;
     resendMutate({
       url: "/auth/resend-verification-email",
       data: { email: getValues("email") },
@@ -88,13 +91,13 @@ const ResetPasswordForm = () => {
         </form>
         <p className="text-center text-neutral-250 text-sm font-medium leading-[1.4rem] mt-[72px]">
           Didn't receive a code?{" "}
-          <p
+          <span
             role="button"
             onClick={handleResend}
             className="text-primary-50 underline inline-block"
           >
             Resend
-          </p>{" "}
+          </span>{" "}
         </p>
       </Form>
     </div>

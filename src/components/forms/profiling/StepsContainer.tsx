@@ -26,9 +26,12 @@ type TForm = z.infer<typeof formSchema>;
 const steps = 5;
 const StepsContainer = () => {
   const searchParams = useSearchParams();
+
   const email = searchParams.get("email");
   const userId = searchParams.get("userid");
+
   const { mutate, isPending } = useCompleteProviderSignup();
+
   const [currentStep, setCurrentStep] = useState(1);
 
   const form = useForm<TForm>({
@@ -39,7 +42,11 @@ const StepsContainer = () => {
     return step <= currentStep;
   };
 
-  const { handleSubmit, getValues } = form;
+  const {
+    handleSubmit,
+    getValues,
+    formState: { isDirty },
+  } = form;
 
   const onSubmit = (values: TForm) => {
     // NO tax number in design, no house number in design
@@ -149,7 +156,7 @@ const StepsContainer = () => {
             </RenderIf>
             <RenderIf condition={currentStep === 6}>
               <Form6
-                {...{ form, prevPage, isPending }}
+                {...{ form, prevPage, isPending, setCurrentStep, isDirty }}
                 onSubmit={() => {
                   onSubmit(getValues());
                 }}

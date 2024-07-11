@@ -23,7 +23,7 @@ export const useInitializeProviderSignup = () => {
       console.log({ res });
       successToast(res?.data?.message as string);
       navigate.push(
-        `${routes.auth.profiling.path}?email=${variables?.data?.email}`,
+        `${routes.auth.profiling.path}?email=${variables?.data?.email}&name=${variables?.data?.first_name}`,
       );
     },
     onError: (err: GenericResponse) => {

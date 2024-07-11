@@ -1,10 +1,13 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
+import Image from "next/image";
 
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 import { Button, UploadedFile } from "@/components";
 import { formSchema } from "@/schema/profile/onboardingProfiling";
+import { formatDate } from "@/utils";
 
 type TForm = z.infer<typeof formSchema>;
 
@@ -13,6 +16,8 @@ interface IProps {
   prevPage: () => void;
   onSubmit: () => void;
   isPending?: boolean;
+  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  isDirty: boolean;
 }
 
 // TODO: Ask, do we have license to store people's card details
@@ -20,12 +25,14 @@ const Form6 = (props: IProps) => {
   const {
     form: {
       // control,
-      // formState: { errors },
       trigger,
+      watch,
     },
+    isDirty,
     // prevPage,
     onSubmit,
     isPending,
+    setCurrentStep,
   } = props;
 
   const onNextClick = async () => {
@@ -35,6 +42,42 @@ const Form6 = (props: IProps) => {
     }
     // check for errors
     onSubmit();
+  };
+  const {
+    firstName,
+    lastName,
+    state,
+    country,
+    yourBio,
+    yourSkills,
+    resume,
+    picture,
+  } = watch();
+
+  // TODO: turn this to a hook
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isDirty) {
+        const confirmationMessage =
+          "You have unsaved changes, are you sure you want to leave?";
+        e.returnValue = confirmationMessage; // Legacy method for cross-browser support
+        return confirmationMessage; // Standard method
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isDirty]);
+
+  const handleFileConversionToImage = (file: File) => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      return url;
+    }
+    return "";
   };
 
   return (
@@ -46,54 +89,87 @@ const Form6 = (props: IProps) => {
       </div>
       <div className="mb-6 flex flex-col gap-9">
         <div className="flex gap-4">
-          <div className="w-[96px] h-[96px] rounded-full border bg-slate-500"></div>
+          {/* <div className="w-[96px] h-[96px] rounded-full border bg-slate-500"></div> */}
+          <Image
+            alt=""
+            className="w-[96px] h-[96px] rounded-full border"
+            src={handleFileConversionToImage(picture as File)}
+            width={50}
+            height={50}
+          />
           <div className="flex flex-col">
             <h5 className="text-base font-semibold leading-[20px] text-black">
-              Ademola Adeleke
+              {firstName} {lastName}
             </h5>
             <p className="text-grey-500 text-xs font-normal leading-[19.2px]">
-              Birmingham, United Kingdom
+              {state}, {country}
             </p>
             <p className="text-grey-500 text-xs font-normal leading-[19.2px]">
-              11:23AM Local Time
+              {formatDate(new Date(), false, true)} Local Time
             </p>
             <Button
               className="border border-neutral-950 py-[6px] px-3 rounded"
               variant="tertiary"
               label="Edit"
               size="sm"
+              type="button"
             />
           </div>
         </div>
         <div className="ssn">
-          <SectionTitle actionText="Edit" title="SSN" />
+          <SectionTitle
+            actionText="Edit"
+            title="SSN"
+            actionFn={() => {
+              setCurrentStep(1);
+            }}
+          />
           <p className="text-secondary-150 text-sm font-medium leading-[22.4px]">
             288290021
           </p>
         </div>
         <div className="bio">
-          <SectionTitle actionText="Edit" title="My Bio" />
+          <SectionTitle
+            actionText="Edit"
+            title="My Bio"
+            actionFn={() => {
+              setCurrentStep(5);
+            }}
+          />
           <p className="text-secondary-150 text-sm font-medium leading-[22.4px]">
-            I am a dedicated plumber, providing seamless and countless services
-            with high quality standard for my customer utmost satisfaction
+            {yourBio}
           </p>
         </div>
 
         <div className="skills">
-          <SectionTitle actionText="Edit" title="Your Skills" />
+          <SectionTitle
+            actionText="Edit"
+            title="Your Skills"
+            actionFn={() => {
+              setCurrentStep(4);
+            }}
+          />
           <div className="flex flex-wrap">
-            <p className="bg-primary-600 px-3 py-1 text-primary-50 text-sm font-normal leading-[22.4px] gap-[8px]">
-              Plumbing
-            </p>
-            <p className="bg-primary-600 px-3 py-1 text-primary-50 text-sm font-normal leading-[22.4px] gap-[8px]">
-              Plumber
-            </p>
+            {yourSkills?.map((skill) => (
+              <p
+                key={skill.id}
+                className="bg-primary-600 px-3 py-1 text-primary-50 text-sm font-normal leading-[22.4px] gap-[8px]"
+              >
+                {skill.name}
+              </p>
+            ))}
           </div>
         </div>
 
         <div className="resume">
-          <SectionTitle actionText="Replace" title="My Resume" />
-          <UploadedFile />
+          <SectionTitle
+            actionText="Replace"
+            title="My Resume"
+            actionFn={() => {
+              setCurrentStep(3);
+            }}
+          />
+          <UploadedFile isResumeUploaded={resume} />
         </div>
       </div>
 

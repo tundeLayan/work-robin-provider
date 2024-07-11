@@ -7,4 +7,6 @@ export const ErrorMessages = {
   invalidType: (value: string) => `Please input only ${value}`,
   length: (num: number = 6, label: string) =>
     `Your ${label} must be ${num} characters.`,
+  tooLong: (label: string, length: number) =>
+    `Your ${label} must not be more than ${length} characters`,
 };

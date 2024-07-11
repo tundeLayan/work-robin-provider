@@ -8,6 +8,7 @@ export function formatDate(
   dateString?: string | Date,
   dateOnly: boolean = false,
   returnIsToday: boolean = true,
+  onlyTime: boolean = false,
 ) {
   if (!dateString) return "";
   const date = new Date(dateString);
@@ -25,6 +26,8 @@ export function formatDate(
 
   if (isToday && returnIsToday) {
     return `${time}, Today`;
+  } else if (onlyTime) {
+    return `${time}`;
   } else {
     const options: Intl.DateTimeFormatOptions = {
       month: "long",

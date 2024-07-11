@@ -116,5 +116,6 @@ export const formSchema = z.object({
     .string({
       required_error: ErrorMessages.required("Your Bio"),
     })
-    .min(8, { message: ErrorMessages.length(8, "Bio") }),
+    .min(8, { message: ErrorMessages.length(8, "Bio") })
+    .max(200, { message: ErrorMessages.tooLong("Bio", 200) }),
 });

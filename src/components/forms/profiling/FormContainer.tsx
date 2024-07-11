@@ -16,6 +16,7 @@ const ProfilingForm = () => {
     (searchParams.get("activePage") as PageType) || "welcomePage",
   );
   const email = searchParams.get("email");
+  const name = searchParams.get("name");
 
   return (
     <>
@@ -24,7 +25,7 @@ const ProfilingForm = () => {
           <EmailWithIcon userEmail={`${email}`} />
           <div className="text-center">
             <p className="Profiling-form-title mt-6 mb-6">
-              Hey Emmanuel, Welcome to WorkRobin
+              Hey {name}, Welcome to WorkRobin
             </p>
             <h5 className="Profiling-form-subtitle mb-9">
               Getting ready for your next offer? Let’s get your profile up to
