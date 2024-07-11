@@ -113,6 +113,9 @@ const Form6 = (props: IProps) => {
               label="Edit"
               size="sm"
               type="button"
+              onClick={() => {
+                setCurrentStep(2);
+              }}
             />
           </div>
         </div>
