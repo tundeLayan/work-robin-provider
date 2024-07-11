@@ -12,6 +12,7 @@ export async function middleware(request: NextRequest) {
 
   const url = request.nextUrl.clone();
 
+  // NOTE: For authentication
   if (url.pathname.startsWith("/dashboard")) {
     if (!CookieValue) {
       return NextResponse.redirect(

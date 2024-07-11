@@ -27,10 +27,10 @@ const UploadedFile = (props: IUploadedFileProps) => {
         />
         <span className="flex flex-col gap-1">
           <p className="text-tertiary-150 font-normal text-base leading-[19.36px]">
-            {isResumeUploaded?.name || "dummyfile.pdf"}
+            {isResumeUploaded?.name || "noname.pdf"}
           </p>
           <p className="font-normal text-xs leading-[14.52px] text-neutral-850">
-            {bytesToKB(isResumeUploaded?.size) || "200kb"}
+            {bytesToKB(isResumeUploaded?.size) || "0kb"}
           </p>
         </span>
       </div>

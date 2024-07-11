@@ -51,7 +51,7 @@ const LoginForm = () => {
         >
           <div className="mb-6">
             <p className="WR-form-sub-headers">LOGIN</p>
-            <h5 className="WR-form-headers">Welcome back, Tobilola</h5>
+            <h5 className="WR-form-headers">Welcome back</h5>
           </div>
           <FormField
             control={control}
