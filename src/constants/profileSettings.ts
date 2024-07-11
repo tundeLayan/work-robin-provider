@@ -4,8 +4,8 @@ export const TaxTypes = [
 ];
 
 export const AccountType = [
-  { value: "current", label: "Current" },
-  { value: "savings", label: "Savings" },
+  { value: "Checking", label: "Checking" },
+  { value: "Savings", label: "Savings" },
 ];
 
 export const countryData = [

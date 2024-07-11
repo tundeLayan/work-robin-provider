@@ -79,7 +79,7 @@ const TaxInformationForm = () => {
     if (data) {
       setValue("tax_id_type", data.tax_id_type as "SSN" | "TIN");
       setValue("full_name", data.full_name);
-      setValue("tax_id_number", data.tax_id_number);
+      // setValue("tax_id_number", data.tax_id_number);
       setValue("business_tax_id_number", data.business_tax_id_number);
       setValue("street_address", data.address.street_address);
       setValue("city", data.address.city);
@@ -122,7 +122,7 @@ const TaxInformationForm = () => {
                   <FormInput
                     label="Social Security Number"
                     error={errors.tax_id_number}
-                    placeholder="SSN"
+                    placeholder={data?.tax_id_number || "SSN"}
                     containerClass="mb-4"
                     className="rounded-none"
                     {...field}
