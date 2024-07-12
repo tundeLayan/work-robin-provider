@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type z } from "zod";
 import { useForm } from "react-hook-form";
+import cx from "classnames";
 
 import {
   Form,
@@ -13,19 +14,27 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Button, Checkbox, FormInput, RenderIf } from "@/components";
+import { Button, Checkbox, FormInput } from "@/components";
 import FormSelect from "../../FormSelect";
 import { taxSchema } from "@/schema/profileSettings/TaxInformation";
-import { TaxTypes, countryData } from "@/constants/profileSettings";
+import { TaxTypes } from "@/constants/profileSettings";
+import {
+  useTaxInformationPost,
+  useTaxInformationRead,
+} from "@/services/queries/taxIInformation";
+import countryList from "react-select-country-list";
 
 type TTax = z.infer<typeof taxSchema>;
 
 const TaxInformationForm = () => {
+  const { data } = useTaxInformationRead();
+  const { mutate, isPending } = useTaxInformationPost(data?.tax_information_id);
+  const countryOptions = useMemo(() => countryList().getData(), []);
   const form = useForm<TTax>({
     resolver: zodResolver(taxSchema),
     defaultValues: {
-      electronic: false,
-      taxType: "SSN",
+      receive_1099_electronically: false,
+      tax_id_type: "SSN",
     },
   });
 
@@ -33,14 +42,53 @@ const TaxInformationForm = () => {
     handleSubmit,
     control,
     watch,
+    setValue,
     formState: { errors },
   } = form;
-  console.log(errors);
+  // console.log(errors);
 
-  const selectedType = watch("taxType");
-  const watchElectronic = watch("electronic");
+  const selectedType = watch("tax_id_type");
+  // const watchElectronic = watch("receive_1099_electronically");
 
-  const onSubmit = () => {};
+  const onSubmit = (values: TTax) => {
+    if (data?.tax_information_id) {
+      mutate({
+        data: {
+          taxInformation: {
+            address: {
+              house_number: values.house_number,
+              street_address: values.street_address,
+              city: values.city,
+              state: values.state,
+              zip_code: values.zip_code,
+              country: values.country,
+            },
+            tax_type: "",
+            tax_id_type: values.tax_id_type,
+            tax_id_number: values.tax_id_number,
+            business_tax_id_number: values.business_tax_id_number,
+            full_name: values.full_name,
+            receive_1099_electronically: values.receive_1099_electronically,
+          },
+        },
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      setValue("tax_id_type", data.tax_id_type as "SSN" | "TIN");
+      setValue("full_name", data.full_name);
+      // setValue("tax_id_number", data.tax_id_number);
+      setValue("business_tax_id_number", data.business_tax_id_number);
+      setValue("street_address", data.address.street_address);
+      setValue("city", data.address.city);
+      setValue("state", data.address.state);
+      setValue("country", data.address.country);
+      setValue("zip_code", data.address.zip_code);
+      setValue("house_number", data.address.house_number);
+    }
+  }, [data]);
   return (
     <div className="mt-8">
       <Form {...form}>
@@ -53,60 +101,61 @@ const TaxInformationForm = () => {
           <div className="max-w-[600px]">
             <FormField
               control={control}
-              name="taxType"
+              name="tax_id_type"
               render={({ field }) => (
                 <FormSelect
                   label="Select Tax Type"
-                  error={errors.taxType}
+                  error={errors.tax_id_type}
                   placeholder="Select one"
                   containerClass="mb-4"
-                  className=" rounded-none"
+                  className="rounded-none"
                   selectData={TaxTypes}
                   {...field}
                 />
               )}
             />
-            <RenderIf condition={selectedType === "SSN"}>
+            <div className={cx("", { hidden: selectedType !== "SSN" })}>
               <FormField
                 control={control}
-                name="ssn"
+                name="tax_id_number"
                 render={({ field }) => (
                   <FormInput
                     label="Social Security Number"
-                    error={errors.ssn}
-                    placeholder="SSN"
+                    error={errors.tax_id_number}
+                    placeholder={data?.tax_id_number || "SSN"}
                     containerClass="mb-4"
                     className="rounded-none"
                     {...field}
                   />
                 )}
               />
-            </RenderIf>
-            <RenderIf condition={selectedType === "TIN"}>
+            </div>
+
+            <div className={cx("", { hidden: selectedType !== "TIN" })}>
               <FormField
                 control={control}
-                name="tin"
+                name="full_name"
                 render={({ field }) => (
                   <FormInput
                     label="Full Name associated with TIN"
-                    error={errors.tin}
-                    placeholder="TIN"
+                    error={errors.full_name}
+                    placeholder="Tin Name"
                     containerClass="mb-4"
                     className="rounded-none"
                     {...field}
                   />
                 )}
               />
-            </RenderIf>
+            </div>
 
             <FormField
               control={control}
-              name="as"
+              name="business_tax_id_number"
               render={({ field }) => (
                 <FormInput
                   label="Doing Business As - optional"
-                  error={errors.as}
-                  placeholder="SSN"
+                  error={errors.business_tax_id_number}
+                  placeholder="Business Tax Id Name"
                   containerClass="mb-4"
                   className="rounded-none"
                   {...field}
@@ -116,11 +165,11 @@ const TaxInformationForm = () => {
 
             <FormField
               control={control}
-              name="address"
+              name="street_address"
               render={({ field }) => (
                 <FormInput
                   label="Address"
-                  error={errors.address}
+                  error={errors.street_address}
                   placeholder="Enter your address here"
                   containerClass="mb-4"
                   className="rounded-none"
@@ -132,10 +181,10 @@ const TaxInformationForm = () => {
             <div className="flex gap-5 ">
               <FormField
                 control={control}
-                name="suite"
+                name="house_number"
                 render={({ field }) => (
                   <FormInput
-                    error={errors.suite}
+                    error={errors.house_number}
                     placeholder="Suite/Floor"
                     containerClass="mb-4 flex-1"
                     className="rounded-none"
@@ -150,7 +199,7 @@ const TaxInformationForm = () => {
                 render={({ field }) => (
                   <FormInput
                     error={errors.city}
-                    placeholder="Address"
+                    placeholder="City"
                     containerClass="mb-8 flex-1"
                     className="rounded-none"
                     {...field}
@@ -176,10 +225,10 @@ const TaxInformationForm = () => {
 
               <FormField
                 control={control}
-                name="zipcode"
+                name="zip_code"
                 render={({ field }) => (
                   <FormInput
-                    error={errors.zipcode}
+                    error={errors.zip_code}
                     placeholder="Zip code"
                     containerClass="mb-4 flex-1"
                     className="rounded-none"
@@ -198,7 +247,7 @@ const TaxInformationForm = () => {
                   placeholder="Country"
                   containerClass="mb-4"
                   className="rounded-none"
-                  selectData={countryData}
+                  selectData={countryOptions}
                   {...field}
                 />
               )}
@@ -207,7 +256,7 @@ const TaxInformationForm = () => {
           <div className="pb-4 ">
             <FormField
               control={form.control}
-              name="electronic"
+              name="receive_1099_electronically"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 ">
                   <FormControl>
@@ -274,14 +323,15 @@ const TaxInformationForm = () => {
             />
             <Button
               label="Update Tax Information"
-              disabled={!!errors.electronic}
+              loading={isPending}
+              // disabled={!!errors.receive_1099_electronically}
               className=" rounded-xl w-[243px] h-14"
               type="submit"
-              title={
-                !watchElectronic
-                  ? "You have to agree to the terms to continue"
-                  : ""
-              }
+              // title={
+              //   !watchElectronic
+              //     ? "You have to agree to the terms to continue"
+              //     : ""
+              // }
             />
           </div>
         </form>

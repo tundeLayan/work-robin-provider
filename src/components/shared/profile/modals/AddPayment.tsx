@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,31 +18,42 @@ import {
   TPayment,
   paymentSchema,
 } from "@/schema/profileSettings/PaymentDetails";
-import { Dispatch, ReactNode, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Image from "next/image";
 import profile from "@/lib/assets/profile";
 import { AccountType } from "@/constants/profileSettings";
+import { usePaymentPatch, usePaymentPost } from "@/services/queries/payment";
+import { PaymentType } from "@/services/queries/payment/types";
 
 interface IProps {
-  children: ReactNode;
-  set: Dispatch<SetStateAction<Array<TPayment & { default: boolean }>>>;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  oldData?: PaymentType;
 }
 
 const radioOptions = [
-  { value: "direct", label: "Direct Deposit", id: "direct" },
+  { value: "Direct Deposit", label: "Direct Deposit", id: "Direct Deposit" },
   {
-    value: "paypal",
+    value: "PayPal",
     label: "PayPal",
-    id: "paypal",
+    id: "PayPal",
   },
 ];
 
-export function AddPayment({ children, set }: IProps) {
+export function AddPayment({ open, setOpen, oldData }: IProps) {
   const [isForm, setIsForm] = useState(true);
+  const close = () => {
+    setIsForm(false);
+  };
+  const { mutate, isPending } = usePaymentPost(close);
+  const { updateMutate, updateIsPending } = usePaymentPatch(
+    close,
+    oldData?.payment_methods_id,
+  );
   const form = useForm<TPayment>({
     resolver: zodResolver(paymentSchema),
     defaultValues: {
-      paymentType: "direct",
+      payment_method: "Direct Deposit",
     },
   });
 
@@ -52,20 +62,30 @@ export function AddPayment({ children, set }: IProps) {
     control,
     formState: { errors },
     watch,
+    setValue,
   } = form;
-  const paymentType = watch("paymentType");
+  const paymentType = watch("payment_method");
 
   const onSubmit = (values: TPayment) => {
-    set((prev) => [...prev, { ...values, default: false }]);
-    setIsForm(false);
+    if (oldData) {
+      updateMutate(values);
+    } else {
+      mutate(values);
+    }
   };
+  useEffect(() => {
+    if (oldData) {
+      setValue("payment_method", oldData.payment_method);
+      setValue("email", oldData.email);
+      setValue("routing_number", oldData.routing_number);
+      setValue("bank_name", oldData.bank_name);
+      setValue("account_number", oldData.account_number);
+      setValue("account_name", oldData.account_name);
+      setValue("account_type", oldData.account_type);
+    }
+  }, [oldData]);
   return (
-    <Dialog
-      onOpenChange={() => {
-        setIsForm(true);
-      }}
-    >
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[501px]" closeClassName="hidden">
         {isForm ? (
           <>
@@ -74,7 +94,7 @@ export function AddPayment({ children, set }: IProps) {
                 Add Payment
               </DialogTitle>
             </DialogHeader>
-            <div className="grid gap-4 overflow-y-auto min-h-[515px] max-h-[90vh]">
+            <div className="grid gap-4 overflow-y-auto min-h-[315px] max-h-[90vh]">
               <Form {...form}>
                 <form
                   className="flex flex-col justify-between "
@@ -85,7 +105,7 @@ export function AddPayment({ children, set }: IProps) {
                   <div>
                     <FormField
                       control={form.control}
-                      name="paymentType"
+                      name="payment_method"
                       render={({ field }) => (
                         <FormRadioGroup
                           options={radioOptions}
@@ -96,15 +116,15 @@ export function AddPayment({ children, set }: IProps) {
                         />
                       )}
                     />
-                    {paymentType === "direct" && (
+                    {paymentType === "Direct Deposit" && (
                       <>
                         <FormField
                           control={control}
-                          name="routingNumber"
+                          name="routing_number"
                           render={({ field }) => (
                             <FormInput
                               label="Routing Number"
-                              error={errors.routingNumber}
+                              error={errors.routing_number}
                               placeholder="Enter the routing number"
                               containerClass="mb-6"
                               {...field}
@@ -113,11 +133,11 @@ export function AddPayment({ children, set }: IProps) {
                         />
                         <FormField
                           control={control}
-                          name="accountType"
+                          name="account_type"
                           render={({ field }) => (
                             <FormSelect
                               label="Account Type"
-                              error={errors.accountType}
+                              error={errors.account_type}
                               placeholder="Select one"
                               containerClass="mb-6"
                               className="rounded-[10px]"
@@ -130,11 +150,11 @@ export function AddPayment({ children, set }: IProps) {
 
                         <FormField
                           control={control}
-                          name="accountNumber"
+                          name="account_number"
                           render={({ field }) => (
                             <FormInput
                               label="Account Number"
-                              error={errors.accountNumber}
+                              error={errors.account_number}
                               placeholder="Enter the routing number"
                               containerClass="mb-6"
                               {...field}
@@ -144,11 +164,11 @@ export function AddPayment({ children, set }: IProps) {
 
                         <FormField
                           control={control}
-                          name="accountName"
+                          name="account_name"
                           render={({ field }) => (
                             <FormInput
                               label="Account Name"
-                              error={errors.accountName}
+                              error={errors.account_name}
                               placeholder="Enter the name"
                               containerClass="mb-6"
                               {...field}
@@ -158,11 +178,11 @@ export function AddPayment({ children, set }: IProps) {
 
                         <FormField
                           control={control}
-                          name="bank"
+                          name="bank_name"
                           render={({ field }) => (
                             <FormInput
                               label="Bank"
-                              error={errors.bank}
+                              error={errors.bank_name}
                               placeholder="Bank will be populated after inserting acct. number"
                               containerClass="mb-6"
                               {...field}
@@ -172,7 +192,7 @@ export function AddPayment({ children, set }: IProps) {
                       </>
                     )}
 
-                    {paymentType === "paypal" && (
+                    {paymentType === "PayPal" && (
                       <>
                         <FormField
                           control={control}
@@ -201,8 +221,9 @@ export function AddPayment({ children, set }: IProps) {
                       />
                     </DialogClose>
                     <Button
+                      loading={isPending || updateIsPending}
                       label="Submit Payment Information"
-                      className="w-[227px] h-[52px]"
+                      className="w-[247px] h-[52px]"
                       type="submit"
                     />
                   </div>

@@ -5,26 +5,26 @@ import { ErrorMessages } from "@/constants/errors";
 const MAX_UPLOAD_SIZE = 1024 * 1024 * 3; // 3MB
 
 export const insuranceSchema = z.object({
-  type: z.string({
+  insurance_type: z.string({
     required_error: ErrorMessages.required("Insurance Type"),
   }),
   provider: z.string({
     required_error: ErrorMessages.required("Provider"),
   }),
-  policyNumber: z.string({
+  policy_number: z.string({
     required_error: ErrorMessages.required("Policy Number"),
   }),
-  amount: z.string({
+  coverage_amount: z.string({
     required_error: ErrorMessages.required("Coverage Amount"),
   }),
-  issueDate: z.date({
+  issue_date: z.date({
     required_error: ErrorMessages.required("Issue Date"),
   }),
-  expiryDate: z.date({
+  expiry_date: z.date({
     required_error: ErrorMessages.required("Expiry Date"),
   }),
   // TODO: change this to accept pdf, docx or doc
-  certificate: (typeof window === "undefined" ? z.any() : z.instanceof(File))
+  insurance_url: (typeof window === "undefined" ? z.any() : z.instanceof(File))
     .optional()
     .refine((file) => {
       if (!file) return;
@@ -38,7 +38,8 @@ export const insuranceSchema = z.object({
         file?.type as string,
       );
     }, "File must be a PDF")
-    .nullable(),
+    .nullable()
+    .optional(),
 });
 
 export type TInsurance = z.infer<typeof insuranceSchema>;

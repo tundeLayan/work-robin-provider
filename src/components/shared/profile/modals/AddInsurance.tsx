@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import Image from "next/image";
 
 import { useForm } from "react-hook-form";
@@ -25,13 +25,28 @@ import {
 } from "@/schema/profileSettings/InsuranceSchema";
 import FileUploadV2 from "@/components/FileUpload/FileUploadV2";
 import profile from "@/lib/assets/profile";
+import {
+  useInsurancePatch,
+  useInsurancePost,
+} from "@/services/queries/insurance";
+import { InsuranceType } from "@/services/queries/insurance/types";
+import { formatDateToDDMMYYYY } from "@/utils";
 
 interface IProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  oldData?: InsuranceType;
 }
 
-export function AddInsurance({ open, setOpen }: IProps) {
+export function AddInsurance({ open, setOpen, oldData }: IProps) {
+  const close = () => {
+    setOpen(false);
+  };
+  const { mutate, isPending } = useInsurancePost(close);
+  const { updateIsPending, updateMutate } = useInsurancePatch(
+    close,
+    oldData?.insurance_id,
+  );
   const form = useForm<TInsurance>({
     resolver: zodResolver(insuranceSchema),
   });
@@ -44,15 +59,44 @@ export function AddInsurance({ open, setOpen }: IProps) {
     formState: { errors },
   } = form;
 
-  const isFileUploaded = watch("certificate");
+  const isFileUploaded = watch("insurance_url");
 
-  const onSubmit = () => {};
+  const onSubmit = (values: TInsurance) => {
+    if (oldData) {
+      updateMutate({
+        data: {
+          ...values,
+          issue_date: formatDateToDDMMYYYY(values.issue_date),
+          expiry_date: formatDateToDDMMYYYY(values.expiry_date),
+          insurance_url: "",
+        },
+      });
+    } else {
+      mutate({
+        data: {
+          ...values,
+          issue_date: formatDateToDDMMYYYY(values.issue_date),
+          expiry_date: formatDateToDDMMYYYY(values.expiry_date),
+          insurance_url: "",
+        },
+      });
+    }
+  };
+  useEffect(() => {
+    if (oldData) {
+      setValue("insurance_type", oldData.insurance_type);
+      setValue("provider", oldData.provider);
+      setValue("coverage_amount", oldData.coverage_amount);
+      setValue("issue_date", new Date(oldData.issue_date));
+      setValue("expiry_date", new Date(oldData.expiry_date));
+    }
+  }, [oldData]);
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent className="sm:max-w-[501px] overflow-y-auto ">
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold pb-6 ">
-            Add Insurance
+            {oldData ? "Edit" : "Add"} Insurance
           </SheetTitle>
         </SheetHeader>
         <div className="grid gap-4">
@@ -65,11 +109,11 @@ export function AddInsurance({ open, setOpen }: IProps) {
             >
               <FormField
                 control={control}
-                name="type"
+                name="insurance_type"
                 render={({ field }) => (
                   <FormSelect
                     label="Type"
-                    error={errors.type}
+                    error={errors.insurance_type}
                     placeholder="Select One"
                     containerClass="mb-6 "
                     className=""
@@ -95,11 +139,11 @@ export function AddInsurance({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="policyNumber"
+                name="policy_number"
                 render={({ field }) => (
                   <FormInput
                     label="Policy Number"
-                    error={errors.policyNumber}
+                    error={errors.policy_number}
                     placeholder="Policy Number"
                     containerClass="mb-6"
                     {...field}
@@ -108,11 +152,11 @@ export function AddInsurance({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="amount"
+                name="coverage_amount"
                 render={({ field }) => (
                   <FormInput
                     label="Coverage Amount"
-                    error={errors.amount}
+                    error={errors.coverage_amount}
                     placeholder="Paste here"
                     containerClass="mb-6"
                     {...field}
@@ -121,11 +165,11 @@ export function AddInsurance({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="issueDate"
+                name="issue_date"
                 render={({ field }) => (
                   <FormDatePicker
                     label="Issue Date"
-                    error={errors.issueDate}
+                    error={errors.issue_date}
                     placeholder="Select One"
                     containerClass="mb-6"
                     {...field}
@@ -134,11 +178,11 @@ export function AddInsurance({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="expiryDate"
+                name="expiry_date"
                 render={({ field }) => (
                   <FormDatePicker
                     label="Expiry Date"
-                    error={errors.expiryDate}
+                    error={errors.expiry_date}
                     placeholder="Select One"
                     containerClass="mb-6"
                     {...field}
@@ -154,13 +198,13 @@ export function AddInsurance({ open, setOpen }: IProps) {
                         deleteIcon={profile.fileDelete}
                         {...{ isResumeUploaded: isFileUploaded }}
                         onDeleteFile={() => {
-                          setValue("certificate", null);
+                          setValue("insurance_url", null);
                         }}
                       />
                       <div className="mt-4">
                         <FormField
                           control={control}
-                          name="certificate"
+                          name="insurance_url"
                           render={({ field }) => (
                             <FileUploadV2
                               setFile={(e) => {
@@ -168,7 +212,7 @@ export function AddInsurance({ open, setOpen }: IProps) {
                                 field.onChange(e);
                               }}
                               buttonText="Upload your certificate"
-                              error={errors?.certificate}
+                              error={errors?.insurance_url}
                               accept={[
                                 "image/png",
                                 "image/svg+xml",
@@ -183,7 +227,7 @@ export function AddInsurance({ open, setOpen }: IProps) {
                   ) : (
                     <FormField
                       control={control}
-                      name="certificate"
+                      name="insurance_url"
                       render={({ field }) => (
                         <FileUploadV1
                           containerClass="mb-3"
@@ -235,7 +279,8 @@ export function AddInsurance({ open, setOpen }: IProps) {
                   />
                 </SheetClose>
                 <Button
-                  label="Add Certification"
+                  loading={isPending || updateIsPending}
+                  label={oldData ? "Edit Certificate" : "Add Certification"}
                   className="w-[160px] h-[52px]"
                   type="submit"
                 />

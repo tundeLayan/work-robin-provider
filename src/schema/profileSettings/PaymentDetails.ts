@@ -4,29 +4,29 @@ import { ErrorMessages } from "@/constants/errors";
 
 export const paymentSchema = z
   .object({
-    paymentType: z.enum(["direct", "paypal"]),
-    routingNumber: z
+    payment_method: z.enum(["Direct Deposit", "PayPal"]),
+    routing_number: z
       .string({
         required_error: ErrorMessages.required("Routing Number"),
       })
       .optional(),
-    accountType: z
+    account_type: z
       .string({
         required_error: ErrorMessages.required("Account Type"),
       })
       .optional(),
 
-    accountNumber: z
+    account_number: z
       .string({
         required_error: ErrorMessages.required("Account Number"),
       })
       .optional(),
-    accountName: z
+    account_name: z
       .string({
         required_error: ErrorMessages.required("Account Name"),
       })
       .optional(),
-    bank: z
+    bank_name: z
       .string({
         required_error: ErrorMessages.required("Bank"),
       })
@@ -40,36 +40,36 @@ export const paymentSchema = z
       .optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.paymentType === "direct") {
-      if (data.routingNumber === undefined) {
+    if (data.payment_method === "Direct Deposit") {
+      if (data.routing_number === undefined) {
         ctx.addIssue({
           path: ["routingNumber"],
           code: z.ZodIssueCode.custom,
           message: ErrorMessages.required("Routing Number"),
         });
       }
-      if (data.accountType === undefined) {
+      if (data.account_type === undefined) {
         ctx.addIssue({
           path: ["acountType"],
           code: z.ZodIssueCode.custom,
           message: ErrorMessages.required("Account Type"),
         });
       }
-      if (data.accountNumber === undefined) {
+      if (data.account_number === undefined) {
         ctx.addIssue({
           path: ["accountNumber"],
           code: z.ZodIssueCode.custom,
           message: ErrorMessages.required("Account Number"),
         });
       }
-      if (data.accountName === undefined) {
+      if (data.account_name === undefined) {
         ctx.addIssue({
           path: ["accountName"],
           code: z.ZodIssueCode.custom,
           message: ErrorMessages.required("Account Name"),
         });
       }
-      if (data.bank === undefined) {
+      if (data.bank_name === undefined) {
         ctx.addIssue({
           path: ["bank"],
           code: z.ZodIssueCode.custom,
@@ -77,7 +77,7 @@ export const paymentSchema = z
         });
       }
     }
-    if (data.paymentType === "paypal") {
+    if (data.payment_method === "PayPal") {
       if (data.email === undefined) {
         ctx.addIssue({
           path: ["email"],

@@ -11,4 +11,5 @@ export interface PaginationType {
   nextPage: any;
   previousPage: any;
   limit: number;
+  skip: number;
 }

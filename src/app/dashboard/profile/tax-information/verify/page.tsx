@@ -1,15 +1,21 @@
+"use client";
+
 import profile from "@/lib/assets/profile";
+import { useProfileRead } from "@/services/queries/profile";
+import { useTaxInformationOtpPost } from "@/services/queries/taxIInformation";
 import Image from "next/image";
 import React from "react";
 
 const Verify = () => {
+  const { data } = useProfileRead();
+  const { mutate } = useTaxInformationOtpPost();
   return (
     <div className="layout__child h-full">
       <div className="flex items-center justify-center w-full h-full">
         <div className="w-[559px] h-[530px] flex items-center justify-center rounded-xl border border-neutral-350 ">
           <div className="w-full px-16">
             <div className="pb-6 flex justify-center">
-              <div className="w-12 h-16 ">
+              <div className="w-[50px] h-16 ">
                 <Image src={profile.lock} alt="Lock icon" />
               </div>
             </div>
@@ -23,20 +29,31 @@ const Verify = () => {
                 </h1>
               </div>
               <div>
-                <div className="flex items-center gap-2 py-6 border-b border-neutral-350">
+                <button
+                  className="flex items-center gap-2 py-6 border-b border-neutral-350 w-full"
+                  onClick={() => {
+                    mutate({
+                      email: data?.email || "",
+                      phone_number: "",
+                    });
+                  }}
+                >
                   <div className="w-5 h-3">
                     <Image src={profile.mail} alt="Mail icon" />
                   </div>
                   <p className="font-medium text-sm">
                     Email: *************@gmail.com
                   </p>
-                </div>
-                <div className="flex items-center gap-2 py-6 border-b border-neutral-350">
+                </button>
+                <button
+                  className="flex items-center gap-2 py-6 border-b border-neutral-350 w-full"
+                  disabled
+                >
                   <div className="w-5 h-3">
                     <Image src={profile.phone} alt="Mail icon" />
                   </div>
                   <p className="font-medium text-sm">Text: ********1234</p>
-                </div>
+                </button>
               </div>
             </div>
           </div>

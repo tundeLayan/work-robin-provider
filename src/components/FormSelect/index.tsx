@@ -67,11 +67,7 @@ const FormSelect = (props: IProps) => {
         </FormLabel>
       ) : null}
       {/* <FormLabel className="pl-0">{label}</FormLabel> */}
-      <ShadSelect
-        disabled={!!disabled}
-        onValueChange={onChange}
-        defaultValue={value}
-      >
+      <ShadSelect disabled={!!disabled} onValueChange={onChange} value={value}>
         <FormControl>
           <SelectTrigger
             className={cn("!w-full h-[54px] rounded-[10px]", className)}

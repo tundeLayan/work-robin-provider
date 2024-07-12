@@ -4,14 +4,14 @@ export const TaxTypes = [
 ];
 
 export const AccountType = [
-  { value: "current", label: "Current" },
-  { value: "savings", label: "Savings" },
+  { value: "Checking", label: "Checking" },
+  { value: "Savings", label: "Savings" },
 ];
 
 export const countryData = [
-  { value: "nigeria", label: "Nigeria" },
-  { value: "ghana", label: "Ghana" },
-  { value: "zambia", label: "Zambia" },
+  { value: "Nigeria", label: "Nigeria" },
+  { value: "Ghana", label: "Ghana" },
+  { value: "Zambia", label: "Zambia" },
 ];
 
 export const stateData = [

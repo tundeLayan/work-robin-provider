@@ -1,18 +1,12 @@
 "use client";
 
-import { ReactNode } from "react";
-
 import { createColumnHelper } from "@tanstack/react-table";
 
 import { LanguageType } from "@/services/queries/language/types";
 import { capitalizeFirstLetter } from "@/utils";
 import LanguagePopover from "../shared/profile/popovers/LanguagePopover";
 
-type LanguageColumms = LanguageType & {
-  action: ReactNode;
-};
-
-const columnHelper = createColumnHelper<LanguageColumms>();
+const columnHelper = createColumnHelper<LanguageType>();
 
 export const columns = [
   columnHelper.accessor("language", {
@@ -36,7 +30,8 @@ export const columns = [
     header: "Level",
   }),
 
-  columnHelper.accessor("action", {
+  columnHelper.display({
+    id: "action",
     cell: (info) => {
       return (
         <div>

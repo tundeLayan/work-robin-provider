@@ -1,20 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "../../api";
 import keys from "./keys";
-import { LanguageRequest, LanguageResponse, LanguageType } from "./types";
 import { GenericResponse } from "@/services/generalTypes";
 import { errorToast, handleErrors, successToast } from "@/services/helper";
+import { PaymentRequest, PaymentResponse, PaymentType } from "./types";
 
-const BASE_URL = "/languages";
+const BASE_URL = "/payment-methods";
 
-export const useLanguageRead = (url: string) => {
-  const hash = [keys.read, url];
-  const { data, isLoading, isPending, error } = useQuery<LanguageResponse>({
+export const usePaymentRead = () => {
+  const hash = [keys.read];
+  const { data, isLoading, isPending, error } = useQuery<PaymentResponse>({
     queryKey: hash,
-    queryFn: async () => await api.get({ url, auth: true }),
+    queryFn: async () => await api.get({ url: BASE_URL, auth: true }),
   });
   return {
-    data: data?.languages,
+    data: data?.paymentMethods,
     meta: data?.pagination,
     isLoading,
     isPending,
@@ -22,8 +22,8 @@ export const useLanguageRead = (url: string) => {
   };
 };
 
-export const useLanguageReadOne = (id: string) => {
-  const { data, isLoading, isPending, error } = useQuery<LanguageType>({
+export const usePaymentReadOne = (id: string) => {
+  const { data, isLoading, isPending, error } = useQuery<PaymentType>({
     queryKey: [keys.readOne, id],
     queryFn: async () =>
       await api.get({ url: `${BASE_URL}/${id}`, auth: true }),
@@ -36,10 +36,10 @@ export const useLanguageReadOne = (id: string) => {
   };
 };
 
-export const useLanguagePost = (close: () => void) => {
+export const usePaymentPost = (close: () => void) => {
   const queryClient = useQueryClient();
   const { mutate, isPending, isError } = useMutation({
-    mutationFn: async (body: LanguageRequest): Promise<any> => {
+    mutationFn: async (body: PaymentRequest): Promise<any> => {
       return await api.post({
         url: BASE_URL,
         body,
@@ -61,10 +61,10 @@ export const useLanguagePost = (close: () => void) => {
   };
 };
 
-export const useLanguagePatch = (close: () => void, id: string = "") => {
+export const usePaymentPatch = (close: () => void, id: string = "") => {
   const queryClient = useQueryClient();
   const { mutate, isPending, isError } = useMutation({
-    mutationFn: async (body: LanguageRequest): Promise<any> => {
+    mutationFn: async (body: PaymentRequest): Promise<any> => {
       return await api.patch({
         url: `${BASE_URL}/${id}`,
         body,
@@ -86,7 +86,7 @@ export const useLanguagePatch = (close: () => void, id: string = "") => {
   };
 };
 
-export const useLanguageDelete = (close: () => void) => {
+export const usePaymentDelete = () => {
   const queryClient = useQueryClient();
   const { mutate, isPending, isError } = useMutation({
     mutationFn: async (id: string): Promise<any> => {
@@ -96,7 +96,6 @@ export const useLanguageDelete = (close: () => void) => {
     },
     onSuccess: async (data: GenericResponse) => {
       await queryClient.invalidateQueries({ queryKey: [keys.read] });
-      close();
       successToast(data.message);
     },
     onError: (data: GenericResponse) => {

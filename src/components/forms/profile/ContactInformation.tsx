@@ -22,7 +22,7 @@ import FormSelect from "../../FormSelect";
 import { contactSchema } from "@/schema/profileSettings/ContactInformation";
 import { Switch } from "@/components/ui/switch";
 import { useProfilePost, useProfileRead } from "@/services/queries/profile";
-import { industryData } from "@/constants/profileSettings";
+import { timezoneData } from "@/utils/timezone";
 
 type TContact = z.infer<typeof contactSchema>;
 
@@ -71,6 +71,7 @@ const ContactInformationForm = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data.email);
       setValue("first_name", data.first_name);
       setValue("last_name", data.last_name);
       setValue("email", data.email);
@@ -121,7 +122,7 @@ const ContactInformationForm = () => {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={control}
               name="ssn"
               render={({ field }) => (
@@ -134,7 +135,7 @@ const ContactInformationForm = () => {
                   {...field}
                 />
               )}
-            />
+            /> */}
 
             <FormField
               control={control}
@@ -191,26 +192,10 @@ const ContactInformationForm = () => {
                 <FormSelect
                   label="Timezone"
                   error={errors.timezone}
-                  placeholder="Select your industry"
+                  placeholder="Select your timezone"
                   containerClass="mb-4"
                   className="rounded-none"
-                  selectData={industryData}
-                  {...field}
-                />
-              )}
-            />
-
-            <FormField
-              control={control}
-              name="country"
-              render={({ field }) => (
-                <FormSelect
-                  label="Country"
-                  error={errors.country}
-                  placeholder="Select country"
-                  containerClass="mb-4"
-                  className="rounded-none"
-                  selectData={countryOptions}
+                  selectData={timezoneData}
                   {...field}
                 />
               )}
@@ -267,8 +252,23 @@ const ContactInformationForm = () => {
                 <FormInput
                   error={errors.city}
                   placeholder="Address"
+                  containerClass="mb-4"
+                  className="rounded-none"
+                  {...field}
+                />
+              )}
+            />
+            <FormField
+              control={control}
+              name="country"
+              render={({ field }) => (
+                <FormSelect
+                  label="Country"
+                  error={errors.country}
+                  placeholder="Select country"
                   containerClass="mb-8"
                   className="rounded-none"
+                  selectData={countryOptions}
                   {...field}
                 />
               )}

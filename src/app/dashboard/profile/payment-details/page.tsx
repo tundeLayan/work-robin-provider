@@ -8,45 +8,32 @@ import { AddPayment } from "@/components/shared/profile/modals/AddPayment";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import profile from "@/lib/assets/profile";
-import { TPayment } from "@/schema/profileSettings/PaymentDetails";
 import PaymentCard from "@/components/shared/profile/PaymentCard";
+import { usePaymentRead } from "@/services/queries/payment";
 
 const PaymentDetails = () => {
-  const [paymentState, setPaymentState] = useState<
-    Array<TPayment & { default: boolean }>
-  >([
-    {
-      paymentType: "direct",
-      routingNumber: "132235145",
-      accountName: "Raji Oladeji",
-      accountType: "Current",
-      accountNumber: "132235145",
-      bank: "Wema Bank",
-      default: true,
-    },
-    {
-      paymentType: "paypal",
-      email: "rajioladeji2@gmail.com",
-      default: false,
-    },
-  ]);
+  const [open, setOpen] = useState(false);
+  const { data } = usePaymentRead();
+
   return (
     <div className="layout__child">
+      <AddPayment open={open} setOpen={setOpen} />
       <ProfileTitle title="Payment Details" />
       <div className="pt-8 border-t border-neutral-350">
         <div className="">
           <div className="flex flex-wrap gap-4">
-            {paymentState.map((pay, i) => (
-              <PaymentCard key={i} pay={pay} />
-            ))}
-            <AddPayment set={setPaymentState}>
-              <div className="flex flex-col gap-3 items-center justify-center w-[255px] h-[177px] border-dashed border border-neutral-350 rounded-xl ">
-                <div className="w-6 h-6">
-                  <Image src={profile.plusCircle} alt="Plus circle icon" />
-                </div>
-                <p>Add new</p>
+            {data?.map((pay, i) => <PaymentCard key={i} pay={pay} />)}
+            <button
+              className="flex flex-col gap-3 items-center justify-center w-[255px] h-[177px] border-dashed border border-neutral-350 rounded-xl "
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <div className="w-6 h-6">
+                <Image src={profile.plusCircle} alt="Plus circle icon" />
               </div>
-            </AddPayment>
+              <p>Add new</p>
+            </button>
           </div>
 
           <div className="mt-8 py-4 px-7 border border-neutral-350 rounded-xl">

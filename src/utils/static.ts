@@ -21,6 +21,7 @@ export const defaultMeta = {
   nextPage: 2,
   previousPage: 1,
   limit: 10,
+  skip: 0,
 };
 
 export const dashboardLinks = [
@@ -70,7 +71,7 @@ export const profileDashboardLinks = [
       {
         id: 2,
         label: "Tax Information",
-        route: routes.dashboard.profile.taxInformation.path,
+        route: routes.dashboard.profile.taxInformation.verify.path,
       },
       {
         id: 4,

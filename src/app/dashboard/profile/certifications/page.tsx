@@ -9,32 +9,23 @@ import { Button, RenderIf, Table } from "@/components";
 import profile from "@/lib/assets/profile";
 import ProfileTitle from "@/components/shared/ProfileTitle";
 import { columns } from "@/components/ColumnDefinitions/Certifications";
-import { CertificationPlusActionType } from "@/services/queries/certifications/types";
 import { AddCertification } from "@/components/shared/profile/modals/AddCertification";
-import CertificatePopover from "@/components/shared/profile/popovers/CertificatePopover";
-
-type TableType = Array<CertificationPlusActionType>;
+import { useCertificationRead } from "@/services/queries/certifications";
+import useFilters from "@/hooks/useFilter";
+import { Pagination } from "@/components/shared/dashboard";
+import { defaultMeta } from "@/utils/static";
 
 const Certifications = () => {
+  const { url } = useFilters("/certifications", {});
+  const { data, meta, isPending } = useCertificationRead(url.href);
   const [isOpen, setIsOpen] = useState(false);
-  const [columnDef, _] = useState<TableType>([
-    {
-      title: "Security Foundation",
-      industry: "Information and Communication",
-      link: "https://google.com",
-      company: "NIT",
-      issueDate: "07/07/2017",
-      expiryDate: "07/07/2017",
-      action: <CertificatePopover />,
-    },
-  ]);
 
   return (
     <div className={cx("layout__child  h-full")}>
       <AddCertification open={isOpen} setOpen={setIsOpen} />
       <div className="flex items-center justify-between">
         <ProfileTitle title="Certifications" />
-        <RenderIf condition={columnDef.length > 0}>
+        <RenderIf condition={(data || []).length > 0}>
           <Button
             label="Add Certification"
             onClick={() => {
@@ -43,11 +34,18 @@ const Certifications = () => {
           />
         </RenderIf>
       </div>
-      {columnDef.length > 0 ? (
-        <div className="pt-8 border-t border-neutral-350">
-          <Table data={columnDef} columns={columns} loading={false} />
+      {isPending || (data && data?.length > 0) ? (
+        <div>
+          <div className="pt-8 border-t border-neutral-350">
+            <Table data={data || []} columns={columns} loading={isPending} />
+          </div>
+          <div>
+            <Pagination meta={meta || defaultMeta} />
+          </div>
         </div>
-      ) : (
+      ) : null}
+
+      {!isPending && data && data?.length === 0 ? (
         <div className=" flex items-center justify-center mt-20 ">
           <div className="w-[398px] h-[336px]  bg-white rounded-md pt-6 border border-neutral-1100 px-6 ">
             <div className="flex justify-center">
@@ -74,7 +72,7 @@ const Certifications = () => {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

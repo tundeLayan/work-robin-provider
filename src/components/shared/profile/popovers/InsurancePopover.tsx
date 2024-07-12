@@ -5,10 +5,27 @@ import {
 } from "@/components/ui/popover";
 import Image from "next/image";
 import profile from "@/lib/assets/profile";
+import { useState } from "react";
+import {
+  useInsuranceDelete,
+  useInsuranceReadOne,
+} from "@/services/queries/insurance";
+import { AddInsurance } from "../modals/AddInsurance";
 
-const InsurancePopover = () => {
+interface IProps {
+  id: string;
+}
+
+const InsurancePopover = ({ id }: IProps) => {
+  const [popOpen, setPopOpen] = useState(false);
+  const close = () => {
+    setPopOpen(false);
+  };
+  const { mutate } = useInsuranceDelete(close);
+  const [isOpen, setIsOpen] = useState(false);
+  const { data } = useInsuranceReadOne(id);
   return (
-    <Popover>
+    <Popover open={popOpen} onOpenChange={setPopOpen}>
       <PopoverTrigger asChild>
         <button type="button">
           <Image src={profile.threeDots} alt="three dots icon" />
@@ -19,15 +36,26 @@ const InsurancePopover = () => {
         align="end"
         className="p-0 rounded-[12px] w-[172px]"
       >
-        <div className="px-6 py-6 flex flex-col items-start gap-6 ">
-          <button className="text-sm font-medium tet-grey-500 w-full text-left">
+        <div className="px-3 py-4 flex flex-col items-start gap-3 ">
+          <AddInsurance open={isOpen} setOpen={setIsOpen} oldData={data} />
+          <button className="text-sm font-medium tet-grey-500 w-full text-left  hover:bg-gray-200 p-2 rounded-md">
             View Document
           </button>
-          <button className="text-sm font-medium tet-grey-500 w-full text-left">
+          <button
+            className="text-sm font-medium tet-grey-500 w-full text-left  hover:bg-gray-200 p-2 rounded-md"
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
             Update
           </button>
 
-          <button className="text-sm font-medium tet-grey-500 w-full text-left">
+          <button
+            className="text-sm font-medium tet-grey-500 w-full text-left  hover:bg-gray-200 p-2 rounded-md"
+            onClick={() => {
+              mutate(id);
+            }}
+          >
             Delete
           </button>
         </div>

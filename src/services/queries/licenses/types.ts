@@ -1,3 +1,4 @@
+import { PaginationType } from "@/services/generalTypes";
 import { ReactNode } from "react";
 
 export interface LicensesType {
@@ -10,4 +11,21 @@ export interface LicensesType {
 
 export interface LicensesPlusActionType extends LicensesType {
   action: ReactNode;
+}
+
+export interface LicenceResponse {
+  licences: Array<LicensesType>;
+  pagination: PaginationType;
+}
+
+export interface LicenceRequest {
+  data: {
+    licence_type: string;
+    provider: string;
+    policy_number: string;
+    coverage_amount: string;
+    issue_date: string;
+    expiry_date: string;
+    licence_url: string;
+  };
 }
