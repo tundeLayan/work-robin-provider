@@ -5,7 +5,6 @@ import {
   File,
   HelpCircle,
   Home,
-  LogOut,
   Pin,
   QuestionCircle,
   Settings,
@@ -55,7 +54,7 @@ export const profilePopoverData = [
   { id: 3, icon: HelpCircle, label: "Help", route: "#" },
   { id: 4, icon: File, label: "Legal", route: "#" },
   { id: 5, icon: Pin, label: "Privacy Policy", route: "#" },
-  { id: 6, icon: LogOut, label: "Log out", route: "#" },
+  // { id: 6, icon: LogOut, label: "Log out", route: "#" },
 ];
 
 export const profileDashboardLinks = [
