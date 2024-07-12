@@ -21,6 +21,10 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const form = useForm<TLogin>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: process?.env?.NEXT_PUBLIC_CLIENT_EMAIL || "",
+      password: process?.env?.NEXT_PUBLIC_CLIENT_PASSWORD || "",
+    },
   });
   const {
     handleSubmit,
