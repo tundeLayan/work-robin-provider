@@ -202,3 +202,23 @@ const payments = {
 };
 
 export const notificationsData = [workOrder, reminders, payments];
+
+export const workOrderLabelMap: Record<string, string> = {
+  workOrderPublished: "Work order published",
+  noProviderAssigned: "No provider assigned to work order",
+  workOrderCompleted: "Work order completed",
+  workOrderPaid: "Work order paid",
+  counterOffers: "Counter offers",
+  workOrderRejected: "Work order rejected",
+  approvalOfTimesheet: "Approval of Timesheet",
+  ratingOfProvider: "Rating of provider on work done",
+};
+
+export const remindersLabelMap: Record<string, string> = {
+  reminderToConfirm: "Reminder to confirm",
+  reminderToPublishWorkOrder: "Reminder to publish work order",
+};
+
+export const paymentsLabelMap: Record<string, string> = {
+  fundsWithdrawn: "When funds are withdrawn",
+};
