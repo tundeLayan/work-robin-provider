@@ -1,13 +1,25 @@
 import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { profilePopoverData } from "@/utils/static";
-import Link from "next/link";
+import { LogOut } from "../svgs";
+import { logout } from "@/lib/auth";
+import routes from "@/lib/routes";
 
 export function ProfilePopover() {
+  const navigate = useRouter();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate.push(routes.auth.login.path);
+    } catch (error) {}
+  };
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -35,6 +47,16 @@ export function ProfilePopover() {
               </div>
             </Link>
           ))}
+          <div
+            role="button"
+            onClick={handleLogout}
+            className="app_dashboard_header__ctt__profile__popover__item"
+          >
+            {LogOut()}
+            <p className="app_dashboard_header__ctt__profile__popover__item__text">
+              Log out
+            </p>
+          </div>
         </div>
       </PopoverContent>
     </Popover>
