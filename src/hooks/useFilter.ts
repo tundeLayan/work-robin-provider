@@ -46,7 +46,7 @@ const useFilters = (
   const skipPage = getParseFloat(params.get("skip") || "0");
   const [filters, setFilters] = useState<Params>({
     skip: skipPage.toString(),
-    limit: 6,
+    limit: 20,
     startDate: "",
     endDate: "",
     ...extraParameters,

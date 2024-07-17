@@ -48,7 +48,7 @@ const TaxInformationForm = () => {
   // console.log(errors);
 
   const selectedType = watch("tax_id_type");
-  // const watchElectronic = watch("receive_1099_electronically");
+  const watchCertify = watch("certify");
 
   const onSubmit = (values: TTax) => {
     if (data?.tax_information_id) {
@@ -82,6 +82,7 @@ const TaxInformationForm = () => {
       // setValue("tax_id_number", data.tax_id_number);
       setValue("business_tax_id_number", data.business_tax_id_number);
       setValue("street_address", data.address.street_address);
+      setValue("receive_1099_electronically", data.receive_1099_electronically);
       setValue("city", data.address.city);
       setValue("state", data.address.state);
       setValue("country", data.address.country);
@@ -137,9 +138,9 @@ const TaxInformationForm = () => {
                 name="full_name"
                 render={({ field }) => (
                   <FormInput
-                    label="Full Name associated with TIN"
+                    label="TIN Number"
                     error={errors.full_name}
-                    placeholder="Tin Name"
+                    placeholder="Tin Number"
                     containerClass="mb-4"
                     className="rounded-none"
                     {...field}
@@ -274,28 +275,50 @@ const TaxInformationForm = () => {
               )}
             />
           </div>
-          <div>
-            <p className="text-neutral-1000 font-normal text-xs pb-1">
-              Under penalty of perjury, I certify that:
-            </p>
-            <p className="text-neutral-1000 font-normal text-xs pb-1">
-              1. The number shown on this form is my correct Taxpayer
-              Identification Number (or I am waiting for a number to be issued
-              to me) and
-            </p>
-            <p className="text-neutral-1000 font-normal text-xs pb-1">
-              2. I am not subject to backup withholding because (a) I am exempt
-              from backup withholding or (b) I have not been notified by the
-              Internal Service (IRS) that I am subject ro backup
-            </p>
-            <p className="text-neutral-1000 font-normal text-xs pl-3 pb-1">
-              withholding as a result of a failure or interest or dividends, or
-              (c) the IRS has notified me that I am no longer subject to backup
-              withholding and
-            </p>
-            <p className="text-neutral-1000 font-normal text-xs pb-1">
-              3. I am a U.S. citizen or other U.S. person (identified below)
-            </p>
+          <div className="pb-4 ">
+            <FormField
+              control={form.control}
+              name="certify"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 ">
+                  <FormControl>
+                    <Checkbox
+                      isChecked={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-neutral-1000 font-medium text-sm">
+                      <div>
+                        <p className="text-neutral-1000 font-normal text-xs pb-1">
+                          Under penalty of perjury, I certify that:
+                        </p>
+                        <p className="text-neutral-1000 font-normal text-xs pb-1">
+                          1. The number shown on this form is my correct
+                          Taxpayer Identification Number (or I am waiting for a
+                          number to be issued to me) and
+                        </p>
+                        <p className="text-neutral-1000 font-normal text-xs pb-1">
+                          2. I am not subject to backup withholding because (a)
+                          I am exempt from backup withholding or (b) I have not
+                          been notified by the Internal Service (IRS) that I am
+                          subject ro backup
+                        </p>
+                        <p className="text-neutral-1000 font-normal text-xs pl-3 pb-1">
+                          withholding as a result of a failure or interest or
+                          dividends, or (c) the IRS has notified me that I am no
+                          longer subject to backup withholding and
+                        </p>
+                        <p className="text-neutral-1000 font-normal text-xs pb-1">
+                          3. I am a U.S. citizen or other U.S. person
+                          (identified below)
+                        </p>
+                      </div>
+                    </FormLabel>
+                  </div>
+                </FormItem>
+              )}
+            />
           </div>
           <div className="pb-7">
             <h3 className="font-medium text-xs pt-5 pb-1">
@@ -324,14 +347,14 @@ const TaxInformationForm = () => {
             <Button
               label="Update Tax Information"
               loading={isPending}
-              // disabled={!!errors.receive_1099_electronically}
+              disabled={!watchCertify}
               className=" rounded-xl w-[243px] h-14"
               type="submit"
-              // title={
-              //   !watchElectronic
-              //     ? "You have to agree to the terms to continue"
-              //     : ""
-              // }
+              title={
+                !watchCertify
+                  ? "You have to agree to the terms to continue"
+                  : ""
+              }
             />
           </div>
         </form>

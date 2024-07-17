@@ -39,14 +39,6 @@ interface IProps {
 }
 
 export function AddInsurance({ open, setOpen, oldData }: IProps) {
-  const close = () => {
-    setOpen(false);
-  };
-  const { mutate, isPending } = useInsurancePost(close);
-  const { updateIsPending, updateMutate } = useInsurancePatch(
-    close,
-    oldData?.insurance_id,
-  );
   const form = useForm<TInsurance>({
     resolver: zodResolver(insuranceSchema),
   });
@@ -55,9 +47,20 @@ export function AddInsurance({ open, setOpen, oldData }: IProps) {
     handleSubmit,
     control,
     setValue,
+    reset,
     watch,
     formState: { errors },
   } = form;
+
+  const close = () => {
+    reset();
+    setOpen(false);
+  };
+  const { mutate, isPending } = useInsurancePost(close);
+  const { updateIsPending, updateMutate } = useInsurancePatch(
+    close,
+    oldData?.insurance_id,
+  );
 
   const isFileUploaded = watch("insurance_url");
 
@@ -92,7 +95,7 @@ export function AddInsurance({ open, setOpen, oldData }: IProps) {
     }
   }, [oldData]);
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={close}>
       <SheetContent className="sm:max-w-[501px] overflow-y-auto ">
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold pb-6 ">
@@ -280,7 +283,7 @@ export function AddInsurance({ open, setOpen, oldData }: IProps) {
                 </SheetClose>
                 <Button
                   loading={isPending || updateIsPending}
-                  label={oldData ? "Edit Certificate" : "Add Certification"}
+                  label={oldData ? "Edit Insurance" : "Add Insurance"}
                   className="w-[160px] h-[52px]"
                   type="submit"
                 />

@@ -40,14 +40,6 @@ interface IProps {
 }
 
 export function AddCertification({ open, setOpen, oldData }: IProps) {
-  const close = () => {
-    setOpen(false);
-  };
-  const { mutate, isPending } = useCertificationPost(close);
-  const { updateIsPending, updateMutate } = useCertificationPatch(
-    close,
-    oldData?.certificate_id,
-  );
   const form = useForm<TCertificate>({
     resolver: zodResolver(certificationSchema),
     defaultValues: {},
@@ -58,8 +50,19 @@ export function AddCertification({ open, setOpen, oldData }: IProps) {
     control,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = form;
+
+  const close = () => {
+    reset();
+    setOpen(false);
+  };
+  const { mutate, isPending } = useCertificationPost(close);
+  const { updateIsPending, updateMutate } = useCertificationPatch(
+    close,
+    oldData?.certificate_id,
+  );
 
   const isFileUploaded = watch("certificate_url");
 
@@ -96,7 +99,7 @@ export function AddCertification({ open, setOpen, oldData }: IProps) {
     }
   }, [oldData]);
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={close}>
       <SheetContent className="sm:max-w-[501px] overflow-y-auto ">
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold pb-6 ">

@@ -21,6 +21,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import TableLoader from "../loaders/table-loader";
+import TableSkeleton from "../TableSkeleton";
 
 interface DataTableProps<TData extends object> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,7 +58,7 @@ const DataTable = <T extends object>({
   if (loading)
     return (
       <>
-        <TableLoader />
+        <TableSkeleton />
       </>
     );
 

@@ -502,7 +502,7 @@ export const timezoneData = [
     ],
   },
   {
-    value: "GMT Standard Time",
+    value: "GMT Standard Time1",
     abbr: "GDT",
     offset: 1,
     isdst: true,

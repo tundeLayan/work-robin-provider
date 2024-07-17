@@ -14,6 +14,7 @@ export interface InsuranceType {
   timestamp: number;
   created_at: string;
   updated_at: string;
+  approval_status: "Pending";
   __v: number;
 }
 

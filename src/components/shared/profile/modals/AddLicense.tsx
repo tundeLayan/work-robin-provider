@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import Image from "next/image";
 
 import { useForm } from "react-hook-form";
@@ -27,13 +27,17 @@ import {
 import FileUploadV2 from "@/components/FileUpload/FileUploadV2";
 import profile from "@/lib/assets/profile";
 import { stateData } from "@/constants/profileSettings";
+import { LicensesType } from "@/services/queries/licenses/types";
+import { useLicencePatch, useLicencePost } from "@/services/queries/licenses";
+import { formatDateToDDMMYYYY } from "@/utils";
 
 interface IProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  oldData?: LicensesType;
 }
 
-export function AddLicense({ open, setOpen }: IProps) {
+export function AddLicense({ open, setOpen, oldData }: IProps) {
   const form = useForm<TLicense>({
     resolver: zodResolver(licenseSchema),
   });
@@ -43,18 +47,55 @@ export function AddLicense({ open, setOpen }: IProps) {
     control,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = form;
+  const close = () => {
+    reset();
+    setOpen(false);
+  };
+  const { mutate, isPending } = useLicencePost(close);
+  const { updateMutate, updateIsPending } = useLicencePatch(close);
 
   const isFileUploaded = watch("certificate");
 
-  const onSubmit = () => {};
+  const onSubmit = (values: TLicense) => {
+    if (oldData) {
+      updateMutate({
+        data: {
+          ...values,
+          issue_date: formatDateToDDMMYYYY(values.issue_date),
+          expiry_date: formatDateToDDMMYYYY(values.expiry_date),
+          // license_url: "",
+        },
+      });
+    } else {
+      mutate({
+        data: {
+          ...values,
+          issue_date: formatDateToDDMMYYYY(values.issue_date),
+          expiry_date: formatDateToDDMMYYYY(values.expiry_date),
+          // license_url: "",
+        },
+      });
+    }
+  };
+  useEffect(() => {
+    if (oldData) {
+      setValue("state", oldData.state);
+      // setValue("license_link", oldData.license_link);
+      setValue("license_number", oldData.license_number);
+      setValue("license_url", oldData.license_url);
+      setValue("issue_date", new Date(oldData.issue_date));
+      setValue("expiry_date", new Date(oldData.expiry_date));
+    }
+  }, [oldData]);
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={close}>
       <SheetContent className="sm:max-w-[501px] overflow-y-auto ">
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold pb-6 ">
-            Add License
+            {oldData ? "Edit" : "Add"} License
           </SheetTitle>
         </SheetHeader>
         <div className="grid gap-4">
@@ -82,11 +123,11 @@ export function AddLicense({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="license"
+                name="license_title"
                 render={({ field }) => (
                   <FormSelect
                     label="License"
-                    error={errors.license}
+                    error={errors.license_title}
                     placeholder="Select One"
                     containerClass="mb-6"
                     className=""
@@ -97,11 +138,11 @@ export function AddLicense({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="licenseNumber"
+                name="license_number"
                 render={({ field }) => (
                   <FormInput
                     label="License Number"
-                    error={errors.licenseNumber}
+                    error={errors.license_number}
                     placeholder="License Number"
                     containerClass="mb-6"
                     {...field}
@@ -110,11 +151,11 @@ export function AddLicense({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="link"
+                name="license_url"
                 render={({ field }) => (
                   <FormInput
                     label="License Link"
-                    error={errors.link}
+                    error={errors.license_url}
                     placeholder="Paste here"
                     containerClass="mb-6"
                     {...field}
@@ -123,11 +164,11 @@ export function AddLicense({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="issueDate"
+                name="issue_date"
                 render={({ field }) => (
                   <FormDatePicker
                     label="Issue Date"
-                    error={errors.issueDate}
+                    error={errors.issue_date}
                     placeholder="Select One"
                     containerClass="mb-6"
                     {...field}
@@ -136,11 +177,11 @@ export function AddLicense({ open, setOpen }: IProps) {
               />
               <FormField
                 control={control}
-                name="expiryDate"
+                name="expiry_date"
                 render={({ field }) => (
                   <FormDatePicker
                     label="Expiry Date"
-                    error={errors.expiryDate}
+                    error={errors.expiry_date}
                     placeholder="Select One"
                     containerClass="mb-6"
                     {...field}
@@ -237,7 +278,8 @@ export function AddLicense({ open, setOpen }: IProps) {
                   />
                 </SheetClose>
                 <Button
-                  label="Add Certification"
+                  loading={updateIsPending || isPending}
+                  label={oldData ? "Edit License" : "Add License"}
                   className="w-[160px] h-[52px]"
                   type="submit"
                 />

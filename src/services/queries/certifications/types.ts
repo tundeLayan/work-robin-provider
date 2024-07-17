@@ -9,6 +9,7 @@ export interface CertificationType {
   issue_date: string;
   expiry_date: string;
   certificate_id: string;
+  approval_status: "Pending";
 }
 
 export interface CertificationPlusActionType extends CertificationType {

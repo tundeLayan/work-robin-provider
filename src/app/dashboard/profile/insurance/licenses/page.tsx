@@ -5,32 +5,32 @@ import React, { useState } from "react";
 
 import { Button, Table } from "@/components";
 import profile from "@/lib/assets/profile";
-import { AddInsurance } from "@/components/shared/profile/modals/AddInsurance";
-import { LicensesPlusActionType } from "@/services/queries/licenses/types";
 import { columns } from "@/components/ColumnDefinitions/License";
-
-type TableType = Array<LicensesPlusActionType>;
+import { useLicenceRead } from "@/services/queries/licenses";
+import useFilters from "@/hooks/useFilter";
+import { AddLicense } from "@/components/shared/profile/modals/AddLicense";
+import { Pagination } from "@/components/shared/dashboard";
+import { defaultMeta } from "@/utils/static";
 
 const Home = () => {
+  const { url } = useFilters("/licenses", {});
+  const { data, meta, isPending } = useLicenceRead(url.href);
   const [isOpen, setIsOpen] = useState(false);
-  const [columnDef, _] = useState<TableType>([
-    {
-      license: "Security Foundation",
-      licenseNumber: "Information and Communication",
-      state: "NIT",
-      issueDate: "07/07/2017",
-      expiryDate: "07/07/2017",
-      action: <div />,
-    },
-  ]);
+
   return (
     <div>
-      <AddInsurance open={isOpen} setOpen={setIsOpen} />
-      {columnDef.length > 0 ? (
-        <div className="pt-8 ">
-          <Table data={columnDef} columns={columns} loading={false} />
+      <AddLicense open={isOpen} setOpen={setIsOpen} />
+      {isPending || (data && data?.length > 0) ? (
+        <div>
+          <div className="pt-8 border-t border-neutral-350">
+            <Table data={data || []} columns={columns} loading={isPending} />
+          </div>
+          <div>
+            <Pagination meta={meta || defaultMeta} />
+          </div>
         </div>
-      ) : (
+      ) : null}
+      {!isPending && data && data?.length === 0 ? (
         <div className=" flex items-center justify-center mt-20 ">
           <div className="w-[398px] h-[336px]  bg-white rounded-md pt-6 border border-neutral-1100 px-6 ">
             <div className="flex justify-center">
@@ -48,7 +48,7 @@ const Home = () => {
             </p>
             <div className="flex justify-center">
               <Button
-                label="Add license"
+                label="Add License"
                 className="w-full"
                 onClick={() => {
                   setIsOpen(true);
@@ -57,7 +57,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

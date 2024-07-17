@@ -50,9 +50,9 @@ export const taxSchema = z
       required_error: ErrorMessages.required("Country"),
     }),
     receive_1099_electronically: z.boolean(),
-    // receive_1099_electronically: z.boolean().refine((val) => val, {
-    //   message: "You must agree to receive 1099 electronically",
-    // }),
+    certify: z.boolean().refine((val) => val, {
+      message: "You must agree to the terms",
+    }),
   })
   .superRefine((data, ctx) => {
     if (data.tax_id_type === "SSN") {
@@ -63,7 +63,7 @@ export const taxSchema = z
           message: ErrorMessages.required("SSN"),
         });
       }
-      if (data.business_tax_id_number?.length !== 9) {
+      if (data.tax_id_number?.length !== 9) {
         ctx.addIssue({
           path: ["tax_id_number"],
           code: z.ZodIssueCode.custom,

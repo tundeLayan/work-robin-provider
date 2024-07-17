@@ -26,7 +26,7 @@ export interface WorkingHoursResponse {
 export interface WorkingHoursRequest {
   data: {
     status: "custom" | "away" | "always available";
-    custom_availability: Array<{
+    custom_availability?: Array<{
       day: string;
       from: string;
       to: string;
