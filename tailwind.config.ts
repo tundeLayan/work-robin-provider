@@ -114,10 +114,26 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        shimmer: {
+          "0%": {
+            "background-position": "-1000px 0",
+          },
+          "100%": {
+            "background-position": "1000px 0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        shimmer: "shimmer 2s infinite linear",
+      },
+      backgroundSize: {
+        "1000px": "1000px 100%",
+      },
+      backgroundImage: {
+        shimmer:
+          "linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%)",
       },
     },
   },

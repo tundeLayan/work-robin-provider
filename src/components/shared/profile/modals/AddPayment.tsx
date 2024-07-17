@@ -41,15 +41,6 @@ const radioOptions = [
 ];
 
 export function AddPayment({ open, setOpen, oldData }: IProps) {
-  const [isForm, setIsForm] = useState(true);
-  const close = () => {
-    setIsForm(false);
-  };
-  const { mutate, isPending } = usePaymentPost(close);
-  const { updateMutate, updateIsPending } = usePaymentPatch(
-    close,
-    oldData?.payment_methods_id,
-  );
   const form = useForm<TPayment>({
     resolver: zodResolver(paymentSchema),
     defaultValues: {
@@ -63,7 +54,19 @@ export function AddPayment({ open, setOpen, oldData }: IProps) {
     formState: { errors },
     watch,
     setValue,
+    reset,
   } = form;
+  const [isForm, setIsForm] = useState(true);
+  const close = () => {
+    reset();
+    setIsForm(false);
+  };
+  const { mutate, isPending } = usePaymentPost(close);
+  const { updateMutate, updateIsPending } = usePaymentPatch(
+    close,
+    oldData?.payment_methods_id,
+  );
+
   const paymentType = watch("payment_method");
 
   const onSubmit = (values: TPayment) => {
@@ -85,7 +88,14 @@ export function AddPayment({ open, setOpen, oldData }: IProps) {
     }
   }, [oldData]);
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        if (!oldData) reset();
+        setOpen(false);
+        setIsForm(true);
+      }}
+    >
       <DialogContent className="sm:max-w-[501px]" closeClassName="hidden">
         {isForm ? (
           <>

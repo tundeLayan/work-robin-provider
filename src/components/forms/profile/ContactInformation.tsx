@@ -27,6 +27,8 @@ import { timezoneData } from "@/utils/timezone";
 type TContact = z.infer<typeof contactSchema>;
 
 const ContactInformationForm = () => {
+  // const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // console.log(userTimeZone);
   const { data } = useProfileRead();
   const { mutate, isPending } = useProfilePost();
   const countryOptions = useMemo(() => countryList().getData(), []);
@@ -76,6 +78,15 @@ const ContactInformationForm = () => {
       setValue("last_name", data.last_name);
       setValue("email", data.email);
       setValue("privacy", data.contact_visibility);
+      setValue("timezone", data.timezone);
+      setValue("workNumber", data.phone_number);
+      setValue("country", data.country);
+      setValue("countryCode", data.country_code);
+      setValue("privacy", data.contact_visibility);
+      setValue("address", data.address.street_address);
+      setValue("state", data.address.state);
+      setValue("city", data.address.city);
+      setValue("zipcode", data.address.zip_code);
     }
   }, [data]);
 
@@ -219,12 +230,12 @@ const ContactInformationForm = () => {
             <div className="flex gap-5 ">
               <FormField
                 control={control}
-                name="state"
+                name="city"
                 render={({ field }) => (
                   <FormInput
-                    error={errors.state}
-                    placeholder="State"
-                    containerClass="mb-4 flex-1"
+                    error={errors.city}
+                    placeholder="City"
+                    containerClass="mb-4  flex-1"
                     className="rounded-none"
                     {...field}
                   />
@@ -247,11 +258,11 @@ const ContactInformationForm = () => {
             </div>
             <FormField
               control={control}
-              name="city"
+              name="state"
               render={({ field }) => (
                 <FormInput
-                  error={errors.city}
-                  placeholder="Address"
+                  error={errors.state}
+                  placeholder="State"
                   containerClass="mb-4"
                   className="rounded-none"
                   {...field}

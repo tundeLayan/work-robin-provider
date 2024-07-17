@@ -29,14 +29,6 @@ interface IProps {
 }
 
 export function AddLanguage({ open, setOpen, oldData }: IProps) {
-  const close = () => {
-    setOpen(false);
-  };
-  const { mutate, isPending } = useLanguagePost(close);
-  const { updateIsPending, updateMutate } = useLanguagePatch(
-    close,
-    oldData?.language_id,
-  );
   const form = useForm<TLanguage>({
     resolver: zodResolver(languageSchema),
   });
@@ -45,8 +37,18 @@ export function AddLanguage({ open, setOpen, oldData }: IProps) {
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors },
   } = form;
+  const close = () => {
+    reset();
+    setOpen(false);
+  };
+  const { mutate, isPending } = useLanguagePost(close);
+  const { updateIsPending, updateMutate } = useLanguagePatch(
+    close,
+    oldData?.language_id,
+  );
 
   const onSubmit = (values: TLanguage) => {
     if (oldData) {
@@ -62,11 +64,11 @@ export function AddLanguage({ open, setOpen, oldData }: IProps) {
     }
   }, [oldData]);
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={close}>
       <DialogContent className="sm:max-w-[501px] h-[380px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold pb-6 ">
-            Add Language
+            {oldData ? "Edit" : "Add"} Language
           </DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 overflow-y-auto min-h-[515px] max-h-[90vh]">

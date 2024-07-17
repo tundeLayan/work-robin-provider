@@ -1,6 +1,6 @@
 import api from "../../api";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { errorToast, handleErrors } from "@/services/helper";
+import { errorToast, handleErrors, successToast } from "@/services/helper";
 import { GenericResponse } from "@/services/generalTypes";
 import {
   TaxInformationOtpRequest,
@@ -61,7 +61,6 @@ export const useTaxInformationOtpVerifyPost = () => {
 };
 
 export const useTaxInformationPost = (id: string = "") => {
-  const router = useRouter();
   const { mutate, isPending, isError } = useMutation({
     mutationFn: async (body: TaxInformationRequest): Promise<any> => {
       return await api.patch({
@@ -69,8 +68,8 @@ export const useTaxInformationPost = (id: string = "") => {
         body,
       });
     },
-    onSuccess: () => {
-      router.push(routes.dashboard.profile.taxInformation.path);
+    onSuccess: (data: GenericResponse) => {
+      successToast(data.message);
     },
     onError: (data: GenericResponse) => {
       errorToast(handleErrors(data));

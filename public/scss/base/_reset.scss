@@ -130,3 +130,13 @@ select {
 button[disabled] {
   pointer-events: auto !important;
 }
+
+.react-time-picker__wrapper {
+  border-color: #e2e8f0 !important;
+}
+
+.react-time-picker__inputGroup__hour,
+.react-time-picker__inputGroup__minute {
+  width: 20px !important;
+  text-align: center;
+}

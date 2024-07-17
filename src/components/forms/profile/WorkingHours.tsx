@@ -68,8 +68,8 @@ const WorkingHours = () => {
 
   const {
     handleSubmit,
-    control,
     setValue,
+    control,
     formState: { errors },
     watch,
   } = form;
@@ -100,6 +100,8 @@ const WorkingHours = () => {
         }
       });
       mutate({ data: { status: values.status, custom_availability } });
+    } else {
+      mutate({ data: { status: values.status } });
     }
   };
 
@@ -203,6 +205,26 @@ const WorkingHours = () => {
                       />
                     )}
                   />
+                  {/* <TimePicker
+                    name={`${day}_from`}
+                    label={i === 0 ? "From" : ""}
+                    error={errors[`${day}_from`]}
+                    containerClass="flex-1"
+                    value={form.getValues(`${day}_from`)}
+                    onChange={(val: string) => {
+                      setValue(`${day}_from`, val);
+                    }}
+                  />
+                  <TimePicker
+                    name={`${day}_to`}
+                    label={i === 0 ? "To" : ""}
+                    error={errors[`${day}_to`]}
+                    containerClass="flex-1"
+                    value={form.getValues(`${day}_to`)}
+                    onChange={(val: string) => {
+                      setValue(`${day}_to`, val);
+                    }}
+                  /> */}
                 </div>
               ))}
             </div>

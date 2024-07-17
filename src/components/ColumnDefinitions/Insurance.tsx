@@ -4,6 +4,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { InsuranceType } from "@/services/queries/insurance/types";
 import InsurancePopover from "../shared/profile/popovers/InsurancePopover";
 import { formatDate } from "@/utils";
+import StatusText from "../shared/profile/StatusText";
 
 const columnHelper = createColumnHelper<InsuranceType>();
 
@@ -39,6 +40,16 @@ export const columns = [
       );
     },
     header: "Amount",
+  }),
+  columnHelper.accessor("approval_status", {
+    cell: (info) => {
+      return (
+        <div className="font-regular text-[12px]">
+          <StatusText text={info.getValue().toLowerCase() as "pending"} />
+        </div>
+      );
+    },
+    header: "Status",
   }),
   columnHelper.accessor("issue_date", {
     cell: (info) => {

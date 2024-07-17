@@ -5,7 +5,7 @@ import { GenericResponse } from "@/services/generalTypes";
 import { errorToast, handleErrors, successToast } from "@/services/helper";
 import { LicenceRequest, LicenceResponse, LicensesType } from "./types";
 
-const BASE_URL = "/insurances";
+const BASE_URL = "/licenses";
 
 export const useLicenceRead = (url: string) => {
   const hash = [keys.read, url];
@@ -14,7 +14,7 @@ export const useLicenceRead = (url: string) => {
     queryFn: async () => await api.get({ url, auth: true }),
   });
   return {
-    data: data?.licences,
+    data: data?.licenses,
     meta: data?.pagination,
     isLoading,
     isPending,

@@ -2,11 +2,19 @@ import { PaginationType } from "@/services/generalTypes";
 import { ReactNode } from "react";
 
 export interface LicensesType {
-  license: string;
-  licenseNumber: string;
+  _id: string;
+  user_id: string;
+  license_number: string;
   state: string;
-  issueDate: string;
-  expiryDate: string;
+  issue_date: Date;
+  expiry_date: Date;
+  license_url: string;
+  license_id: string;
+  timestamp: number;
+  created_at: string;
+  updated_at: string;
+  approval_status: "Pending";
+  __v: number;
 }
 
 export interface LicensesPlusActionType extends LicensesType {
@@ -14,18 +22,18 @@ export interface LicensesPlusActionType extends LicensesType {
 }
 
 export interface LicenceResponse {
-  licences: Array<LicensesType>;
+  licenses: Array<LicensesType>;
   pagination: PaginationType;
 }
 
 export interface LicenceRequest {
   data: {
-    licence_type: string;
-    provider: string;
-    policy_number: string;
-    coverage_amount: string;
+    license_number: string;
+    state: string;
+    license_title: string;
     issue_date: string;
+    license_link?: string;
     expiry_date: string;
-    licence_url: string;
+    license_url: string;
   };
 }
