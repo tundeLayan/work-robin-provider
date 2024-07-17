@@ -1,6 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+} from "react";
 
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 
@@ -11,6 +17,7 @@ interface IProps {
   alignment?: "horizontal" | "vertical";
   buttonText?: string;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  initialFile?: File;
 }
 
 const ImgUpload = ({
@@ -18,6 +25,7 @@ const ImgUpload = ({
   alignment = "horizontal",
   buttonText = "Upload Logo",
   error,
+  initialFile,
 }: IProps) => {
   const [image, setImage] = useState<string>("/media/images/user.png");
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +42,20 @@ const ImgUpload = ({
       reader.readAsDataURL(file);
     }
   };
+
+  useEffect(() => {
+    if (initialFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result && typeof reader.result === "string") {
+          // console.log("reader", reader);
+          setImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(initialFile);
+    }
+  }, [initialFile]);
+
   return (
     <div
       className={cx("flex items-center gap-[20px]", {

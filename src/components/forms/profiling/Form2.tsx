@@ -26,6 +26,7 @@ const Form2 = (props: IProps) => {
       control,
       formState: { errors },
       trigger,
+      watch,
     },
     nextPage,
     prevPage,
@@ -69,6 +70,7 @@ const Form2 = (props: IProps) => {
             alignment="vertical"
             buttonText="Upload new picture"
             error={errors?.picture}
+            initialFile={watch("picture")}
           />
         )}
       />
