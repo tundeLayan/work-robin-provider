@@ -210,13 +210,12 @@ export function AddLicense({ open, setOpen, oldData }: IProps) {
                                 console.log("set file");
                                 field.onChange(e);
                               }}
-                              buttonText="Upload your certificate"
+                              buttonText="Upload your License"
                               error={errors?.certificate}
                               accept={[
-                                "image/png",
-                                "image/svg+xml",
-                                "image/jpeg",
-                                "image/gif",
+                                "application/pdf",
+                                "application/msword",
+                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                               ]}
                             />
                           )}
