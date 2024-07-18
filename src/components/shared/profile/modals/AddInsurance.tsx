@@ -16,7 +16,7 @@ import Button from "@/components/Button";
 import { Form, FormField } from "@/components/ui/form";
 import FormSelect from "@/components/FormSelect";
 import { FileUploadV1, FormInput, UploadedFile } from "@/components";
-import { TaxTypes } from "@/constants";
+import { InsuranceProviders, TaxTypes } from "@/constants";
 import { FormDatePicker } from "@/components/FormDate";
 import authAssets from "@/lib/assets/Auth";
 import {
@@ -135,7 +135,7 @@ export function AddInsurance({ open, setOpen, oldData }: IProps) {
                     placeholder="Select One"
                     containerClass="mb-6"
                     className=""
-                    selectData={TaxTypes}
+                    selectData={InsuranceProviders}
                     {...field}
                   />
                 )}
@@ -214,13 +214,12 @@ export function AddInsurance({ open, setOpen, oldData }: IProps) {
                                 console.log("set file");
                                 field.onChange(e);
                               }}
-                              buttonText="Upload your certificate"
+                              buttonText="Upload your Insurance"
                               error={errors?.insurance_url}
                               accept={[
-                                "image/png",
-                                "image/svg+xml",
-                                "image/jpeg",
-                                "image/gif",
+                                "application/pdf",
+                                "application/msword",
+                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                               ]}
                             />
                           )}

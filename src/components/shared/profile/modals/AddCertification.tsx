@@ -221,10 +221,9 @@ export function AddCertification({ open, setOpen, oldData }: IProps) {
                               buttonText="Upload your certificate"
                               error={errors?.certificate_url}
                               accept={[
-                                "image/png",
-                                "image/svg+xml",
-                                "image/jpeg",
-                                "image/gif",
+                                "application/pdf",
+                                "application/msword",
+                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                               ]}
                             />
                           )}
@@ -244,10 +243,10 @@ export function AddCertification({ open, setOpen, oldData }: IProps) {
                             field.onChange(e);
                           }}
                           accept={{
-                            "image/png": [".png"],
-                            "image/svg+xml": [".svg"],
-                            "image/jpeg": [".jpg", ".jpeg"],
-                            "image/gif": [".gif"],
+                            "application/pdf": [".pdf"],
+                            "application/msword": [".doc"],
+                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                              [".docx"],
                           }}
                         >
                           <>
