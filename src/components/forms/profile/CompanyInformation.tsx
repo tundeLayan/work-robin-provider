@@ -10,10 +10,12 @@ import { Button, FormInput } from "@/components";
 import { companySchema } from "@/schema/profileSettings/CompanySchema";
 import { useRouter } from "next/navigation";
 import routes from "@/lib/routes";
+import { useRequestServicePost } from "@/services/queries/register-service";
 
 type TContact = z.infer<typeof companySchema>;
 
 const CompanyInformationForm = () => {
+  const { mutate, isPending } = useRequestServicePost();
   const router = useRouter();
   const form = useForm<TContact>({
     resolver: zodResolver(companySchema),
@@ -25,7 +27,11 @@ const CompanyInformationForm = () => {
     formState: { errors },
   } = form;
 
-  const onSubmit = () => {};
+  const onSubmit = (values: TContact) => {
+    mutate({
+      data: values,
+    });
+  };
   return (
     <div className="">
       <Form {...form}>
@@ -38,11 +44,11 @@ const CompanyInformationForm = () => {
           <div className="max-w-[600px]">
             <FormField
               control={control}
-              name="name"
+              name="service_company_name"
               render={({ field }) => (
                 <FormInput
                   label="New Company Name"
-                  error={errors.name}
+                  error={errors.service_company_name}
                   placeholder="Enter Company Name"
                   containerClass="mb-4 flex-1"
                   className=""
@@ -52,11 +58,11 @@ const CompanyInformationForm = () => {
             />
             <FormField
               control={control}
-              name="username"
+              name="service_company_admin_username"
               render={({ field }) => (
                 <FormInput
                   label="New Admin Username"
-                  error={errors.username}
+                  error={errors.service_company_admin_username}
                   placeholder="Enter Username"
                   containerClass="mb-4 flex-1"
                   className=""
@@ -67,11 +73,11 @@ const CompanyInformationForm = () => {
 
             <FormField
               control={control}
-              name="email"
+              name="service_company_admin_email"
               render={({ field }) => (
                 <FormInput
                   label="Admin Email"
-                  error={errors.email}
+                  error={errors.service_company_admin_email}
                   placeholder="Enter Email"
                   containerClass="mb-4"
                   className=""
@@ -110,6 +116,7 @@ const CompanyInformationForm = () => {
               label="Update Contact Information"
               className=" rounded-xl w-[243px] h-14"
               type="submit"
+              loading={isPending}
             />
           </div>
         </form>
