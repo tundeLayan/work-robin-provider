@@ -24,6 +24,8 @@ export interface TaxInformationRequest {
       tax_id_number?: string;
       business_tax_id_number?: string;
       full_name: string;
+      first_name: string;
+      last_name: string;
       receive_1099_electronically: boolean;
     };
   };

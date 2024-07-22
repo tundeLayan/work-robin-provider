@@ -21,6 +21,12 @@ export const taxSchema = z
     full_name: z.string({
       required_error: ErrorMessages.required("Full Name"),
     }),
+    first_name: z.string({
+      required_error: ErrorMessages.required("First Name"),
+    }),
+    last_name: z.string({
+      required_error: ErrorMessages.required("Last Name"),
+    }),
     business_tax_id_number: z
       .string({
         required_error: ErrorMessages.required("Business Tax Id"),

@@ -27,8 +27,6 @@ import { timezoneData } from "@/utils/timezone";
 type TContact = z.infer<typeof contactSchema>;
 
 const ContactInformationForm = () => {
-  // const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  // console.log(userTimeZone);
   const { data } = useProfileRead();
   const { mutate, isPending } = useProfilePost();
   const countryOptions = useMemo(() => countryList().getData(), []);
@@ -73,12 +71,10 @@ const ContactInformationForm = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data.email);
       setValue("first_name", data.first_name);
       setValue("last_name", data.last_name);
       setValue("email", data.email);
       setValue("privacy", data.contact_visibility);
-      setValue("timezone", data.timezone);
       setValue("workNumber", data.phone_number);
       setValue("country", data.country);
       setValue("countryCode", data.country_code);
@@ -87,6 +83,21 @@ const ContactInformationForm = () => {
       setValue("state", data.address.state);
       setValue("city", data.address.city);
       setValue("zipcode", data.address.zip_code);
+
+      if (data.timezone) {
+        setValue("timezone", data.timezone);
+      } else {
+        const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (userTimeZone) {
+          let findZone = "";
+          timezoneData.forEach((ed) => {
+            ed.utc.forEach((el) => {
+              if (el === userTimeZone) findZone = ed.value;
+            });
+          });
+          if (findZone) setValue("timezone", findZone);
+        }
+      }
     }
   }, [data]);
 
@@ -148,21 +159,25 @@ const ContactInformationForm = () => {
               )}
             /> */}
 
-            <FormField
-              control={control}
-              name="email"
-              render={({ field }) => (
-                <FormInput
-                  disabled
-                  label="Email Address"
-                  error={errors.email}
-                  placeholder="john.doe@gmail.com"
-                  containerClass="mb-4"
-                  className="rounded-none"
-                  {...field}
-                />
-              )}
-            />
+            <div className="mb-4">
+              <FormField
+                control={control}
+                name="email"
+                render={({ field }) => (
+                  <FormInput
+                    disabled
+                    label="Email Address"
+                    error={errors.email}
+                    placeholder="john.doe@gmail.com"
+                    className="rounded-none"
+                    {...field}
+                  />
+                )}
+              />
+              <p className="text-xs pt-1 text-gray-500">
+                Contact support to update email
+              </p>
+            </div>
 
             <div className="flex gap-4">
               <FormField
