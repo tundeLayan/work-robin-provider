@@ -1,7 +1,15 @@
 .app_dashboard_sidebar {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 2rem;
+  height: 100%;
+
+  &__links {
+    // height: calc(100% - 37px);
+    height: 100%;
+    overflow-y: scroll;
+  }
 
   &__logo {
     max-width: 154px;

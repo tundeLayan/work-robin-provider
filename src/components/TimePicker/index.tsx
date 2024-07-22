@@ -16,8 +16,14 @@ interface IProps {
   containerClass: string;
 }
 
-const TimePicker = ({ name, label, error, containerClass }: IProps) => {
-  console.log(error);
+const TimePicker = ({
+  name,
+  label,
+  error,
+  containerClass,
+  value,
+  onChange,
+}: IProps) => {
   return (
     <div
       className={cx(
@@ -40,9 +46,8 @@ const TimePicker = ({ name, label, error, containerClass }: IProps) => {
         </label>
       </RenderIf>
       <ReactTimePicker
-        // onChange={onChange}
-        // value={value}
-        clearIcon={null}
+        onChange={onChange}
+        value={value}
         className="border-none h-[54px]  focus:ring-transparent focus-visible:ring-transparent"
       />
       {!!error && (

@@ -68,6 +68,8 @@ const TaxInformationForm = () => {
             tax_id_number: values.tax_id_number,
             business_tax_id_number: values.business_tax_id_number,
             full_name: values.full_name,
+            first_name: values.first_name,
+            last_name: values.last_name,
             receive_1099_electronically: values.receive_1099_electronically,
           },
         },
@@ -79,6 +81,8 @@ const TaxInformationForm = () => {
     if (data) {
       setValue("tax_id_type", data.tax_id_type as "SSN" | "TIN");
       setValue("full_name", data.full_name);
+      setValue("first_name", data.first_name);
+      setValue("last_name", data.last_name);
       // setValue("tax_id_number", data.tax_id_number);
       setValue("business_tax_id_number", data.business_tax_id_number);
       setValue("street_address", data.address.street_address);
@@ -163,7 +167,36 @@ const TaxInformationForm = () => {
                 />
               )}
             />
-
+            <div className="flex items-center gap-5">
+              <FormField
+                control={control}
+                name="first_name"
+                render={({ field }) => (
+                  <FormInput
+                    label="First Name"
+                    error={errors.first_name}
+                    placeholder="Enter your first name"
+                    containerClass="mb-4 flex-1"
+                    className="rounded-none"
+                    {...field}
+                  />
+                )}
+              />
+              <FormField
+                control={control}
+                name="last_name"
+                render={({ field }) => (
+                  <FormInput
+                    label="Last Name"
+                    error={errors.last_name}
+                    placeholder="Enter your last name"
+                    containerClass="mb-4 flex-1"
+                    className="rounded-none"
+                    {...field}
+                  />
+                )}
+              />
+            </div>
             <FormField
               control={control}
               name="street_address"

@@ -8,11 +8,10 @@
   &__sidebar {
     max-width: 247px;
     width: 100%;
-    padding: 20px 32px;
-    padding: 20px;
-    border-right: 0.7px solid var(--grey-200);
-    overflow-y: auto;
+    padding-top: 20px;
     padding-bottom: 4rem;
+    border-right: 0.7px solid var(--grey-200);
+    height: 100%;
 
     @include screen("lg") {
       display: none;

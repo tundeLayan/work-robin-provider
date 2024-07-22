@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import cx from "classnames";
 
-import { Button, Checkbox, FormInput, FormRadioGroup } from "@/components";
+import { Button, Checkbox, FormRadioGroup } from "@/components";
 import {
   Form,
   FormControl,
@@ -20,6 +20,7 @@ import {
   useWorkingHoursRead,
 } from "@/services/queries/work-hours";
 import { DaysOptions } from "@/services/queries/work-hours/types";
+import TimePicker from "@/components/TimePicker";
 
 type TForm = z.infer<typeof workingHoursSchema>;
 
@@ -179,13 +180,10 @@ const WorkingHours = () => {
                     control={control}
                     name={`${day}_from`}
                     render={({ field }) => (
-                      <FormInput
+                      <TimePicker
                         label={i === 0 ? "From" : ""}
                         error={errors[`${day}_from`]}
-                        placeholder="9:00AM"
                         containerClass="flex-1"
-                        className="rounded-none"
-                        type="time"
                         {...field}
                       />
                     )}
@@ -194,37 +192,14 @@ const WorkingHours = () => {
                     control={control}
                     name={`${day}_to`}
                     render={({ field }) => (
-                      <FormInput
+                      <TimePicker
                         label={i === 0 ? "To" : ""}
                         error={errors[`${day}_to`]}
-                        placeholder="9:00AM"
                         containerClass="flex-1"
-                        className="rounded-none"
-                        type="time"
                         {...field}
                       />
                     )}
                   />
-                  {/* <TimePicker
-                    name={`${day}_from`}
-                    label={i === 0 ? "From" : ""}
-                    error={errors[`${day}_from`]}
-                    containerClass="flex-1"
-                    value={form.getValues(`${day}_from`)}
-                    onChange={(val: string) => {
-                      setValue(`${day}_from`, val);
-                    }}
-                  />
-                  <TimePicker
-                    name={`${day}_to`}
-                    label={i === 0 ? "To" : ""}
-                    error={errors[`${day}_to`]}
-                    containerClass="flex-1"
-                    value={form.getValues(`${day}_to`)}
-                    onChange={(val: string) => {
-                      setValue(`${day}_to`, val);
-                    }}
-                  /> */}
                 </div>
               ))}
             </div>
