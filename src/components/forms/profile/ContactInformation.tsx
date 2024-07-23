@@ -79,10 +79,10 @@ const ContactInformationForm = () => {
       setValue("country", data.country);
       setValue("countryCode", data.country_code);
       setValue("privacy", data.contact_visibility);
-      setValue("address", data.address.street_address);
-      setValue("state", data.address.state);
-      setValue("city", data.address.city);
-      setValue("zipcode", data.address.zip_code);
+      setValue("address", data.address?.street_address);
+      setValue("state", data.address?.state);
+      setValue("city", data.address?.city);
+      setValue("zipcode", data.address?.zip_code);
 
       if (data.timezone) {
         setValue("timezone", data.timezone);
