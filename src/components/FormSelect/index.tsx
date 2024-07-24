@@ -21,7 +21,7 @@ interface IProps extends SelectHTMLAttributes<HTMLSelectElement> {
   containerClass?: string;
   className?: string;
   subText?: string;
-  onChange: () => void;
+  onChange: (e: any) => void;
   value: string;
 }
 
@@ -43,7 +43,7 @@ const FormSelect = (props: IProps) => {
     subText,
     onChange,
     value,
-    ...rest
+    placeholder,
   } = props;
   return (
     <FormItem
@@ -67,17 +67,23 @@ const FormSelect = (props: IProps) => {
         </FormLabel>
       ) : null}
       {/* <FormLabel className="pl-0">{label}</FormLabel> */}
-      <ShadSelect disabled={!!disabled} onValueChange={onChange} value={value}>
+      <ShadSelect
+        disabled={!!disabled}
+        onValueChange={(val: string) => {
+          if (val) onChange(val);
+        }}
+        value={value}
+      >
         <FormControl>
           <SelectTrigger
             className={cn("!w-full h-[54px] rounded-[10px]", className)}
           >
-            <SelectValue {...rest} />
+            <SelectValue placeholder={placeholder} />
           </SelectTrigger>
         </FormControl>
         <SelectContent>
           {selectData.map(({ value, label }, index) => (
-            <SelectItem key={index} value={value}>
+            <SelectItem key={index} value={value.toString()}>
               {label}
             </SelectItem>
           ))}

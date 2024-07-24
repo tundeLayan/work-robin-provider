@@ -39,7 +39,7 @@ export interface ProfileResponse {
   industry: string;
   number_of_employees: number;
   website: string;
-  address: {
+  address?: {
     _id: string;
     user_id: string;
     house_number: string;

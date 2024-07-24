@@ -35,12 +35,13 @@ const ContactInformationForm = () => {
 
   const form = useForm<TContact>({
     resolver: zodResolver(contactSchema),
+    defaultValues: {},
   });
 
   const {
     handleSubmit,
     control,
-    setValue,
+    reset,
     formState: { errors },
     setError,
   } = form;
@@ -71,21 +72,9 @@ const ContactInformationForm = () => {
 
   useEffect(() => {
     if (data) {
-      setValue("first_name", data.first_name);
-      setValue("last_name", data.last_name);
-      setValue("email", data.email);
-      setValue("privacy", data.contact_visibility);
-      setValue("workNumber", data.phone_number);
-      setValue("country", data.country);
-      setValue("countryCode", data.country_code);
-      setValue("privacy", data.contact_visibility);
-      setValue("address", data.address?.street_address);
-      setValue("state", data.address?.state);
-      setValue("city", data.address?.city);
-      setValue("zipcode", data.address?.zip_code);
-
+      let setTimezone = "";
       if (data.timezone) {
-        setValue("timezone", data.timezone);
+        setTimezone = data.timezone;
       } else {
         const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         if (userTimeZone) {
@@ -95,9 +84,23 @@ const ContactInformationForm = () => {
               if (el === userTimeZone) findZone = ed.value;
             });
           });
-          if (findZone) setValue("timezone", findZone);
+          if (findZone) setTimezone = findZone;
         }
       }
+      reset({
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        workNumber: data.phone_number,
+        country: data.country,
+        countryCode: data.country_code,
+        privacy: data.contact_visibility,
+        address: data.address?.street_address,
+        state: data.address?.state,
+        city: data.address?.city,
+        zipcode: data.address?.zip_code,
+        timezone: setTimezone,
+      });
     }
   }, [data]);
 

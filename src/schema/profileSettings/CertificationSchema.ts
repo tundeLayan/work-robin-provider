@@ -39,17 +39,24 @@ export const certificationSchema = z
         if (!file) return;
         // console.log("file", file);
         return [
-          "image/png",
-          "image/svg+xml",
-          "image/jpeg",
-          "image/gif",
+          "application/pdf",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         ].includes(file?.type as string);
-      }, "File must be an Image")
+      }, "File must be a PDF")
       .nullable()
       .optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.issue_date > data.expiry_date) {
+    const today = new Date();
+    if (data.issue_date >= today) {
+      ctx.addIssue({
+        path: ["issue_date"],
+        code: z.ZodIssueCode.custom,
+        message: "Issue date must be before today",
+      });
+    }
+    if (data.issue_date >= data.expiry_date) {
       ctx.addIssue({
         path: ["issue_date"],
         code: z.ZodIssueCode.custom,
