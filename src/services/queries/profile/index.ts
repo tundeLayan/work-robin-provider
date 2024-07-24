@@ -1,5 +1,5 @@
 import api from "../../api";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import keys from "./keys";
 import { ProfileRequest, ProfileResponse } from "./types";
 import { errorToast, handleErrors, successToast } from "@/services/helper";
@@ -20,6 +20,7 @@ export const useProfileRead = () => {
 };
 
 export const useProfilePost = () => {
+  const queryClient = useQueryClient();
   const { mutate, isPending, isError } = useMutation({
     mutationFn: async (body: ProfileRequest): Promise<any> => {
       return await api.patch({
@@ -27,8 +28,9 @@ export const useProfilePost = () => {
         body,
       });
     },
-    onSuccess: (data: GenericResponse) => {
+    onSuccess: async (data: GenericResponse) => {
       successToast(data.message);
+      await queryClient.invalidateQueries({ queryKey: [keys.read] });
     },
     onError: (data: GenericResponse) => {
       errorToast(handleErrors(data));

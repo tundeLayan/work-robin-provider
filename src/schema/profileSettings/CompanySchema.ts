@@ -17,13 +17,8 @@ export const companySchema = z.object({
     .email({ message: ErrorMessages.invalidEmail }),
   password: z
     .string({ required_error: ErrorMessages.required("Password") })
-    .min(8, { message: ErrorMessages.length(8, "Password") })
-    .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter",
-    })
-    .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter",
-    })
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .regex(/[a-zA-Z]/, { message: "Password must contain at least one letter" })
     .regex(/[0-9]/, { message: "Password must contain at least one number" })
     .regex(/^\S*$/, { message: "Password must not contain spaces" }),
 });

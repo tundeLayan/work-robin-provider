@@ -22,13 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ReactQueryProvider>
-        <body className={inter.className}>
+      <body className={inter.className}>
+        <ReactQueryProvider>
           <NextTopLoader color="#920AF2" />
           <Toaster />
           {children}
-        </body>
-      </ReactQueryProvider>
+        </ReactQueryProvider>
+      </body>
     </html>
   );
 }

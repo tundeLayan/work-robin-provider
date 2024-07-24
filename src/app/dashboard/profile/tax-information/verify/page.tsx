@@ -3,6 +3,7 @@
 import profile from "@/lib/assets/profile";
 import { useProfileRead } from "@/services/queries/profile";
 import { useTaxInformationOtpPost } from "@/services/queries/taxIInformation";
+import { maskString } from "@/utils";
 import Image from "next/image";
 import React from "react";
 
@@ -42,7 +43,7 @@ const Verify = () => {
                     <Image src={profile.mail} alt="Mail icon" />
                   </div>
                   <p className="font-medium text-sm">
-                    Email: *************@gmail.com
+                    Email: {maskString(data?.email, 2, 8)}
                   </p>
                 </button>
                 <button
